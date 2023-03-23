@@ -28,7 +28,7 @@ def dataCollectorFuncPiping():
     # Loop through the files and extract the specified columns
     for file in files:
         # Load the Excel file into a pandas dataframe
-        df = pd.read_excel(os.path.join(search_dir, file))
+        df = pd.read_excel(os.path.join(search_dir, file), engine='openpyxl')
 
         # Find the specified columns
         extract_columns = []
@@ -40,11 +40,14 @@ def dataCollectorFuncPiping():
         if extract_columns:
             extract_df = df.loc[df[extract_columns].notnull().any(axis=1), extract_columns]
 
+            # Get the project number from the dataframe
+            project_number = extract_df["Project Number"].iloc[0]
+
             # Get the current timestamp
             timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-            # Save the extracted data to a new Excel file
-            output_filename = os.path.join(output_dir, f"Piping Organized_{timestamp}.xlsx")
+            # Save the extracted data to a new Excel file with the project number in the filename
+            output_filename = os.path.join(output_dir, f"{project_number} - Piping Organized_{timestamp}.xlsx")
             extract_df.to_excel(output_filename, index=False)
 
             print(f"Extracted data from {file} and saved it to {output_filename}")
