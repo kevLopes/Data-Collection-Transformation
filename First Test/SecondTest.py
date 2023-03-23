@@ -35,7 +35,7 @@ if value_to_compare == value_in_dest:
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
     # Create the directory if it doesn't exist
-    result_dir = "/Users/lopes/PycharmProjects/PythonAutomatization/First Test/Script 1"
+    result_dir = "/Users/lopes/PycharmProjects/PythonAutomatization/First Test/ExportedResults"
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
 
@@ -55,7 +55,7 @@ else:
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
     # Create the directory if it doesn't exist
-    result_dir = "/Users/lopes/PycharmProjects/PythonAutomatization/First Test/Script 1"
+    result_dir = "/Users/lopes/PycharmProjects/PythonAutomatization/First Test/ExportedResults"
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
 
