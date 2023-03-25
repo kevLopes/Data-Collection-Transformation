@@ -21,7 +21,7 @@ def dataCollectorFuncPiping():
     files = [file for file in os.listdir(search_dir) if keyword in file and file.endswith(".xlsx")]
 
     # Check if the Data Organize folder exists, and create it if it doesn't
-    output_dir = os.path.join(search_dir, "Data Organize")
+    output_dir = os.path.join(search_dir, "Materials Data Organized")
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
