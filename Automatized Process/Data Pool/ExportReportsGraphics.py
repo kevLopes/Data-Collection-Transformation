@@ -1,7 +1,8 @@
 import os
 import openpyxl
-from openpyxl.chart import LineChart, Reference
-from openpyxl.chart.label import DataLabelList
+from openpyxl.chart import ScatterChart, Reference, Series
+from datetime import datetime
+
 
 # Ask the user for the project ID
 project_id = input("Please enter the Project ID: ")
@@ -15,61 +16,73 @@ if not os.path.exists(folder_path):
 # Find all Excel files with the project ID in the name
 files = [f for f in os.listdir(folder_path) if project_id in f and f.endswith('.xlsx')]
 
-# Create a new workbook to store the results
-result_workbook = openpyxl.Workbook()
+# Define the columns to analyze
+columns = ["Tag Number", "ID", "Project Number", "Product Code", "Commodity Code",
+           "Service Description", "Pipe Base Material", "Material", "LineNumber",
+           "SBM scope", "Total QTY to commit", "Quantity UOM", "Unit Weight",
+           "Unit Weight UOM", "Total NET weight", "SIZE"]
 
-# Create the first worksheet for the first graph
-worksheet1 = result_workbook.active
-worksheet1.title = "Graph 1"
-
-# Create the second worksheet for the second graph
-worksheet2 = result_workbook.create_sheet(title="Graph 2")
+# Create a dictionary to store the data
+data_dict = {}
+for column in columns:
+    data_dict[column] = []
 
 # Loop through each file and extract the data
 for file in files:
     # Open the file
-    workbook = openpyxl.load_workbook(os.path.join(folder_path, file))
+    try:
+        workbook = openpyxl.load_workbook(os.path.join(folder_path, file))
+    except Exception as e:
+        print(f"Error: Could not load workbook {file} - {e}")
+        continue
 
-    # Extract the data from the first worksheet
-    worksheet = workbook.active
-    data = []
-    for row in worksheet.iter_rows(min_row=2, values_only=True):
-        data.append(row)
+    # Loop through each worksheet
+    for worksheet in workbook:
+        # Loop through each row in the worksheet
+        for row in worksheet.iter_rows(min_row=2, values_only=True):
+            # Loop through each column in the row
+            for i, column in enumerate(columns):
+                data_dict[column].append(row[i])
 
-    # Create the first graph
-    chart1 = LineChart()
-    chart1.title = f"{file} - Graph 1"
-    chart1.x_axis.title = 'X Axis'
-    chart1.y_axis.title = 'Y Axis'
-    chart1.data_labels = DataLabelList()
-    chart1.data_labels.show_val = True
+# Create a new workbook to store the results
+result_workbook = openpyxl.Workbook()
 
-    x_data = Reference(worksheet, min_col=1, min_row=2, max_row=len(data))
-    y_data = Reference(worksheet, min_col=2, min_row=2, max_row=len(data))
-    chart1.add_data(y_data, titles_from_data=True)
-    chart1.set_categories(x_data)
+# Create a worksheet to store the data
+data_worksheet = result_workbook.create_sheet(title="Data")
 
-    # Add the first graph to the first worksheet
-    worksheet1.add_chart(chart1, f"A{worksheet1.max_row+2}")
+# Write the data to the worksheet
+for i, column in enumerate(columns):
+    data_worksheet.cell(row=1, column=i+1, value=column)
+    for j, value in enumerate(data_dict[column]):
+        data_worksheet.cell(row=j+2, column=i+1, value=value)
 
-    # Create the second graph
-    chart2 = LineChart()
-    chart2.title = f"{file} - Graph 2"
-    chart2.x_axis.title = 'X Axis'
-    chart2.y_axis.title = 'Y Axis'
-    chart2.data_labels = DataLabelList()
-    chart2.data_labels.show_val = True
+# Create a scatter chart for each file
+chart = ScatterChart()
+chart.title = f"{project_id} - Total NET weight vs Unit Weight"
+chart.x_axis.title = 'Total NET weight'
+chart.y_axis.title = 'Unit Weight'
+chart.legend = None
 
-    x_data = Reference(worksheet, min_col=1, min_row=2, max_row=len(data))
-    y_data = Reference(worksheet, min_col=3, min_row=2, max_row=len(data))
-    chart2.add_data(y_data, titles_from_data=True)
-    chart2.set_categories(x_data)
+for file in files:
+    # Create a new series for the file
+    series = Series(
+        Reference(data_worksheet, min_col=columns.index("Total NET weight")+1, min_row=2, max_row=len(data_dict[columns[0]])),
+        Reference(data_worksheet, min_col=columns.index("Unit Weight")+1, min_row=2, max_row=len(data_dict[columns[0]])),
+        title=file
+    )
 
-    # Add the second graph to the second worksheet
-    worksheet2.add_chart(chart2, f"A{worksheet2.max_row+2}")
+    # Add the series to the chart
+    chart.series.append(series)
+
+# Add the chart to the worksheet
+chart_worksheet = result_workbook.create_sheet(title="Chart")
+chart_worksheet.add_chart(chart, "A1")
+
+# Get the current timestamp
+timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
 # Save the result workbook
-result_filename = f"Result Graphic {project_id}.xlsx"
+result_filename = f"Result Graphic {project_id}_{timestamp}.xlsx"
 result_workbook.save(os.path.join(folder_path, result_filename))
 
 print("Done!")
