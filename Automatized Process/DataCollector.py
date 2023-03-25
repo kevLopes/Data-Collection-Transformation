@@ -1,17 +1,14 @@
-# script Data Collector
 import os
 import pandas as pd
 from datetime import datetime
+import time
 
 def dataCollectorFuncPiping():
-
     print("Function to capture all Piping Data Initialized")
-
     global success
 
     # Set the search directory and keyword
-    search_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(search_dir, "Data Pool")
+    search_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Data Pool")
     keyword = "Piping"
 
     # Set the columns to extract
@@ -21,7 +18,7 @@ def dataCollectorFuncPiping():
                           "Unit Weight UOM", "Total NET weight", "SIZE"]
 
     # Check if the Data DW Dumber folder exists, and display an error message if it doesn't
-    if not os.path.exists(data_dir):
+    if not os.path.exists(search_dir):
         print("Not possible to find folder containing Data")
         return
 
@@ -37,6 +34,11 @@ def dataCollectorFuncPiping():
     output_dir = os.path.join(search_dir, "Materials Data Organized")
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
+
+    for i in range(5): # loop for 5 seconds
+        message = "Reading Data" + "." * (i % 4 + 1) # generate the message with increasing dots
+        print(f"\r{message}", end="")
+        time.sleep(1)
 
     # Loop through the files and extract the specified columns
     for file in files:
@@ -65,17 +67,19 @@ def dataCollectorFuncPiping():
                 output_filename = os.path.join(output_dir, f"{project_number} - Piping Organized_{timestamp}.xlsx")
                 group_df.to_excel(output_filename, index=False)
 
-                print(f"Extracted data from {file} with Project Number {project_number} and saved it to {output_filename}")
+                print(f"\rExtracted data from {file} with Project Number {project_number} and saved it to {output_filename}")
                 success = True
         else:
-            print(f"Could not find any of the specified columns in {file}")
+            print(f"\rCould not find any of the specified columns in {file}")
             success = False
 
         if not success:
-            print("No files were processed successfully.")
-import os
-import pandas as pd
-from datetime import datetime
+            print("\rNo files were processed successfully.")
+        else:
+            print()
+
+#--------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------------------
 
 def dataCollectorFuncValve():
 
@@ -83,12 +87,11 @@ def dataCollectorFuncValve():
     print("Function to capture all Valves Data Initialized")
 
     # Set the search directory and keyword
-    search_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(search_dir, "Data Pool")
+    search_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Data Pool")
     keyword = "Valves"
 
     # Check if the Data Pool folder exists, and display an error message if it doesn't
-    if not os.path.exists(data_dir):
+    if not os.path.exists(search_dir):
         print("Data Pool folder not found.")
         return
 
@@ -99,7 +102,7 @@ def dataCollectorFuncValve():
                           "Unit Weight UOM", "Total NET weight", "SIZE"]
 
     # Search for Excel files containing the keyword
-    files = [file for file in os.listdir(data_dir) if keyword in file and file.endswith(".xlsx")]
+    files = [file for file in os.listdir(search_dir) if keyword in file and file.endswith(".xlsx")]
 
     # Check if any Excel files were found with the specified keyword
     if not files:
@@ -114,7 +117,7 @@ def dataCollectorFuncValve():
     # Loop through the files and extract the specified columns
     for file in files:
         # Load the Excel file into a pandas dataframe
-        df = pd.read_excel(os.path.join(data_dir, file), engine='openpyxl')
+        df = pd.read_excel(os.path.join(search_dir, file), engine='openpyxl')
 
         # Find the specified columns
         extract_columns = []
@@ -145,16 +148,20 @@ def dataCollectorFuncValve():
     if not success:
         print("No files were processed successfully.")
 
+
+#--------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------------------
+
 def dataCollectorFuncBolt():
     print("Function to capture all Bolt Data Initialized")
 
     # Set the search directory and keyword
-    search_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(search_dir, "Data Pool")
+    search_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Data Pool")
+
     keyword = "Bolt"
 
     # Check if the Data Pool folder exists, and display an error message if it doesn't
-    if not os.path.exists(data_dir):
+    if not os.path.exists(search_dir):
         print("Data Pool folder not found.")
         return
 

@@ -46,4 +46,3 @@ if __name__ == '__main__':
             break
         else:
             print("Invalid input. Please enter 'Y' or 'N'.")
-
