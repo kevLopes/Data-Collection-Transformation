@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="folder name changed">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Organize/Piping Organized_2023-03-23 23-09-42.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Organize/Piping Organized_2023-03-23 23-13-00.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Organize/SO17033 - Piping Organized_2023-03-23 23-28-22.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Materials Data Organized/SO17033 - Piping Organized_2023-03-25 11-53-01.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Organize/SO17033 - Piping Organized_2023-03-23 23-30-46.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/DataCollector.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/DataCollector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679738331961</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="folder name changed">
+      <created>1679741664510</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1679741664510</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

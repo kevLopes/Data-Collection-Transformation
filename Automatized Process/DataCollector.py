@@ -11,6 +11,7 @@ def dataCollectorFuncPiping():
 
     # Set the search directory and keyword
     search_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(search_dir, "Data Pool")
     keyword = "Piping"
 
     # Set the columns to extract
@@ -18,6 +19,11 @@ def dataCollectorFuncPiping():
                           "Service Description", "Pipe Base Material", "Material", "LineNumber",
                           "SBM scope", "Total QTY to commit", "Quantity UOM", "Unit Weight",
                           "Unit Weight UOM", "Total NET weight", "SIZE"]
+
+    # Check if the Data DW Dumber folder exists, and display an error message if it doesn't
+    if not os.path.exists(data_dir):
+        print("Not possible to find folder containing Data")
+        return
 
     # Search for Excel files containing the keyword
     files = [file for file in os.listdir(search_dir) if keyword in file and file.endswith(".xlsx")]
@@ -74,6 +80,7 @@ def dataCollectorFuncValve():
 
     # Set the search directory and keyword
     search_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(search_dir, "Data Pool")
     keyword = "Valves"
 
     # Set the columns to extract
@@ -81,6 +88,11 @@ def dataCollectorFuncValve():
                           "Service Description", "Pipe Base Material", "Material", "LineNumber",
                           "SBM scope", "Total QTY to commit", "Quantity UOM", "Unit Weight",
                           "Unit Weight UOM", "Total NET weight", "SIZE"]
+
+    # Check if the Data DW Dumber folder exists, and display an error message if it doesn't
+    if not os.path.exists(data_dir):
+        print("Not possible to find folder containing Data")
+        return
 
     # Search for Excel files containing the keyword
     files = [file for file in os.listdir(search_dir) if keyword in file and file.endswith(".xlsx")]
@@ -139,7 +151,13 @@ def dataCollectorFuncBolt():
 
     # Set the search directory and keyword
     search_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(search_dir, "Data Pool")
     keyword = "Bolt"
+
+    # Check if the Data DW Dumber folder exists, and display an error message if it doesn't
+    if not os.path.exists(data_dir):
+        print("Not possible to find folder containing Data")
+        return
 
     # Set the columns to extract
     columns_to_extract = ["Tag Number", "ID", "Project Number", "Product Code", "Commodity Code",
