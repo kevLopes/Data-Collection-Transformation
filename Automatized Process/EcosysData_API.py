@@ -1,5 +1,3 @@
-#Scripusername=None data using API
-
 import os
 import requests
 from requests.auth import HTTPBasicAuth
@@ -47,6 +45,8 @@ def EcosysPOHeadersAPIData( api_url, username,password):
     # Save Excel workbook to file
     wb.save(f'Ecosys Data/Ecosys_POHeader{timestamp}.xlsx')
 
+#--------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------------------
 
 def EcosysPOLineAPIData(api_url,username,password):
     # Create directory if it doesn't exist
@@ -125,6 +125,9 @@ def EcosysPOLineAPIData(api_url,username,password):
 
         # Save Excel workbook to file
         wb.save(f'Ecosys Data/Ecosys_POLine{timestamp}.xlsx')
+
+#--------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------------------
 
 def EcosysSUNAPIData(api_url,username,password):
     # Create directory if it doesn't exist

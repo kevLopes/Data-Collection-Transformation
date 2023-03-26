@@ -1,6 +1,7 @@
 #Automatic Process
 import DataCollector
 import EcosysData_API
+import AnalyzeProcess
 
 if __name__ == '__main__':
     while True:
@@ -41,6 +42,17 @@ if __name__ == '__main__':
 
         if user_input == "y":
             EcosysData_API.EcosysPOLineAPIData("https://Ecosys.sbm","keven.deOliveiralope","My-SBM#code23")
+            break
+        elif user_input == "n":
+            break
+        else:
+            print("Invalid input. Please enter 'Y' or 'N'.")
+
+    while True:
+        user_input = input("Do you want to the complete analyze of the data collected? (Y/N)").lower()
+
+        if user_input == "y":
+            AnalyzeProcess.AnalyzeDataProcessFunc()
             break
         elif user_input == "n":
             break
