@@ -5,12 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="folder name changed">
-      <change afterPath="$PROJECT_DIR$/.idea/Data-Collection-Transformation-kevLopes-DCT.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.vscode/launch.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Ecosys PO Lines Data_2023-03-27 13-36-53.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Organize/Piping Organized_2023-03-23 23-09-42.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Organize/Piping Organized_2023-03-23 23-13-00.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Organize/SO17033 - Piping Organized_2023-03-23 23-28-22.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Organize/SO17033 - Piping Organized_2023-03-23 23-28-22.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Organize/SO17033 - Piping Organized_2023-03-23 23-30-46.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Organize/SO17033 - Piping Organized_2023-03-23 23-30-46.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/ExportReportsGraphics.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/ExportReportsGraphics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Ecosys PO Lines Data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Ecosys PO Lines Data.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/EcosysData_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/EcosysData_API.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Running Overall Piping bulk MTO VE200-MOD.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/Running Overall Piping bulk MTO VE200-MOD.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/ExportedResults/NOT Match2023-03-23 16-12-14.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/ExportedResults/NOT Match2023-03-23 16-12-14.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/Fichier 1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Fichier 1.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/Fichier 2.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Fichier 2.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/FirstTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/FirstTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/Running Overall Piping bulk MTO VE200-MOD.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Running Overall Piping bulk MTO VE200-MOD.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/Script 1/Fichie 1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/Fichie 1.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/Script 1/Fichie 2.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/Fichie 2.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/Script 1/FirstTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/FirstTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/Script 1/Result.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/Result.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/Script 1/SecondTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/SecondTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/Script 1/import subprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/import subprocess.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/SecondTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/SecondTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First Test/TestRun.py" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/First Test/TestRun.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Script 1/Fichie 1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/Fichie 1.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Script 1/Fichie 2.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/Fichie 2.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Script 1/FirstTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/FirstTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Script 1/Result.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/Result.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Script 1/SecondTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/SecondTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Script 1/import subprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/import subprocess.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,8 +81,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Automatized Process/Data Pool" />
-      <recent name="$PROJECT_DIR$/First Test" />
+      <recent name="C:\Users\keven.deoliveiralope\Documents\Data Analyze Automatization\Scripts\Data-Collection-Transformation-kevLopes-DCT\Automatized Process" />
+      <recent name="C:\Users\keven.deoliveiralope\Documents\Data Analyze Automatization\Scripts\Data-Collection-Transformation-kevLopes-DCT\Automatized Process\Data Pool\Data Hub Materials" />
+      <recent name="C:\Users\keven.deoliveiralope\Documents\Data Analyze Automatization\Scripts\Data-Collection-Transformation-kevLopes-DCT\Automatized Process\Data Pool\Ecosys API Data\PO Lines" />
+      <recent name="C:\Users\keven.deoliveiralope\Documents\Data Analyze Automatization\Scripts\Data-Collection-Transformation-kevLopes-DCT\Automatized Process\Data Pool\Data Organized Reports" />
+      <recent name="C:\Users\keven.deoliveiralope\Documents\Data Analyze Automatization\Scripts\Data-Collection-Transformation-kevLopes-DCT\Automatized Process\Data Pool" />
     </key>
   </component>
   <component name="RunManager">
@@ -232,7 +260,21 @@
       <option name="project" value="LOCAL" />
       <updated>1679853813030</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="folder name changed">
+      <created>1679910745921</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1679910745921</updated>
+    </task>
+    <task id="LOCAL-00022" summary="folder name changed">
+      <created>1679910911320</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1679910911320</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
