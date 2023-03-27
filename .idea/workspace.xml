@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="folder name changed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Organize/~$Piping Organized_2023-03-23 23-13-00.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/DataCollector.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/DataCollector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/AnalyzeProcess.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/AnalyzeProcess.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/ExportReportsGraphics.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/ExportReportsGraphics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/EcosysData_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/EcosysData_API.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +59,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Automatized Process/Data Pool" />
       <recent name="$PROJECT_DIR$/First Test" />
     </key>
   </component>
@@ -148,7 +151,91 @@
       <option name="project" value="LOCAL" />
       <updated>1679610125084</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="folder name changed">
+      <created>1679610967506</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1679610967506</updated>
+    </task>
+    <task id="LOCAL-00010" summary="folder name changed">
+      <created>1679611008518</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1679611008518</updated>
+    </task>
+    <task id="LOCAL-00011" summary="folder name changed">
+      <created>1679695290917</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1679695290918</updated>
+    </task>
+    <task id="LOCAL-00012" summary="folder name changed">
+      <created>1679738331961</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1679738331961</updated>
+    </task>
+    <task id="LOCAL-00013" summary="folder name changed">
+      <created>1679741664510</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1679741664510</updated>
+    </task>
+    <task id="LOCAL-00014" summary="folder name changed">
+      <created>1679742294370</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1679742294370</updated>
+    </task>
+    <task id="LOCAL-00015" summary="folder name changed">
+      <created>1679763194181</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1679763194181</updated>
+    </task>
+    <task id="LOCAL-00016" summary="folder name changed">
+      <created>1679765877516</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1679765877517</updated>
+    </task>
+    <task id="LOCAL-00017" summary="folder name changed">
+      <created>1679774799225</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1679774799225</updated>
+    </task>
+    <task id="LOCAL-00018" summary="folder name changed">
+      <created>1679787152869</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1679787152869</updated>
+    </task>
+    <task id="LOCAL-00019" summary="folder name changed">
+      <created>1679820225457</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1679820225457</updated>
+    </task>
+    <task id="LOCAL-00020" summary="folder name changed">
+      <created>1679853813030</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1679853813030</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
