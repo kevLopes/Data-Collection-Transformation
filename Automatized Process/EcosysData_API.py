@@ -130,44 +130,43 @@ def EcosysPOLineAPIData(api_url,username,password):
 #--------------------------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------------------------
 
-def EcosysSUNAPIData(api_url,username,password):
-    # Create directory if it doesn't exist
-    if not os.path.exists('Ecosys Data'):
-        os.makedirs('Ecosys Data')
+def EcosysSUNAPIData(API, username, password):
+    try:
+        # Make API request and get JSON response
+        response = requests.get(API, auth=(username, password), verify=False)
+        response.raise_for_status()
+        json_data = json.loads(response.content)
 
-    # Set API URL and credentials
-    #api_url = 'https://example.com/api'
-    #username = 'your_username'
-    #password = 'your_password'
+        # Convert JSON data to Pandas DataFrame and select desired columns
+        df = pd.DataFrame(json_data['WorkingForecastTransactionList'])
 
-    # Set headers for JSON format
-    headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
+        # select desired columns
+        df = df[['CostObjectHierarchyPathID', 'ExternalKey', 'TransactionReference', 'Description',
+                 'InvoiceReference', 'PONumber', 'AccountCodeID', 'AccountCodeName', 'BusinessUnitID',
+                 'CostCodeID', 'JournalTypeID', 'JournalNumber', 'JournalLine', 'JournalSourceID',
+                 'CompanyID', 'SunSystemsPeriodID', 'TransactionDate', 'SunSystemsTransactionDate',
+                 'Amount', 'Currency', 'ProjectAmount', 'ProjectCurrencyID', 'EntryDate',
+                 'InvoiceHyperlink', 'SunSystemsPostingDate', 'SunSystemsBaseAmount', 'SunSystemsCpyCurrency']]
 
-    # Make API request with basic authentication
-    response = requests.get(api_url, headers=headers, auth=HTTPBasicAuth(username, password))
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-    # Convert response from JSON to Python dictionary
-    data = json.loads(response.content)
+        # create an Excel writer object
+        writer = pd.ExcelWriter(f'C:\\Users\\keven.deoliveiralope\\Documents\\Data Analyze Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized Process\\Data Pool\\Ecosys API Data\\SUN Transactions\\Ecosys SUN Transactions_{timestamp}.xlsx')
 
-    # Get XML file from API response
-    xml_string = data['xml']
+        # write the DataFrame to the Excel file
+        df.to_excel(writer, index=False)
 
-    # Parse XML string into an ElementTree object
-    root = ET.fromstring(xml_string)
+        # save the Excel file
+        writer.save()
+        print('Loading Data . . .')
+        print('Data saved to Excel file successfully.')
 
-    # Create Excel workbook and sheet
-    wb = openpyxl.Workbook()
-    ws = wb.active
+    except requests.exceptions.RequestException as re:
+        print('RequestException:', re)
+    except Exception as e:
+        print('Error:', e)
 
-    # Get the current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
-    # Write XML data to Excel sheet
-    for child in root:
-        ws.append([child.tag, child.attrib])
-
-    # Save Excel workbook to file
-    wb.save(f'Ecosys Data/Ecosys_SUN{timestamp}.xlsx')
 
 #--------------------------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------------------------
@@ -190,10 +189,13 @@ def ecosys_po_lines_data_api(api, username, password):
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
         # Save DataFrame to Excel file
-        writer = pd.ExcelWriter(f'C:\Users\keven.deoliveiralope\Documents\Data Analyze Automatization\Scripts\Data-Collection-Transformation-kevLopes-DCT\Automatized Process\Data Pool\Ecosys API Data\PO Lines\Ecosys PO Lines Data_{timestamp}.xlsx')
+        writer = pd.ExcelWriter(f'C:\\Users\\keven.deoliveiralope\\Documents\\Data Analyze Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized Process\\Data Pool\\Ecosys API Data\\PO Lines\\Ecosys PO Lines Data_{timestamp}.xlsx')
         df.to_excel(writer, index=False)
         writer.save()
+
+        print('Loading Data . . .')
         print("Excel file saved successfully!")
+
     except requests.exceptions.RequestException as e:
         print("Request error:", e)
     except (KeyError, ValueError) as e:
