@@ -5,6 +5,18 @@ import AnalyzeProcess
 
 if __name__ == '__main__':
     while True:
+        user_input = input("Do you want to call Ecosys PO Line API Data function? (Y/N)").lower()
+
+        if user_input == "y":
+            user_inputProj = input("For which project do you want to read the data (project number always start with MP)")
+            EcosysData_API.save_api_data_to_excel(f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson/EcosysPOLinesData_DCTAPI_KOL/?RootCostObject={user_inputProj}","keven.deOliveiralope","My-SBM#code23")
+            break
+        elif user_input == "n":
+            break
+        else:
+            print("Invalid input. Please enter 'Y' or 'N'.")
+
+    while True:
         user_input = input("Do you want to call Pipping Data Collector function? (Y/N)").lower()
 
         if user_input == "y":
@@ -37,16 +49,7 @@ if __name__ == '__main__':
         else:
             print("Invalid input. Please enter 'Y' or 'N'.")
 
-    while True:
-        user_input = input("Do you want to call Ecosys PO Line API Data function? (Y/N)").lower()
 
-        if user_input == "y":
-            EcosysData_API.EcosysPOLineAPIData("https://Ecosys.sbm","keven.deOliveiralope","My-SBM#code23")
-            break
-        elif user_input == "n":
-            break
-        else:
-            print("Invalid input. Please enter 'Y' or 'N'.")
 
     while True:
         user_input = input("Do you want to the complete analyze of the data collected? (Y/N)").lower()
