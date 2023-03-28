@@ -1,136 +1,7 @@
-import os
 import requests
 import pandas as pd
-from requests.auth import HTTPBasicAuth
-import xml.etree.ElementTree as ET
 import json
-import openpyxl
 from datetime import datetime
-
-def EcosysPOHeadersAPIData( api_url, username,password):
-    # Create directory if it doesn't exist
-    if not os.path.exists('Ecosys Data'):
-        os.makedirs('Ecosys Data')
-
-    # Set API URL and credentials
-    #api_url = 'https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson/EcosysPOLinesData_DCTAPI_KOL/?RootCostObject={RootCostObject}'
-    #username = 'your_username'
-    #password = 'your_password'
-
-    # Set headers for JSON format
-    headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-
-    # Make API request with basic authentication
-    response = requests.get(api_url, headers=headers, auth=HTTPBasicAuth(username, password))
-
-    # Convert response from JSON to Python dictionary
-    data = json.loads(response.content)
-
-    # Get XML file from API response
-    xml_string = data['xml']
-
-    # Parse XML string into an ElementTree object
-    root = ET.fromstring(xml_string)
-
-    # Create Excel workbook and sheet
-    wb = openpyxl.Workbook()
-    ws = wb.active
-
-    # Get the current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
-    # Write XML data to Excel sheet
-    for child in root:
-        ws.append([child.tag, child.attrib])
-
-    # Save Excel workbook to file
-    wb.save(f'Ecosys Data/Ecosys_POHeader{timestamp}.xlsx')
-
-#--------------------------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------------------------------------------
-
-def EcosysPOLineAPIData(api_url,username,password):
-    # Create directory if it doesn't exist
-    if not os.path.exists('Ecosys Data'):
-        os.makedirs('Ecosys Data')
-
-    # Set API URL and credentials
-    #api_url = 'https://example.com/api'
-    #username = 'your_username'
-    #password = 'your_password'
-
-    # Set headers for JSON format
-    headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-
-    # Make API request with basic authentication
-    response = requests.get(api_url, headers=headers, auth=HTTPBasicAuth(username, password))
-
-    # Convert response from JSON to Python dictionary
-    data = json.loads(response.content)
-
-    # Get XML file from API response
-    xml_string = data['xml']
-
-    # Parse XML string into an ElementTree object
-    root = ET.fromstring(xml_string)
-
-    # Create Excel workbook and sheet
-    wb = openpyxl.Workbook()
-    ws = wb.active
-
-    # Get the current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
-    # Write XML data to Excel sheet
-    for child in root:
-        ws.append([child.tag, child.attrib])
-
-    # Save Excel workbook to file
-    wb.save(f'Ecosys Data/Ecosys_POLine{timestamp}.xlsx')
-
-    def EcosysPOLineAPIData(api_url, username, password):
-        # Create directory if it doesn't exist
-        if not os.path.exists('Ecosys Data'):
-            os.makedirs('Ecosys Data')
-
-        # Set API URL and credentials
-        # api_url = 'https://example.com/api'
-        # username = 'your_username'
-        # password = 'your_password'
-
-        # Set headers for JSON format
-        headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-
-        # Make API request with basic authentication
-        response = requests.get(api_url, headers=headers, auth=HTTPBasicAuth(username, password))
-
-        # Convert response from JSON to Python dictionary
-        data = json.loads(response.content)
-
-        # Get XML file from API response
-        xml_string = data['xml']
-
-        # Parse XML string into an ElementTree object
-        root = ET.fromstring(xml_string)
-
-        # Create Excel workbook and sheet
-        wb = openpyxl.Workbook()
-        ws = wb.active
-
-        # Get the current timestamp
-        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
-        # Write XML data to Excel sheet
-        for child in root:
-            ws.append([child.tag, child.attrib])
-
-        # Save Excel workbook to file
-        wb.save(f'Ecosys Data/Ecosys_POLine{timestamp}.xlsx')
-
-
-
-#--------------------------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------------------------------------------
 
 def ecosys_poheader_lines_data_api(API, username, password):
     try:
@@ -151,7 +22,10 @@ def ecosys_poheader_lines_data_api(API, username, password):
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
         # create an Excel writer object
-        writer = pd.ExcelWriter(f'C:\\Users\\keven.deoliveiralope\\Documents\\Data Analyze Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized Process\\Data Pool\\Ecosys API Data\\PO Headers\\Ecosys POHea  ders Lines_{timestamp}.xlsx')
+        writer = pd.ExcelWriter(f'C:\\Users\\keven.deoliveiralope\\Documents\\Data Analyze '
+                                f'Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized '
+                                f'Process\\Data Pool\\Ecosys API Data\\PO Headers\\Ecosys POHea  ders Lines_'
+                                f'{timestamp}.xlsx')
 
         # write the DataFrame to the Excel file
         df.to_excel(writer, index=False)
@@ -192,7 +66,10 @@ def ecosys_sun_lines_data_api(API, username, password):
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
         # create an Excel writer object
-        writer = pd.ExcelWriter(f'C:\\Users\\keven.deoliveiralope\\Documents\\Data Analyze Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized Process\\Data Pool\\Ecosys API Data\\SUN Transactions\\Ecosys SUN Transactions_{timestamp}.xlsx')
+        writer = pd.ExcelWriter(f'C:\\Users\\keven.deoliveiralope\\Documents\\Data Analyze '
+                                f'Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized '
+                                f'Process\\Data Pool\\Ecosys API Data\\SUN Transactions\\Ecosys SUN Transactions_'
+                                f'{timestamp}.xlsx')
 
         # write the DataFrame to the Excel file
         df.to_excel(writer, index=False)
@@ -229,7 +106,10 @@ def ecosys_po_lines_data_api(api, username, password):
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
         # Save DataFrame to Excel file
-        writer = pd.ExcelWriter(f'C:\\Users\\keven.deoliveiralope\\Documents\\Data Analyze Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized Process\\Data Pool\\Ecosys API Data\\PO Lines\\Ecosys PO Lines Data_{timestamp}.xlsx')
+        writer = pd.ExcelWriter(f'C:\\Users\\keven.deoliveiralope\\Documents\\Data Analyze '
+                                f'Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized '
+                                f'Process\\Data Pool\\Ecosys API Data\\PO Lines\\Ecosys PO Lines Data_'
+                                f'{timestamp}.xlsx')
         df.to_excel(writer, index=False)
         writer.save()
 
