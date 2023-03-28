@@ -127,10 +127,50 @@ def EcosysPOLineAPIData(api_url,username,password):
         # Save Excel workbook to file
         wb.save(f'Ecosys Data/Ecosys_POLine{timestamp}.xlsx')
 
+
+
 #--------------------------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------------------------
 
-def EcosysSUNAPIData(API, username, password):
+def ecosys_poheader_lines_data_api(API, username, password):
+    try:
+        # Make API request and get JSON response
+        response = requests.get(API, auth=(username, password), verify=False)
+        response.raise_for_status()
+        json_data = json.loads(response.content)
+
+        # Convert JSON data to Pandas DataFrame and select desired columns
+        df = pd.DataFrame(json_data['CostObjectList'])
+
+        # select desired columns
+        df = df[['HierarchyPathID', 'PONumber', 'PODescription', 'POValue',
+                 'ProjectCurrency', 'POIssueDate', 'POCurrencyID', 'ProductID', 'ProductDescription',
+                 'SupplierNumber', 'SupplierName', 'CurrentPORevisionID']]
+
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+
+        # create an Excel writer object
+        writer = pd.ExcelWriter(f'C:\\Users\\keven.deoliveiralope\\Documents\\Data Analyze Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized Process\\Data Pool\\Ecosys API Data\\PO Headers\\Ecosys POHea  ders Lines_{timestamp}.xlsx')
+
+        # write the DataFrame to the Excel file
+        df.to_excel(writer, index=False)
+
+        # save the Excel file
+        writer.save()
+        print('Loading Data . . .')
+        print('Data saved to Excel file successfully.')
+
+    except requests.exceptions.RequestException as re:
+        print('RequestException:', re)
+    except Exception as e:
+        print('Error:', e)
+
+
+#--------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------------------
+
+def ecosys_sun_lines_data_api(API, username, password):
     try:
         # Make API request and get JSON response
         response = requests.get(API, auth=(username, password), verify=False)
