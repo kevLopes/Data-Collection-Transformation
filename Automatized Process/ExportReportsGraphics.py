@@ -3,7 +3,8 @@ import openpyxl
 from openpyxl.chart import ScatterChart, Reference, Series
 from datetime import datetime
 
-def DataGraphicReportsFunc():
+
+def data_graphic_reports_func():
     # Ask the user for the project ID
     project_id = input("Please enter the Project ID: ")
 
@@ -52,9 +53,9 @@ def DataGraphicReportsFunc():
 
     # Write the data to the worksheet
     for i, column in enumerate(columns):
-        data_worksheet.cell(row=1, column=i+1, value=column)
+        data_worksheet.cell(row=1, column=i + 1, value=column)
         for j, value in enumerate(data_dict[column]):
-            data_worksheet.cell(row=j+2, column=i+1, value=value)
+            data_worksheet.cell(row=j + 2, column=i + 1, value=value)
 
     # Create a scatter chart for each file
     chart = ScatterChart()
@@ -66,8 +67,10 @@ def DataGraphicReportsFunc():
     for file in files:
         # Create a new series for the file
         series = Series(
-            Reference(data_worksheet, min_col=columns.index("Total NET weight")+1, min_row=2, max_row=len(data_dict[columns[0]])),
-            Reference(data_worksheet, min_col=columns.index("Unit Weight")+1, min_row=2, max_row=len(data_dict[columns[0]])),
+            Reference(data_worksheet, min_col=columns.index("Total NET weight") + 1, min_row=2,
+                      max_row=len(data_dict[columns[0]])),
+            Reference(data_worksheet, min_col=columns.index("Unit Weight") + 1, min_row=2,
+                      max_row=len(data_dict[columns[0]])),
             title=file
         )
 

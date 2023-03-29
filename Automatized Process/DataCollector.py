@@ -3,7 +3,8 @@ import pandas as pd
 from datetime import datetime
 import time
 
-def dataCollectorFuncPiping():
+
+def data_collector_piping():
     print("Function to capture all Piping Data Initialized")
     global success
 
@@ -35,8 +36,8 @@ def dataCollectorFuncPiping():
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
-    for i in range(5): # loop for 5 seconds
-        message = "Reading Data" + "." * (i % 4 + 1) # generate the message with increasing dots
+    for i in range(5):  # loop for 5 seconds
+        message = "Reading Data" + "." * (i % 4 + 1)  # generate the message with increasing dots
         print(f"\r{message}", end="")
         time.sleep(1)
 
@@ -67,7 +68,8 @@ def dataCollectorFuncPiping():
                 output_filename = os.path.join(output_dir, f"{project_number} - Piping Organized_{timestamp}.xlsx")
                 group_df.to_excel(output_filename, index=False)
 
-                print(f"\rExtracted data from {file} with Project Number {project_number} and saved it to {output_filename}")
+                print(
+                    f"\rExtracted data from {file} with Project Number {project_number} and saved it to {output_filename}")
                 success = True
         else:
             print(f"\rCould not find any of the specified columns in {file}")
@@ -78,11 +80,11 @@ def dataCollectorFuncPiping():
         else:
             print()
 
-#--------------------------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------------------------------------------
 
-def dataCollectorFuncValve():
+# --------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------
 
+def data_collector_valve():
     global success
     print("Function to capture all Valves Data Initialized")
 
@@ -149,10 +151,10 @@ def dataCollectorFuncValve():
         print("No files were processed successfully.")
 
 
-#--------------------------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------
 
-def dataCollectorFuncBolt():
+def data_collector_bolt():
     print("Function to capture all Bolt Data Initialized")
 
     # Set the search directory and keyword

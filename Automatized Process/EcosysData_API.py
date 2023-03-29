@@ -3,6 +3,7 @@ import pandas as pd
 import json
 from datetime import datetime
 
+
 def ecosys_poheader_lines_data_api(API, username, password):
     try:
         # Make API request and get JSON response
@@ -41,13 +42,13 @@ def ecosys_poheader_lines_data_api(API, username, password):
         print('Error:', e)
 
 
-#--------------------------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------
 
-def ecosys_sun_lines_data_api(API, username, password):
+def ecosys_sun_lines_data_api(api, username, password):
     try:
         # Make API request and get JSON response
-        response = requests.get(API, auth=(username, password), verify=False)
+        response = requests.get(api, auth=(username, password), verify=False)
         response.raise_for_status()
         json_data = json.loads(response.content)
 
@@ -85,8 +86,8 @@ def ecosys_sun_lines_data_api(API, username, password):
         print('Error:', e)
 
 
-#--------------------------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------
 
 def ecosys_po_lines_data_api(api, username, password):
     try:

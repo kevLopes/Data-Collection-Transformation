@@ -2,12 +2,14 @@ import os
 from pathlib import Path
 import openpyxl
 
-def AnalyzeDataProcessFunc():
+
+def data_analyze_process():
     # Ask for project ID input
     project_id = input("Please enter the Project ID: ")
 
     # Find and open Excel file in Data Pool folder
-    folder_path = os.path.join(os.getcwd(), "/Users/lopes/PycharmProjects/PythonAutomatization/Automatized Process/Data Pool/Materials Data Organized")
+    folder_path = os.path.join(os.getcwd(),
+                               "/Users/lopes/PycharmProjects/PythonAutomatization/Automatized Process/Data Pool/Materials Data Organized")
     file_name = f"{project_id} Piping.xlsx"
     file_path = os.path.join(folder_path, file_name)
 
@@ -40,12 +42,13 @@ def AnalyzeDataProcessFunc():
                     continue
 
                 # Open new excel file containing Project ID and PO Lines
-                po_folder_path = Path(os.getcwd()) / "Users" / "lopes" / "PycharmProjects" / "PythonAutomatization" / "Automatized Process" / "Ecosys Data"
+                po_folder_path = Path(
+                    os.getcwd()) / "Users" / "lopes" / "PycharmProjects" / "PythonAutomatization" / "Automatized Process" / "Ecosys Data"
                 po_file_path = po_folder_path / f"{project_id} PO Lines.xlsx"
 
-                #po_folder_path = os.path.join(os.getcwd(), "/Users/lopes/PycharmProjects/PythonAutomatization/Automatized Process/Ecosys Data")
-                #po_file_name = f"{project_id} PO Lines.xlsx"
-                #po_file_path = os.path.join(po_folder_path, po_file_name)
+                # po_folder_path = os.path.join(os.getcwd(), "/Users/lopes/PycharmProjects/PythonAutomatization/Automatized Process/Ecosys Data")
+                # po_file_name = f"{project_id} PO Lines.xlsx"
+                # po_file_path = os.path.join(po_folder_path, po_file_name)
 
                 if os.path.exists(po_file_path):
                     po_workbook = openpyxl.load_workbook(po_file_path)
