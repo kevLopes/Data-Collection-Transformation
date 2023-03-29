@@ -77,7 +77,7 @@ def ecosys_sun_lines_data_api(api, username, password):
 
         # save the Excel file
         writer.save()
-        print('Loading Data . . .')
+        print('Loading Data . . . Please wait !')
         print('Data saved to Excel file successfully.')
 
     except requests.exceptions.RequestException as re:

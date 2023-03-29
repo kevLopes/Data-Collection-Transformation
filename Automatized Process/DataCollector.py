@@ -94,7 +94,7 @@ def data_collector_valve():
 
     # Check if the Data Pool folder exists, and display an error message if it doesn't
     if not os.path.exists(search_dir):
-        print("Data Pool folder not found.")
+        print("Data Pool folder not found on directory.")
         return
 
     # Set the columns to extract

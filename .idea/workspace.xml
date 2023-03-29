@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="This is a reorganization">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/DataCollector.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/DataCollector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/EcosysData_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/EcosysData_API.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -311,7 +312,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680077637476</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="This is a reorganization">
+      <created>1680082265349</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1680082265349</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
