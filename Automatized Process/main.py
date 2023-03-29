@@ -27,7 +27,7 @@ if __name__ == '__main__':
         user_input = input("Do you want to call Pipping Data Collector function? (Y/N)").lower()
 
         if user_input == "y":
-            DataCollector.dataCollectorFuncPiping()
+            DataCollector.data_collector_piping()
             break
         elif user_input == "n":
             break
@@ -38,7 +38,7 @@ if __name__ == '__main__':
         user_input = input("Do you want to call Valve Data Collector function? (Y/N)").lower()
 
         if user_input == "y":
-            DataCollector.dataCollectorFuncValve()
+            DataCollector.data_collector_valve()
             break
         elif user_input == "n":
             break
@@ -49,7 +49,7 @@ if __name__ == '__main__':
         user_input = input("Do you want to call Bolt Data Collector function? (Y/N)").lower()
 
         if user_input == "y":
-            DataCollector.dataCollectorFuncBolt()
+            DataCollector.data_collector_bolt()
             break
         elif user_input == "n":
             break
@@ -62,7 +62,7 @@ if __name__ == '__main__':
         user_input = input("Do you want to the complete analyze of the data collected? (Y/N)").lower()
 
         if user_input == "y":
-            AnalyzeProcess.AnalyzeDataProcessFunc()
+            AnalyzeProcess.data_analyze_process()
             break
         elif user_input == "n":
             break
