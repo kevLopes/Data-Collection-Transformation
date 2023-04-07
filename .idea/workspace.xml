@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="This is a reorganization">
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Material_Cost_Analyze.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Unity PO Lines.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/GetMaterial_ProdCode.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/AnalyzeProcessByMaterial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Material_Cost_Analyze_2023-04-07 16-05-11.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Material_Cost_Analyze_2023-04-07 16-10-32.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Material_Cost_Analyze_2023-04-07 15-39-16.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Material_Cost_Analyze_2023-04-07 15-56-18.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Organize/SO17033 - Piping Organized_2023-03-23 23-28-22.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Ecosys PO Lines Data_2023-03-27 18-32-37.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Material_Cost_Analyze.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Material_Cost_Analyze.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/GetMaterial_ProdCode.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -385,7 +387,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680596777195</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="This is a reorganization">
+      <created>1680873554898</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1680873554898</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

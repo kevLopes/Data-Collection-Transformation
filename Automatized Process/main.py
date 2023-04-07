@@ -2,24 +2,17 @@
 import DataCollector
 import EcosysData_API
 import AnalyzeProcess
-import GetMaterial_ProdCode
+import AnalyzeProcessByMaterial
 
 if __name__ == '__main__':
 
-    # Example usage:
+    # Example
     folder_path = "C:\\Users\\keven.deoliveiralope\\Documents\Data Analyze Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized Process\\Data Pool\\Data Organize"
     project_number = 17033
     material_type = "Piping"
-    distinct_product_codes = GetMaterial_ProdCode.extract_distinct_product_codes(folder_path, project_number, material_type)
-    print("Distinct product codes:", distinct_product_codes)
+    distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes(folder_path, project_number, material_type)
+    print("Analyze done for all Distinct Material codes:", distinct_product_codes)
 
-    # Example usage:
-    folder_path = "C:\\Users\\keven.deoliveiralope\\Documents\Data Analyze Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized Process\\Data Pool\\Data Organize"
-    project_number = 17033
-    material_type = "Piping"
-    #distinct_materials, material_codes = GetMaterial_ProdCode.find_materials_and_codes(folder_path, project_number, material_type)
-    #print("Distinct Base Material:", distinct_materials)
-    #print("Material codes:", material_codes)
 
     while False:
         user_input = input("Do you want to call Ecosys PO Line API Data function? (Y/N)").lower()
