@@ -2,9 +2,26 @@
 import DataCollector
 import EcosysData_API
 import AnalyzeProcess
+import GetMaterial_ProdCode
 
 if __name__ == '__main__':
-    while True:
+
+    # Example usage:
+    folder_path = "C:\\Users\\keven.deoliveiralope\\Documents\Data Analyze Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized Process\\Data Pool\\Data Organize"
+    project_number = 17033
+    material_type = "Piping"
+    distinct_product_codes = GetMaterial_ProdCode.extract_distinct_product_codes(folder_path, project_number, material_type)
+    print("Distinct product codes:", distinct_product_codes)
+
+    # Example usage:
+    folder_path = "C:\\Users\\keven.deoliveiralope\\Documents\Data Analyze Automatization\\Scripts\\Data-Collection-Transformation-kevLopes-DCT\\Automatized Process\\Data Pool\\Data Organize"
+    project_number = 17033
+    material_type = "Piping"
+    #distinct_materials, material_codes = GetMaterial_ProdCode.find_materials_and_codes(folder_path, project_number, material_type)
+    #print("Distinct Base Material:", distinct_materials)
+    #print("Material codes:", material_codes)
+
+    while False:
         user_input = input("Do you want to call Ecosys PO Line API Data function? (Y/N)").lower()
 
         if user_input == "y":
@@ -23,7 +40,7 @@ if __name__ == '__main__':
         else:
             print("Invalid input. Please enter 'Y' or 'N'.")
 
-    while True:
+    while False:
         user_input = input("Do you want to call Pipping Data Collector function? (Y/N)").lower()
 
         if user_input == "y":
@@ -34,7 +51,7 @@ if __name__ == '__main__':
         else:
             print("Invalid input. Please enter 'Y' or 'N'.")
 
-    while True:
+    while False:
         user_input = input("Do you want to call Valve Data Collector function? (Y/N)").lower()
 
         if user_input == "y":
@@ -45,7 +62,7 @@ if __name__ == '__main__':
         else:
             print("Invalid input. Please enter 'Y' or 'N'.")
 
-    while True:
+    while False:
         user_input = input("Do you want to call Bolt Data Collector function? (Y/N)").lower()
 
         if user_input == "y":
@@ -56,9 +73,7 @@ if __name__ == '__main__':
         else:
             print("Invalid input. Please enter 'Y' or 'N'.")
 
-
-
-    while True:
+    while False:
         user_input = input("Do you want to the complete analyze of the data collected? (Y/N)").lower()
 
         if user_input == "y":
