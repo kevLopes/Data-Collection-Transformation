@@ -126,7 +126,7 @@ class MyWindow:
             if self.check_button_var.get():
                 print("Analyze on going. Data are being refreshed from Ecosys")
                 EcosysData_API.ecosys_po_lines_data_api(
-                f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson/EcosysPOLinesData_  DCTAPI_KOL"
+                f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson/EcosysPOLinesData_DCTAPI_KOL"
                 f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
 
                 #PO Header and SUN transactions API

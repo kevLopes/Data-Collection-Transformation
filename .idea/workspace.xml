@@ -4,80 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="Analyze done by material">
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-09 19-12-30.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-09 19-15-39.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-09 19-18-32.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-09 23-54-14.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-09 23-56-47.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-10 00-06-09.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-10 00-21-12.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-10 00-29-14.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-10 21-05-35.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-10 21-07-44.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-10 21-09-22.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-10 21-13-27.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/17033_Material_Cost_Analyze_2023-04-11 17-01-54.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/17033 PO Lines.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17033_Ecosys PO Lines_2023-04-11 13-53-46.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17033_Ecosys PO Lines_2023-04-11 16-33-33.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17033_Ecosys PO Lines_2023-04-11 16-59-04.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17033_Ecosys PO Lines_2023-04-11 17-30-02.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/SO17033 - Piping Organized_2023-04-10 21-26-55.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/SO17033 - Piping Organized_2023-04-11 16-57-21.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/SO17033 - Piping Organized_2023-04-11 16-59-36.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Error Logs/Error_Logs_2023-04-10 00-05-56.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Error Logs/Error_Logs_2023-04-10 00-09-20.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Error Logs/Error_Logs_2023-04-10 00-20-26.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Error Logs/Error_Logs_2023-04-10 00-20-59.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Error Logs/Error_Logs_2023-04-10 00-28-29.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/AnalyzeProcess.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/AnalyzeProcessByMaterial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/DataCollector.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/EcosysData_API.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Error Logs/Error_Logs_2023-04-11 17-30-11.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Error Logs/Error_Logs_2023-04-11 17-30-12.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/ExportReportsGraphics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/ScreenMenu.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/AnalyzeProcess.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/AnalyzeProcessByMaterial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Material_Cost_Analyze_2023-04-07 16-05-11.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Material_Cost_Analyze_2023-04-07 16-10-32.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Organize/SO17033 - Piping Organized_2023-03-23 23-30-46.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Material_Cost_Analyze.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Material_Cost_Analyze_2023-04-07 15-18-38.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Material_Cost_Analyze_2023-04-07 15-39-16.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Material_Cost_Analyze_2023-04-07 15-56-18.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/Unity PO Lines.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/DataCollector.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/EcosysData_API.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/ExportReportsGraphics.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/ExportedResults/NOT Match2023-03-23 16-12-14.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Fichier 1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Fichier 2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/FirstTest.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Running Overall Piping bulk MTO VE200-MOD.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/Fichie 1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/Fichie 2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/FirstTest.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/Result.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/SecondTest.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/Script 1/import subprocess.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/SecondTest.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/First Test/TestRun.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/Fichie 1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/Fichie 2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/FirstTest.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/Mouse.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/Result.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/SecondTest.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/import subprocess.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD Testing Scripts/Script 1/todo.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" />
-    </list>
+    <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -110,6 +37,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -501,7 +429,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680876688191</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="All Script Dev done at work">
+      <created>1681714811662</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1681714811662</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -533,6 +468,7 @@
     <MESSAGE value="folder name changed" />
     <MESSAGE value="This is a reorganization" />
     <MESSAGE value="Analyze done by material" />
-    <option name="LAST_COMMIT_MESSAGE" value="Analyze done by material" />
+    <MESSAGE value="All Script Dev done at work" />
+    <option name="LAST_COMMIT_MESSAGE" value="All Script Dev done at work" />
   </component>
 </project>
