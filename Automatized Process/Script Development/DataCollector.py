@@ -34,11 +34,6 @@ def data_collector_piping(project_number_v, material_type):
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
-    #for i in range(5):  # loop for 5 seconds
-    #    message = "Reading Data" + "." * (i % 4 + 1)  # generate the message with increasing dots
-    #    print(f"\r{message}", end="")
-    #    time.sleep(1)
-
     # Loop through the files and extract the specified columns
     for file in files:
         # Load the Excel file into a pandas dataframe
@@ -65,7 +60,7 @@ def data_collector_piping(project_number_v, material_type):
                     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
                     # Save the group data to a new Excel file with the project number in the filename
-                    output_filename = os.path.join(output_dir, f"MP{project_number} - Piping Organized_{timestamp}.xlsx")
+                    output_filename = os.path.join(output_dir, f"{project_number} - Piping Organized_{timestamp}.xlsx")
                     group_df.to_excel(output_filename, index=False)
 
                     print(

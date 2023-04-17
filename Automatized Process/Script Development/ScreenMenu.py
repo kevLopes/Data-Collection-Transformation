@@ -130,13 +130,13 @@ class MyWindow:
                 f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
 
                 #PO Header and SUN transactions API
-                EcosysData_API.ecosys_poheader_lines_data_api(
-                f"https://ecosys-stg.sbmoffshore.com/ecosys/api"f"/restjson/EcosysPOHeadersData_DCTAPI_KOL"
-                f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
+                #cosysData_API.ecosys_poheader_lines_data_api(
+                #f"https://ecosys-stg.sbmoffshore.com/ecosys/api"f"/restjson/EcosysPOHeadersData_DCTAPI_KOL"
+               # f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
 
-                EcosysData_API.ecosys_sun_lines_data_api(
-                f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson"f"/EcosysSUNData_DCTAPI_KOL"
-                f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
+                #EcosysData_API.ecosys_sun_lines_data_api(
+              #  f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson"f"/EcosysSUNData_DCTAPI_KOL"
+              #  f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
 
                 #Organize Data from Data Hub
                 DataCollector.data_collector_piping(project_number,material_type)

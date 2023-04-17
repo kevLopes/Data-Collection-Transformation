@@ -16,18 +16,16 @@ def extract_distinct_product_codes(folder_path, project_number, material_type):
             f"No files containing the project number '{project_number}' and material type '{material_type}' were found."
         )
 
+    most_recent_file = get_most_recent_file(folder_path, matching_files)
+    file_path = os.path.join(folder_path, most_recent_file)
+    df = pd.read_excel(file_path)
+
     pipe_base_materials = set()
     material_codes = {}
     material_info = {}
 
-    for file in matching_files:
-        file_path = os.path.join(folder_path, file)
-        df = pd.read_excel(file_path)
-
-        required_columns = ["Pipe Base Material", "Product Code", "Total QTY to commit", "Unit Weight", "Total NET weight"]
-        if not all(col in df.columns for col in required_columns):
-            continue
-
+    required_columns = ["Pipe Base Material", "Product Code", "Total QTY to commit", "Unit Weight", "Total NET weight"]
+    if all(col in df.columns for col in required_columns):
         materials = df["Pipe Base Material"].unique()
 
         for material in materials:
@@ -53,13 +51,25 @@ def extract_distinct_product_codes(folder_path, project_number, material_type):
                 "Total NET weight": total_net_weight
             }
 
-    material_cost_analyze(project_number, material, material_codes, material_info)
+    material_cost_analyze(project_number, material_codes, material_info)
 
     return list(pipe_base_materials), material_codes, material_info
 
 
-def material_cost_analyze(project_number, pipe_base_materials, material_codes, material_info):
-    #folder Path
+def get_most_recent_file(folder_path, matching_files):
+    latest_time = None
+    latest_file = None
+
+    for file in matching_files:
+        file_path = os.path.join(folder_path, file)
+        file_time = os.path.getmtime(file_path)
+        if latest_time is None or file_time > latest_time:
+            latest_time = file_time
+            latest_file = file
+
+    return latest_file
+
+def material_cost_analyze(project_number, material_codes, material_info):
     folder_path = "../Data Pool/Ecosys API Data/PO Lines"
 
     excel_files = [
@@ -75,15 +85,13 @@ def material_cost_analyze(project_number, pipe_base_materials, material_codes, m
             f"No files containing the project number '{project_number}' were found."
         )
 
+    most_recent_file = get_most_recent_file(folder_path, matching_files)
+    file_path = os.path.join(folder_path, most_recent_file)
+    df = pd.read_excel(file_path)
+
     cost_data = []
 
-    for file in matching_files:
-        file_path = os.path.join(folder_path, file)
-        df = pd.read_excel(file_path)
-
-        if "Product Code" not in df.columns or "Cost" not in df.columns or "Hours" not in df.columns:
-            continue
-
+    if "Product Code" in df.columns and "Cost" in df.columns and "Hours" in df.columns:
         for material, codes in material_codes.items():
             material_cost = 0
             material_hours = 0
@@ -109,5 +117,5 @@ def material_cost_analyze(project_number, pipe_base_materials, material_codes, m
 
     result_folder_path = "../Data Pool/DCT Process Results"
     cost_df = pd.DataFrame(cost_data)
-    output_file = os.path.join(result_folder_path, f"{project_number}_Material_Cost_Analyze_{timestamp}.xlsx")
+    output_file = os.path.join(result_folder_path, f"MP{project_number}_Material_Cost_Analyze_{timestamp}.xlsx")
     cost_df.to_excel(output_file, index=False)

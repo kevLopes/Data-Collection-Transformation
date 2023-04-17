@@ -7,8 +7,7 @@ import os
 api_error_track = False
 
 def ecosys_poheader_lines_data_api(API, username, password, project_number):
-    # Get the current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+
     try:
         # Make API request and get JSON response
         response = requests.get(API, auth=(username, password), verify=False)
@@ -22,6 +21,25 @@ def ecosys_poheader_lines_data_api(API, username, password, project_number):
         df = df[['HierarchyPathID', 'PONumber', 'PODescription', 'POValue',
                  'ProjectCurrency', 'POIssueDate', 'POCurrencyID', 'ProductID', 'ProductDescription',
                  'SupplierNumber', 'SupplierName', 'CurrentPORevisionID']]
+
+        # Map existing column names to new column names
+        column_name_mapping = {
+            'HierarchyPathID': 'Hierarchy Path ID',
+            'PONumber': 'PO Number',
+            'PODescription': 'PO Description',
+            'POValue': 'PO Cost',
+            'ProjectCurrency': 'Project Currency',
+            'POIssueDate': 'PO Issue Date',
+            'POCurrencyID': 'PO Currency',
+            'ProductID': 'Product Code',
+            'ProductDescription': 'Description',
+            'SupplierNumber': 'Supplier Number',
+            'SupplierName': 'Supplier Name',
+            'CurrentPORevisionID': 'PO Revision'
+        }
+
+        # Rename columns in the DataFrame
+        df = df.rename(columns=column_name_mapping)
 
         # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
@@ -66,8 +84,7 @@ def log_error(error_msg, timestamp):
 # --------------------------------------------------------------------------------------------------------------------
 
 def ecosys_sun_lines_data_api(api, username, password, project_number):
-    # Get the current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+
     try:
         # Make API request and get JSON response
         response = requests.get(api, auth=(username, password), verify=False)
@@ -116,8 +133,7 @@ def ecosys_sun_lines_data_api(api, username, password, project_number):
 # --------------------------------------------------------------------------------------------------------------------
 
 def ecosys_po_lines_data_api(api, username, password, project_number):
-    # Get the current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+
     try:
         # Make API request and get JSON response
         response = requests.get(api, auth=(username, password), verify=False)
@@ -130,6 +146,27 @@ def ecosys_po_lines_data_api(api, username, password, project_number):
                  'PORevisionID', 'TransactionDate', 'POLineNumber', 'PODescription', 'UnitofMeasureID',
                  'CostCostObjectCurrency', 'CurrencyCostObjectCode', 'CostTransactionCurrency',
                  'CurrencyTransactionCode', 'TagNumber', 'CostElementROSDate']]
+
+        # Map existing column names to new column names
+        column_name_mapping = {
+            'CostObjectHierarchyPathID': 'Hierarchy Path ID',
+            'CostObjectID': 'Cost Object ID',
+            'CostBreakdownStructureHierarchyPathID': 'Product Code',
+            'PORevisionID': 'PO Revision',
+            'TransactionDate': 'Transaction Date',
+            'POLineNumber': 'PO Line Number',
+            'PODescription': 'PO Description',
+            'UnitofMeasureID': 'UOM',
+            'CostCostObjectCurrency': 'Cost Project Currency',
+            'CurrencyCostObjectCode': 'Project Currency',
+            'CostTransactionCurrency': 'Cost Transaction Currency',
+            'CurrencyTransactionCode': 'Transaction Currency',
+            'TagNumber': 'Tag Number',
+            'CostElementROSDate': 'ROSDate'
+        }
+
+        # Rename columns in the DataFrame
+        df = df.rename(columns=column_name_mapping)
 
         # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
@@ -153,3 +190,4 @@ def ecosys_po_lines_data_api(api, username, password, project_number):
         print(error_msg)
         api_error_track = True
         log_error(error_msg, timestamp)
+
