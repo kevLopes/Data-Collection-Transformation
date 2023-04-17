@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Automatized Process",
+    "\\Automatized Process\\Data Pool",
+    "\\Automatized Process\\Data Pool\\Data Hub Materials",
+    "\\Automatized Process\\Data Pool\\Data Organize",
+    "\\Automatized Process\\Data Pool\\Ecosys API Data",
+    "\\Automatized Process\\Data Pool\\Ecosys API Data\\PO Headers",
+    "\\Automatized Process\\Data Pool\\Ecosys API Data\\PO Lines",
+    "\\Automatized Process\\Data Pool\\Ecosys API Data\\SUN Transactions"
+  ],
+  "SelectedNode": "\\Automatized Process\\main.py",
+  "PreviewInSolutionExplorer": false
+}
