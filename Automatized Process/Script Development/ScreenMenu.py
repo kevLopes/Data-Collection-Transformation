@@ -6,6 +6,7 @@ from tkinter import filedialog
 import EcosysData_API
 import DataCollector
 
+
 class MyWindow:
     def __init__(self, master):
         # Create the main window
@@ -132,11 +133,11 @@ class MyWindow:
                 #PO Header and SUN transactions API
                 #cosysData_API.ecosys_poheader_lines_data_api(
                 #f"https://ecosys-stg.sbmoffshore.com/ecosys/api"f"/restjson/EcosysPOHeadersData_DCTAPI_KOL"
-               # f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
+                #f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
 
                 #EcosysData_API.ecosys_sun_lines_data_api(
-              #  f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson"f"/EcosysSUNData_DCTAPI_KOL"
-              #  f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
+                #f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson"f"/EcosysSUNData_DCTAPI_KOL"
+                #f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
 
                 #Organize Data from Data Hub
                 DataCollector.data_collector_piping(project_number,material_type)
@@ -147,8 +148,6 @@ class MyWindow:
                 flag = True
             else:
                 print("Analyze on going without collecting data from Ecosys")
-                # Do something with the input and type (e.g., save to a file or database)
-
                 # Organize Data from Data Hub
                 DataCollector.data_collector_piping(project_number, material_type)
 
@@ -159,11 +158,10 @@ class MyWindow:
             if flag != True:
                 tk.messagebox.showinfo("Process Finished",f"It seems that there was an error with the Process. Reference project number: {project_number}, and the for {material_type} Material")
             else:
-                if EcosysData_API.api_error_track == False:
+                if not EcosysData_API.api_error_track:
                     tk.messagebox.showinfo("Process Finished - Ecosys Data Update",f"Please proceed to DCT Process Results folder to see your result for the project number: {project_number}, and the for {material_type} Material")
                 else:
                     tk.messagebox.showinfo("Process Finished - Ecosys Data not Update",f"Please proceed to DCT Process Results folder to see your result for the project number: {project_number}, and the for {material_type} Material. Check error logs for more details")
-
 
             # Clear the input field
             self.input_field.delete(0, tk.END)

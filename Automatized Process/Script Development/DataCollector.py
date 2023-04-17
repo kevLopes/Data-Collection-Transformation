@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from datetime import datetime
 
+
 def data_collector_piping(project_number_v, material_type):
     print("Function to capture all Piping Data Initialized")
     global success

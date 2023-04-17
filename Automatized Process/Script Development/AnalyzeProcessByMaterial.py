@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from datetime import datetime
 
+
 def extract_distinct_product_codes(folder_path, project_number, material_type):
     excel_files = [
         f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")
@@ -68,6 +69,7 @@ def get_most_recent_file(folder_path, matching_files):
             latest_file = file
 
     return latest_file
+
 
 def material_cost_analyze(project_number, material_codes, material_info):
     folder_path = "../Data Pool/Ecosys API Data/PO Lines"
