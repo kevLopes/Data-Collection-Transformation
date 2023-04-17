@@ -145,7 +145,7 @@ def ecosys_po_lines_data_api(api, username, password, project_number):
         df = df[['CostObjectHierarchyPathID', 'CostObjectID', 'CostBreakdownStructureHierarchyPathID',
                  'PORevisionID', 'TransactionDate', 'POLineNumber', 'PODescription', 'UnitofMeasureID',
                  'CostCostObjectCurrency', 'CurrencyCostObjectCode', 'CostTransactionCurrency',
-                 'CurrencyTransactionCode', 'TagNumber', 'CostElementROSDate']]
+                 'CurrencyTransactionCode', 'TagNumber', 'CostElementROSDate', 'Units']]
 
         # Map existing column names to new column names
         column_name_mapping = {
@@ -162,7 +162,8 @@ def ecosys_po_lines_data_api(api, username, password, project_number):
             'CostTransactionCurrency': 'Cost Transaction Currency',
             'CurrencyTransactionCode': 'Transaction Currency',
             'TagNumber': 'Tag Number',
-            'CostElementROSDate': 'ROSDate'
+            'CostElementROSDate': 'ROSDate',
+            'Units': 'Quantity'
         }
 
         # Rename columns in the DataFrame

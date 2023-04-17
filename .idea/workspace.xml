@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work">
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/MP17033_Material_Cost_Analyze_2023-04-17 15-35-33.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17033_Ecosys PO Lines_2023-04-17 15-33-54.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/SO17033 - Piping Organized_2023-04-17 15-34-02.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/SO17033 - Piping Organized_2023-04-17 15-35-28.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/DataCollector.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/DataCollector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/ScreenMenu.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/ScreenMenu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/AnalyzeProcessByMaterial.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/AnalyzeProcessByMaterial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/EcosysData_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/EcosysData_API.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -475,7 +479,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681736858286</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="All Script Dev done at work">
+      <created>1681737641754</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1681737641754</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

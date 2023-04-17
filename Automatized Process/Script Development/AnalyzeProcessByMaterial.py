@@ -93,22 +93,23 @@ def material_cost_analyze(project_number, material_codes, material_info):
 
     cost_data = []
 
-    if "Product Code" in df.columns and "Cost" in df.columns and "Hours" in df.columns:
+    if "Product Code" in df.columns and "Cost Project Currency" in df.columns and "Quantity" in df.columns:
         for material, codes in material_codes.items():
             material_cost = 0
-            material_hours = 0
+            material_quantity = 0
 
             for code in codes:
                 cost_rows = df[df["Product Code"].apply(lambda x: isinstance(x, str) and x.startswith(code))]
-                material_cost += cost_rows["Cost"].sum()
-                material_hours += cost_rows["Hours"].sum()
+                material_cost += cost_rows["Cost Project Currency"].sum()
+                material_quantity += cost_rows["Quantity"].sum()
 
-            if material_cost > 0 or material_hours > 0:
+            if material_cost > 0 or material_quantity > 0:
                 cost_data.append({
                     "Project Number": project_number,
                     "Base Material": material,
+                    "Product Code": ", ".join(codes),
                     "Cost": material_cost,
-                    "Hours": material_hours,
+                    "Quantity": material_quantity,
                     "Total QTY to commit": material_info[material]["Total QTY to commit"],
                     "Unit Weight": material_info[material]["Unit Weight"],
                     "Total NET weight": material_info[material]["Total NET weight"]
@@ -121,3 +122,4 @@ def material_cost_analyze(project_number, material_codes, material_info):
     cost_df = pd.DataFrame(cost_data)
     output_file = os.path.join(result_folder_path, f"MP{project_number}_Material_Cost_Analyze_{timestamp}.xlsx")
     cost_df.to_excel(output_file, index=False)
+
