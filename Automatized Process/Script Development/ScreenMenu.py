@@ -167,10 +167,12 @@ class MyWindow:
                 # Material Type Bend
                 elif material_type == "Bend":
                     print("Implementation not done yet")
+                elif material_type == "All Materials":
+                    print("Implementation not done yet")
             else:
+                print("Analyze on going without collecting data from Ecosys")
                 #Material Type Piping
                 if material_type == "Piping":
-                    print("Analyze on going without collecting data from Ecosys")
                     # Organize Data from Data Hub
                     DataCollector.data_collector_piping(project_number, material_type)
 
@@ -196,6 +198,8 @@ class MyWindow:
                     print("Implementation not done yet")
                 # Material Type Bend
                 elif material_type == "Bend":
+                    print("Implementation not done yet")
+                elif material_type == "All Materials":
                     print("Implementation not done yet")
 
             if flag != True:
