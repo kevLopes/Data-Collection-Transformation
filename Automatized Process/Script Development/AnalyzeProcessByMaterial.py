@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 
 
-def extract_distinct_product_codes(folder_path, project_number, material_type):
+def extract_distinct_product_codes_piping(folder_path, project_number, material_type):
     excel_files = [
         f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")
     ]
