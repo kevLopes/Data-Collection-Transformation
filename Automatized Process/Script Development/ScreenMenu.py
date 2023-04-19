@@ -42,16 +42,16 @@ class MyWindow:
         self.type_dropdown.grid(row=1, column=1, padx=5, pady=5)
 
         # Create a label for the folder path input field
-        self.folder_path_label = tk.Label(self.frame, text="Materials Data Hub Folder:")
-        self.folder_path_label.grid(row=2, column=0, padx=5, pady=5, sticky="w")
+        #self.folder_path_label = tk.Label(self.frame, text="Materials Data Hub Folder:")
+        #self.folder_path_label.grid(row=2, column=0, padx=5, pady=5, sticky="w")
 
         # Create an entry field for the folder path
-        self.folder_path_input = tk.Entry(self.frame)
-        self.folder_path_input.grid(row=2, column=1, padx=5, pady=5)
+        #self.folder_path_input = tk.Entry(self.frame)
+        #self.folder_path_input.grid(row=2, column=1, padx=5, pady=5)
 
         # Create a button to open the folder selection dialog
-        self.folder_path_button = tk.Button(self.frame, text="Browse", command=self.choose_folder_path)
-        self.folder_path_button.grid(row=2, column=2, padx=5, pady=5)
+        #self.folder_path_button = tk.Button(self.frame, text="Browse", command=self.choose_folder_path)
+        #self.folder_path_button.grid(row=2, column=2, padx=5, pady=5)
 
         # Create a check button variable
         self.check_button_var = tk.BooleanVar()
@@ -114,8 +114,8 @@ class MyWindow:
         # Get the user input and selected project type
         project_number = self.input_field.get()
         material_type = self.type_var.get()
-        folder_path = self.folder_path_input.get()
-        # folder_path = "Data Pool\\Material Data Organized"
+        #folder_path = self.folder_path_input.get()
+        folder_path = "../Data Pool/Material Data Organized"
 
         # Check if all fields have data
         if not project_number or material_type == "Choose Type" or not folder_path:
@@ -142,7 +142,6 @@ class MyWindow:
                 if material_type == "Piping":
                     #Organize Data from Data Hub
                     DataCollector.data_collector_piping(project_number, material_type)
-
                     # Do something with the input and type (e.g., save to a file or database)
                     distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, material_type)
                     print("Analyze done for all Distinct Material codes:", distinct_product_codes)
@@ -151,14 +150,12 @@ class MyWindow:
                 elif material_type == "Valve":
                     # Organize Data from Data Hub
                     DataCollector.data_collector_valve(project_number, material_type)
-
                     # Do something with the input and type (e.g., save to a file or database)
                     flag = True
                 # Material Type Bolt
                 elif material_type == "Bolt":
                     # Organize Data from Data Hub
                     DataCollector.data_collector_bolt(project_number, material_type)
-
                     # Do something with the input and type (e.g., save to a file or database)
                     flag = True
                 # Material Type Structure
@@ -167,6 +164,7 @@ class MyWindow:
                 # Material Type Bend
                 elif material_type == "Bend":
                     print("Implementation not done yet")
+                # All Materials
                 elif material_type == "All Materials":
                     print("Implementation not done yet")
             else:
@@ -175,7 +173,6 @@ class MyWindow:
                 if material_type == "Piping":
                     # Organize Data from Data Hub
                     DataCollector.data_collector_piping(project_number, material_type)
-
                     distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, material_type)
                     print("Analyze done for all Distinct Material codes:", distinct_product_codes)
                     flag = True
@@ -183,14 +180,12 @@ class MyWindow:
                 elif material_type == "Valve":
                     # Organize Data from Data Hub
                     DataCollector.data_collector_valve(project_number, material_type)
-
                     # Do something with the input and type (e.g., save to a file or database)
                     flag = True
                 # Material Type Bolt
                 elif material_type == "Bolt":
                     # Organize Data from Data Hub
                     DataCollector.data_collector_bolt(project_number, material_type)
-
                     # Do something with the input and type (e.g., save to a file or database)
                     flag = True
                 # Material Type Structure
@@ -199,6 +194,7 @@ class MyWindow:
                 # Material Type Bend
                 elif material_type == "Bend":
                     print("Implementation not done yet")
+                #All Materials
                 elif material_type == "All Materials":
                     print("Implementation not done yet")
 

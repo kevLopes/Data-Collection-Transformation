@@ -122,4 +122,3 @@ def material_cost_analyze(project_number, material_codes, material_info):
     cost_df = pd.DataFrame(cost_data)
     output_file = os.path.join(result_folder_path, f"MP{project_number}_Material_Cost_Analyze_{timestamp}.xlsx")
     cost_df.to_excel(output_file, index=False)
-
