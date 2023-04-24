@@ -151,6 +151,8 @@ class MyWindow:
                     # Organize Data from Data Hub
                     DataCollector.data_collector_valve(project_number, material_type)
                     # Do something with the input and type (e.g., save to a file or database)
+                    distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path,project_number,material_type)
+                    print("Analyze done for all Distinct Material codes:", distinct_product_codes)
                     flag = True
                 # Material Type Bolt
                 elif material_type == "Bolt":
@@ -181,6 +183,8 @@ class MyWindow:
                     # Organize Data from Data Hub
                     DataCollector.data_collector_valve(project_number, material_type)
                     # Do something with the input and type (e.g., save to a file or database)
+                    distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path,project_number,material_type)
+                    print("Analyze done for all Distinct Material codes:", distinct_product_codes)
                     flag = True
                 # Material Type Bolt
                 elif material_type == "Bolt":
