@@ -126,81 +126,54 @@ class MyWindow:
             flag = False
             if self.check_button_var.get():
                 print("Analyze on going. Data are being refreshed from Ecosys")
+                #Ecosys PO Lines
                 EcosysData_API.ecosys_po_lines_data_api(
                 f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson/EcosysPOLinesData_DCTAPI_KOL"
                 f"/?RootCostObject=MP{project_number}", "keven.deOliveiralope", "My-SBM#code23", project_number)
-
                 #PO Header and SUN transactions API
-                #cosysData_API.ecosys_poheader_lines_data_api(
-                #f"https://ecosys-stg.sbmoffshore.com/ecosys/api"f"/restjson/EcosysPOHeadersData_DCTAPI_KOL"
-                #f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
-                #EcosysData_API.ecosys_sun_lines_data_api(
-                #f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson"f"/EcosysSUNData_DCTAPI_KOL"
-                #f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
+                EcosysData_API.ecosys_poheader_lines_data_api(
+                f"https://ecosys-stg.sbmoffshore.com/ecosys/api"f"/restjson/EcosysPOHeadersData_DCTAPI_KOL"
+                f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
+                EcosysData_API.ecosys_sun_lines_data_api(
+                f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson"f"/EcosysSUNData_DCTAPI_KOL"
+                f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
 
-                #Material Type Piping
-                if material_type == "Piping":
-                    #Organize Data from Data Hub
-                    DataCollector.data_collector_piping(project_number, material_type)
-                    # Do something with the input and type (e.g., save to a file or database)
-                    distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, material_type)
-                    print("Analyze done for all Distinct Material codes:", distinct_product_codes)
-                    flag = True
-                # Material Type Valve
-                elif material_type == "Valve":
-                    # Organize Data from Data Hub
-                    DataCollector.data_collector_valve(project_number, material_type)
-                    # Do something with the input and type (e.g., save to a file or database)
-                    distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path,project_number,material_type)
-                    print("Analyze done for all Distinct Material codes:", distinct_product_codes)
-                    flag = True
-                # Material Type Bolt
-                elif material_type == "Bolt":
-                    # Organize Data from Data Hub
-                    DataCollector.data_collector_bolt(project_number, material_type)
-                    # Do something with the input and type (e.g., save to a file or database)
-                    flag = True
-                # Material Type Structure
-                elif material_type == "Structure":
-                    print("Implementation not done yet")
-                # Material Type Bend
-                elif material_type == "Bend":
-                    print("Implementation not done yet")
-                # All Materials
-                elif material_type == "All Materials":
-                    print("Implementation not done yet")
             else:
                 print("Analyze on going without collecting data from Ecosys")
-                #Material Type Piping
-                if material_type == "Piping":
-                    # Organize Data from Data Hub
-                    DataCollector.data_collector_piping(project_number, material_type)
-                    distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, material_type)
-                    print("Analyze done for all Distinct Material codes:", distinct_product_codes)
-                    flag = True
-                    # Material Type Valve
-                elif material_type == "Valve":
-                    # Organize Data from Data Hub
-                    DataCollector.data_collector_valve(project_number, material_type)
-                    # Do something with the input and type (e.g., save to a file or database)
-                    distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path,project_number,material_type)
-                    print("Analyze done for all Distinct Material codes:", distinct_product_codes)
-                    flag = True
-                # Material Type Bolt
-                elif material_type == "Bolt":
-                    # Organize Data from Data Hub
-                    DataCollector.data_collector_bolt(project_number, material_type)
-                    # Do something with the input and type (e.g., save to a file or database)
-                    flag = True
-                # Material Type Structure
-                elif material_type == "Structure":
-                    print("Implementation not done yet")
-                # Material Type Bend
-                elif material_type == "Bend":
-                    print("Implementation not done yet")
-                #All Materials
-                elif material_type == "All Materials":
-                    print("Implementation not done yet")
+
+            #Material Type Piping
+            if material_type == "Piping":
+                #Organize Data from Data Hub
+                DataCollector.data_collector_piping(project_number, material_type)
+                # Do something with the input and type (e.g., save to a file or database)
+                distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, material_type)
+                print("Analyze done for all Distinct Material codes:", distinct_product_codes)
+                flag = True
+            # Material Type Valve
+            elif material_type == "Valve":
+                # Organize Data from Data Hub
+                DataCollector.data_collector_valve(project_number, material_type)
+                # Do something with the input and type (e.g., save to a file or database)
+                distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path,project_number,material_type)
+                print("Analyze done for all Distinct Material codes:", distinct_product_codes)
+                flag = True
+            # Material Type Bolt
+            elif material_type == "Bolt":
+                # Organize Data from Data Hub
+                DataCollector.data_collector_bolt(project_number, material_type)
+                # Do something with the input and type (e.g., save to a file or database)
+                distinct_product_codes = AnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path,project_number,material_type)
+                print("Analyze done for all Distinct Material codes:", distinct_product_codes)
+                flag = True
+            # Material Type Structure
+            elif material_type == "Structure":
+                print("Implementation not done yet")
+            # Material Type Bend
+            elif material_type == "Bend":
+                print("Implementation not done yet")
+            # All Materials
+            elif material_type == "All Materials":
+                print("Implementation not done yet")
 
             if flag != True:
                 tk.messagebox.showinfo("Process Finished",f"It seems that there was an error with the Process. Reference project number: {project_number}, and the for {material_type} Material")

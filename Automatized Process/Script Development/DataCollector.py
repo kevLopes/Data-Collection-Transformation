@@ -155,12 +155,12 @@ def data_collector_valve(project_number_v, material_type):
 # --------------------------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------
 
+
 def data_collector_bolt(project_number_v, material_type):
     print("Function to capture all Bolt Data Initialized")
 
     # Set the search directory and keyword
     search_dir = "../Data Pool/Data Hub Materials"
-
     keyword = material_type
 
     # Check if the Data Pool folder exists, and display an error message if it doesn't
@@ -171,8 +171,8 @@ def data_collector_bolt(project_number_v, material_type):
     # Set the columns to extract
     columns_to_extract = ["Tag Number", "ID", "Project Number", "Product Code", "Commodity Code",
                           "Service Description", "Pipe Base Material", "Material", "LineNumber",
-                          "SBM scope", "Total QTY to commit", "Quantity UOM", "Unit Weight",
-                          "Unit Weight UOM", "Total NET weight", "SIZE"]
+                          "SBM scope", "Qty confirmed in design", "Total QTY to commit", "Quantity UOM",
+                          "Unit Weight UOM", "SIZE"]
 
     # Search for Excel files containing the keyword
     files = [file for file in os.listdir(search_dir) if keyword in file and file.endswith(".xlsx")]
