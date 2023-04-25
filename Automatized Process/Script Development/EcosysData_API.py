@@ -6,11 +6,12 @@ import os
 
 api_error_track = False
 
-def ecosys_poheader_lines_data_api(API, username, password, project_number):
+
+def ecosys_poheader_data_api(api, username, password, project_number):
 
     try:
         # Make API request and get JSON response
-        response = requests.get(API, auth=(username, password), verify=False)
+        response = requests.get(api, auth=(username, password), verify=False)
         response.raise_for_status()
         json_data = json.loads(response.content)
 
@@ -54,7 +55,7 @@ def ecosys_poheader_lines_data_api(API, username, password, project_number):
         # save the Excel file
         writer.save()
         api_error_track = False
-        print('Data saved to Excel file successfully.')
+        print('PO Header file extracted from Ecosys successfully!')
 
     except requests.exceptions.RequestException as re:
         error_msg = f"RequestException: {re}"
@@ -82,6 +83,7 @@ def log_error(error_msg, timestamp):
 
 # --------------------------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------
+
 
 def ecosys_sun_lines_data_api(api, username, password, project_number):
 
@@ -115,7 +117,7 @@ def ecosys_sun_lines_data_api(api, username, password, project_number):
         # save the Excel file
         writer.save()
         api_error_track = False
-        print('Data saved to Excel file successfully.')
+        print('SUN Transactions file extracted from Ecosys successfully!')
 
     except requests.exceptions.RequestException as re:
         error_msg = f"RequestException: {re}"
@@ -131,6 +133,7 @@ def ecosys_sun_lines_data_api(api, username, password, project_number):
 
 # --------------------------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------
+
 
 def ecosys_po_lines_data_api(api, username, password, project_number):
 
@@ -178,7 +181,7 @@ def ecosys_po_lines_data_api(api, username, password, project_number):
         writer.save()
 
         api_error_track = False
-        print("Excel file saved successfully!")
+        print("PO Lines file extracted from Ecosys successfully!")
 
     except requests.exceptions.RequestException as re:
         error_msg = f"RequestException: {re}"

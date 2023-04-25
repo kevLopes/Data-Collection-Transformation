@@ -131,12 +131,12 @@ class MyWindow:
                 f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson/EcosysPOLinesData_DCTAPI_KOL"
                 f"/?RootCostObject=MP{project_number}", "keven.deOliveiralope", "My-SBM#code23", project_number)
                 #PO Header and SUN transactions API
-                EcosysData_API.ecosys_poheader_lines_data_api(
+                EcosysData_API.ecosys_poheader_data_api(
                 f"https://ecosys-stg.sbmoffshore.com/ecosys/api"f"/restjson/EcosysPOHeadersData_DCTAPI_KOL"
-                f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
+                f"/?RootCostObject=MP{project_number}", "keven.deOliveiralope", "My-SBM#code23", project_number)
                 EcosysData_API.ecosys_sun_lines_data_api(
                 f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson"f"/EcosysSUNData_DCTAPI_KOL"
-                f"/?RootCostObject=MP{project_number}","keven.deOliveiralope", "My-SBM#code23", project_number)
+                f"/?RootCostObject=MP{project_number}", "keven.deOliveiralope", "My-SBM#code23", project_number)
 
             else:
                 print("Analyze on going without collecting data from Ecosys")
@@ -173,7 +173,12 @@ class MyWindow:
                 print("Implementation not done yet")
             # All Materials
             elif material_type == "All Materials":
-                print("Implementation not done yet")
+                #print("Implementation not done yet")
+                AnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, material_type)
+                AnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path, project_number, material_type)
+                AnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path, project_number, material_type)
+                print("Cost Analyze done based on distinct Material types")
+                flag = True
 
             if flag != True:
                 tk.messagebox.showinfo("Process Finished",f"It seems that there was an error with the Process. Reference project number: {project_number}, and the for {material_type} Material")
