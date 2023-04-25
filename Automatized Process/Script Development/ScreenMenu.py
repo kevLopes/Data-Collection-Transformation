@@ -174,9 +174,9 @@ class MyWindow:
             # All Materials
             elif material_type == "All Materials":
                 #print("Implementation not done yet")
-                AnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, material_type)
-                AnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path, project_number, material_type)
-                AnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path, project_number, material_type)
+                AnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, "Piping")
+                AnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path, project_number, "Valve")
+                AnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path, project_number, "Bolt")
                 print("Cost Analyze done based on distinct Material types")
                 flag = True
 
