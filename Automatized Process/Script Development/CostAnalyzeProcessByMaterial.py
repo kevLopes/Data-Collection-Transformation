@@ -41,14 +41,14 @@ def extract_distinct_product_codes_piping(folder_path, project_number, material_
     material_codes = {}
     material_info = {}
 
-    required_columns = ["Pipe Base Material", "Product Code", "Total QTY to commit", "Unit Weight", "Total NET weight"]
+    required_columns = ["Pipe Base Material", "Product Code", "Total QTY to commit", "Unit Weight", "Total NET weight", "Quantity UOM", "Unit Weight UOM"]
     if all(col in df.columns for col in required_columns):
         materials = df["Pipe Base Material"].unique()
 
         for material in materials:
             pipe_base_materials.add(material)
             material_rows = df[df["Pipe Base Material"] == material]
-            product_codes = set()  # Create a new set for each material
+            product_codes = set()
 
             for code in material_rows["Product Code"]:
                 index = code.rfind(".")
@@ -57,17 +57,19 @@ def extract_distinct_product_codes_piping(folder_path, project_number, material_
 
             material_codes[material] = product_codes
 
-            # Extract additional columns data for each material
-            total_qty_to_commit = material_rows["Total QTY to commit"].sum()
+            total_qty_to_commit = material_rows.groupby("Quantity UOM")["Total QTY to commit"].sum().to_dict()
             unit_weight = material_rows["Unit Weight"].mean()
             total_net_weight = material_rows["Total NET weight"].sum()
             average_net_weight = material_rows["Total NET weight"].mean()
+            unit_weight_uom = material_rows.groupby("Unit Weight UOM")["Unit Weight"].mean().to_dict()
 
             material_info[material] = {
                 "Total QTY to commit": total_qty_to_commit,
                 "Unit Weight": unit_weight,
                 "Total NET weight": total_net_weight,
-                "Average Net Weight": average_net_weight
+                "Average Net Weight": average_net_weight,
+                "Quantity UOM": total_qty_to_commit,
+                "Unit Weight UOM": unit_weight_uom
             }
 
     material_cost_analyze_piping(project_number, material_codes, material_info)
@@ -99,10 +101,8 @@ def material_cost_analyze_piping(project_number, material_codes, material_info):
     cost_data = []
     unmatched_data = []
 
-    if "Product Code" in df.columns and "Cost Project Currency" in df.columns:
+    if "Product Code" in df.columns and "Cost Project Currency" in df.columns and "Quantity" in df.columns and "UOM" in df.columns:
         for material, codes in material_codes.items():
-            material_cost = 0
-            material_quantity = 0
 
             for code in codes:
                 cost_rows = df[df["Product Code"].apply(lambda x: isinstance(x, str) and x.startswith(code))]
@@ -115,21 +115,27 @@ def material_cost_analyze_piping(project_number, material_codes, material_info):
                         "Product Code": code
                     })
                 else:
-                    material_cost += cost_rows["Cost Project Currency"].sum()
-                    material_quantity += cost_rows["Quantity"].sum()
+                    for uom in cost_rows["UOM"].unique():
+                        uom_rows = cost_rows[cost_rows["UOM"] == uom]
+                        material_cost = uom_rows["Cost Project Currency"].sum()
+                        material_quantity = uom_rows["Quantity"].sum()
 
-            if material_cost > 0 or material_quantity > 0:
-                cost_data.append({
-                    "Project Number": project_number,
-                    "Base Material": material,
-                    "Product Code": ", ".join(codes),
-                    "Cost": material_cost,
-                    "Currency": "USD",
-                    "Total QTY to commit": material_info[material]["Total QTY to commit"],
-                    "Unit Weight": material_info[material]["Unit Weight"],
-                    "Total NET weight": material_info[material]["Total NET weight"],
-                    "Average Net Weight": material_info[material]["Average Net Weight"]
-                })
+                        if material_cost > 0 or material_quantity > 0:
+                            cost_data.append({
+                                "Project Number": project_number,
+                                "Base Material": material,
+                                "Product Code": code,
+                                "Cost": material_cost,
+                                "Currency": "USD",
+                                "Total QTY to commit": material_info[material]["Total QTY to commit"],
+                                "Unit Weight": material_info[material]["Unit Weight"],
+                                "Total NET weight": material_info[material]["Total NET weight"],
+                                "Average Net Weight": material_info[material]["Average Net Weight"],
+                                "Quantity UOM": material_info[material]["Quantity UOM"],
+                                "Unit Weight UOM": material_info[material]["Unit Weight UOM"],
+                                "Quantity": material_quantity,
+                                "UOM": uom
+                            })
 
     # Get the current timestamp
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
