@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import CostAnalyzeProcessByMaterial
+import CostAnalyzeByTagNumber
 from tkinter import messagebox
 from tkinter import filedialog
 import EcosysData_API
@@ -144,10 +145,11 @@ class MyWindow:
             #Material Type Piping
             if material_type == "Piping":
                 #Organize Data from Data Hub
-                DataCollector.data_collector_piping(project_number, material_type)
+                #DataCollector.data_collector_piping(project_number, material_type)
                 # Do something with the input and type (e.g., save to a file or database)
-                distinct_product_codes = CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, material_type)
-                print("Analyze done for all Distinct Material codes:", distinct_product_codes)
+                #distinct_product_codes = CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, material_type)
+                distinct_product_codes = CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path, project_number, material_type)
+                #print("Analyze done for all Distinct Material codes:", distinct_product_codes)
                 flag = True
             # Material Type Valve
             elif material_type == "Valve":

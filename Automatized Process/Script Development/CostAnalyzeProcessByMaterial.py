@@ -57,18 +57,19 @@ def extract_distinct_product_codes_piping(folder_path, project_number, material_
 
             material_codes[material] = product_codes
 
-            total_qty_to_commit = material_rows.groupby("Quantity UOM")["Total QTY to commit"].sum().to_dict()
+            total_qty_to_commit = material_rows["Total QTY to commit"].sum()
+            qty_and_uom = material_rows.groupby("Quantity UOM")["Total QTY to commit"].sum().to_dict()
             unit_weight = material_rows["Unit Weight"].mean()
             total_net_weight = material_rows["Total NET weight"].sum()
             average_net_weight = material_rows["Total NET weight"].mean()
-            unit_weight_uom = material_rows.groupby("Unit Weight UOM")["Unit Weight"].mean().to_dict()
+            unit_weight_uom = material_rows.groupby("Unit Weight UOM")["Unit Weight"].sum().to_dict()
 
             material_info[material] = {
-                "Total QTY to commit": total_qty_to_commit,
+                "Total QTY commit per UOM": qty_and_uom,
                 "Unit Weight": unit_weight,
                 "Total NET weight": total_net_weight,
                 "Average Net Weight": average_net_weight,
-                "Quantity UOM": total_qty_to_commit,
+                #"Quantity UOM": qty_and_uom,
                 "Unit Weight UOM": unit_weight_uom
             }
 
@@ -127,11 +128,11 @@ def material_cost_analyze_piping(project_number, material_codes, material_info):
                                 "Product Code": code,
                                 "Cost": material_cost,
                                 "Currency": "USD",
-                                "Total QTY to commit": material_info[material]["Total QTY to commit"],
+                                "Total QTY to commit": material_info[material]["Total QTY commit per UOM"],
                                 "Unit Weight": material_info[material]["Unit Weight"],
                                 "Total NET weight": material_info[material]["Total NET weight"],
                                 "Average Net Weight": material_info[material]["Average Net Weight"],
-                                "Quantity UOM": material_info[material]["Quantity UOM"],
+                                #"Quantity UOM": material_info[material]["Quantity UOM"],
                                 "Unit Weight UOM": material_info[material]["Unit Weight UOM"],
                                 "Quantity": material_quantity,
                                 "UOM": uom
@@ -178,38 +179,41 @@ def material_currency_cost_analyze_piping(project_number, material_codes, materi
     cost_data = []
     unmatched_data = []
 
-    required_columns = ["Product Code", "Quantity", "Cost Transaction Currency", "Transaction Currency"]
+    required_columns = ["Product Code", "Quantity", "Cost Transaction Currency", "Transaction Currency", "UOM"]
     if all(column in df.columns for column in required_columns):
         for material, codes in material_codes.items():
-            material_cost_by_currency = {}
-            material_quantity_by_currency = {}
 
             for code in codes:
                 cost_rows = df[df["Product Code"].apply(lambda x: isinstance(x, str) and x.startswith(code))]
 
                 if cost_rows.empty:
-                    unmatched_data.append({
-                        "Project Number": project_number,
-                        "Base Material": material,
-                        "Product Code": code
-                    })
+                    continue
                 else:
-                    currency_groups = cost_rows.groupby("Transaction Currency")
-                    for currency, group in currency_groups:
-                        material_cost_by_currency[currency] = material_cost_by_currency.get(currency, 0) + group["Cost Transaction Currency"].sum()
-                        material_quantity_by_currency[currency] = material_quantity_by_currency.get(currency, 0) + group["Quantity"].sum()
+                    for uom in cost_rows["UOM"].unique():
+                        uom_rows = cost_rows[cost_rows["UOM"] == uom]
+                        currency_groups = uom_rows.groupby("Transaction Currency")
+                        for currency, group in currency_groups:
+                            key = (currency, uom)
+                            material_cost_by_currency = material_info[material].setdefault("Cost by Currency and UOM", {})
+                            material_cost_by_currency[key] = material_cost_by_currency.get(key, 0) + group["Cost Transaction Currency"].sum()
+                            material_quantity_by_currency = material_info[material].setdefault("Quantity by Currency and UOM", {})
+                            material_quantity_by_currency[key] = material_quantity_by_currency.get(key, 0) + group["Quantity"].sum()
 
-            for currency, cost in material_cost_by_currency.items():
+            for (currency, uom), cost in material_info[material]["Cost by Currency and UOM"].items():
                 cost_data.append({
                     "Project Number": project_number,
                     "Base Material": material,
                     "Product Code": ", ".join(codes),
-                    "Transaction Currency": currency,
                     "Cost": cost,
-                    "Total QTY to commit": material_info[material]["Total QTY to commit"],
+                    "Transaction Currency": currency,
+                    "Total QTY to commit": material_info[material]["Total QTY commit per UOM"],
                     "Unit Weight": material_info[material]["Unit Weight"],
                     "Total NET weight": material_info[material]["Total NET weight"],
-                    "Average Net Weight": material_info[material]["Average Net Weight"]
+                    "Average Net Weight": material_info[material]["Average Net Weight"],
+                    #"Quantity UOM": material_info[material]["Quantity UOM"],
+                    "Unit Weight UOM": material_info[material]["Unit Weight UOM"],
+                    "Quantity": material_info[material]["Quantity by Currency and UOM"][(currency, uom)],
+                    "UOM": uom
                 })
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
