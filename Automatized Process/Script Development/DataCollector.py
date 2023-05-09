@@ -52,6 +52,9 @@ def data_collector_piping(project_number_v, material_type):
             if extract_columns:
                 extract_df = df.loc[df[extract_columns].notnull().any(axis=1), extract_columns]
 
+                # Filter rows where 'SBM scope' is equal to True
+                extract_df = extract_df[extract_df['SBM scope'] == True & (extract_df['SBM scope'].notnull())]
+
                 # Group the data by project number
                 grouped_df = extract_df.groupby("Project Number")
 
@@ -70,9 +73,6 @@ def data_collector_piping(project_number_v, material_type):
             else:
                 print(f"\rCould not find any of the specified columns in {file}")
                 success = False
-
-            if not success:
-                print("\rNo files were processed successfully.")
         else:
             print(f"No files were found for the project {project_number_v} for the {material_type} material")
 
@@ -127,6 +127,9 @@ def data_collector_valve(project_number_v, material_type):
             # If any of the specified columns were found, extract them and all rows below with data information
             if extract_columns:
                 extract_df = df.loc[df[extract_columns].notnull().any(axis=1), extract_columns]
+
+                # Filter rows where 'SBM scope' is equal to True
+                extract_df = extract_df[extract_df['Status'] == "CONFIRMED"]
 
                 # Group the data by project number
                 grouped_df = extract_df.groupby("Project Number")
@@ -204,6 +207,9 @@ def data_collector_bolt(project_number_v, material_type):
             # If any of the specified columns were found, extract them and all rows below with data information
             if extract_columns:
                 extract_df = df.loc[df[extract_columns].notnull().any(axis=1), extract_columns]
+
+                # Filter rows where 'SBM scope' is equal to True
+                extract_df = extract_df[extract_df['SBM scope'] == True & (extract_df['SBM scope'].notnull())]
 
                 # Group the data by project number
                 grouped_df = extract_df.groupby("Project Number")

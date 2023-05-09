@@ -62,21 +62,21 @@ def extract_distinct_product_codes_piping(folder_path, project_number, material_
             unit_weight = material_rows["Unit Weight"].mean()
             total_net_weight = material_rows["Total NET weight"].sum()
             average_net_weight = material_rows["Total NET weight"].mean()
-            unit_weight_uom = material_rows.groupby("Unit Weight UOM")["Unit Weight"].sum().to_dict()
+            unit_weight_uom = material_rows["Unit Weight UOM"].unique()
 
             material_info[material] = {
                 "Total QTY commit per UOM": qty_and_uom,
                 "Unit Weight": unit_weight,
                 "Total NET weight": total_net_weight,
                 "Average Net Weight": average_net_weight,
-                #"Quantity UOM": qty_and_uom,
                 "Unit Weight UOM": unit_weight_uom
             }
 
-    material_cost_analyze_piping(project_number, material_codes, material_info)
-    material_currency_cost_analyze_piping(project_number, material_codes, material_info)
-
-    return list(pipe_base_materials), material_codes, material_info
+        material_cost_analyze_piping(project_number, material_codes, material_info)
+        material_currency_cost_analyze_piping(project_number, material_codes, material_info)
+        #return list(pipe_base_materials), material_codes, material_info
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
 
 
 def material_cost_analyze_piping(project_number, material_codes, material_info):
@@ -128,31 +128,33 @@ def material_cost_analyze_piping(project_number, material_codes, material_info):
                                 "Product Code": code,
                                 "Cost": material_cost,
                                 "Currency": "USD",
-                                "Total QTY to commit": material_info[material]["Total QTY commit per UOM"],
-                                "Unit Weight": material_info[material]["Unit Weight"],
+                                "Total QTY to commit per UOM": material_info[material]["Total QTY commit per UOM"],
+                                #"Unit Weight": material_info[material]["Unit Weight"],
                                 "Total NET weight": material_info[material]["Total NET weight"],
                                 "Average Net Weight": material_info[material]["Average Net Weight"],
                                 #"Quantity UOM": material_info[material]["Quantity UOM"],
                                 "Unit Weight UOM": material_info[material]["Unit Weight UOM"],
-                                "Quantity": material_quantity,
-                                "UOM": uom
+                                "Quantity in PO": material_quantity,
+                                "UOM in PO": uom
                             })
 
-    # Get the current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
-    result_folder_path = "../Data Pool/DCT Process Results"
-    cost_df = pd.DataFrame(cost_data)
-    output_file = os.path.join(result_folder_path,
-                               f"MP{project_number}_Piping_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
-    cost_df.to_excel(output_file, index=False)
-
-    # Save the unmatched data to a new Excel file
-    if unmatched_data:
+        # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        unmatched_df = pd.DataFrame(unmatched_data)
-        output_file_unmatched = os.path.join(result_folder_path, f"Piping_NotMatched_ProductCode_{timestamp}.xlsx")
-        unmatched_df.to_excel(output_file_unmatched, index=False)
+
+        result_folder_path = "../Data Pool/DCT Process Results"
+        cost_df = pd.DataFrame(cost_data)
+        output_file = os.path.join(result_folder_path,
+                                   f"MP{project_number}_Piping_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
+        cost_df.to_excel(output_file, index=False)
+
+        # Save the unmatched data to a new Excel file
+        if unmatched_data:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+            unmatched_df = pd.DataFrame(unmatched_data)
+            output_file_unmatched = os.path.join(result_folder_path, f"Piping_NotMatched_ProductCode_{timestamp}.xlsx")
+            unmatched_df.to_excel(output_file_unmatched, index=False)
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
 
 
 
@@ -177,7 +179,6 @@ def material_currency_cost_analyze_piping(project_number, material_codes, materi
     df = pd.read_excel(file_path)
 
     cost_data = []
-    unmatched_data = []
 
     required_columns = ["Product Code", "Quantity", "Cost Transaction Currency", "Transaction Currency", "UOM"]
     if all(column in df.columns for column in required_columns):
@@ -206,29 +207,23 @@ def material_currency_cost_analyze_piping(project_number, material_codes, materi
                     "Product Code": ", ".join(codes),
                     "Cost": cost,
                     "Transaction Currency": currency,
-                    "Total QTY to commit": material_info[material]["Total QTY commit per UOM"],
-                    "Unit Weight": material_info[material]["Unit Weight"],
+                    "Total QTY to commit per UOM": material_info[material]["Total QTY commit per UOM"],
                     "Total NET weight": material_info[material]["Total NET weight"],
                     "Average Net Weight": material_info[material]["Average Net Weight"],
-                    #"Quantity UOM": material_info[material]["Quantity UOM"],
-                    "Unit Weight UOM": material_info[material]["Unit Weight UOM"],
-                    "Quantity": material_info[material]["Quantity by Currency and UOM"][(currency, uom)],
-                    "UOM": uom
+                    "Weight UOM": material_info[material]["Unit Weight UOM"],
+                    "Quantity in PO": material_info[material]["Quantity by Currency and UOM"][(currency, uom)],
+                    "UOM in PO": uom
                 })
 
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-    result_folder_path = "../Data Pool/DCT Process Results"
-    cost_df = pd.DataFrame(cost_data)
-    output_file = os.path.join(result_folder_path,
-                               f"MP{project_number}_Piping_MaterialCurrency_Cost_Analyze_{timestamp}.xlsx")
-    cost_df.to_excel(output_file, index=False)
-
-    #if unmatched_data:
-    #    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    #    unmatched_df = pd.DataFrame(unmatched_data)
-    #    output_file_unmatched = os.path.join(result_folder_path, f"Piping_NotMatch_ProductCode_{timestamp}.xlsx")
-    #    unmatched_df.to_excel(output_file_unmatched, index=False)
+        result_folder_path = "../Data Pool/DCT Process Results"
+        cost_df = pd.DataFrame(cost_data)
+        output_file = os.path.join(result_folder_path,
+                                   f"MP{project_number}_Piping_MaterialCurrency_Cost_Analyze_{timestamp}.xlsx")
+        cost_df.to_excel(output_file, index=False)
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
 
 #                       ------------------------ Valve --------------------
 
@@ -283,10 +278,11 @@ def extract_distinct_product_codes_valve(folder_path, project_number, material_t
                 "Average Size (inch)": average_size
             }
 
-    material_cost_analyze_valve(project_number, material_codes, material_info)
-    material_currency_cost_analyze_valve(project_number, material_codes, material_info)
-
-    return list(general_materials), material_codes, material_info
+        material_cost_analyze_valve(project_number, material_codes, material_info)
+        material_currency_cost_analyze_valve(project_number, material_codes, material_info)
+        return list(general_materials), material_codes, material_info
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
 
 
 def material_cost_analyze_valve(project_number, material_codes, material_info):
@@ -343,21 +339,23 @@ def material_cost_analyze_valve(project_number, material_codes, material_info):
                     "Average Weight": material_info[material]["Average Weight"]
                 })
 
-    # Get the current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
-    result_folder_path = "../Data Pool/DCT Process Results"
-    cost_df = pd.DataFrame(cost_data)
-    output_file = os.path.join(result_folder_path,
-                               f"MP{project_number}_Valve_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
-    cost_df.to_excel(output_file, index=False)
-
-    # Save the unmatched data to a new Excel file
-    if unmatched_data:
+        # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        unmatched_df = pd.DataFrame(unmatched_data)
-        output_file_unmatched = os.path.join(result_folder_path, f"Valve_NotMatched_ProductCode_{timestamp}.xlsx")
-        unmatched_df.to_excel(output_file_unmatched, index=False)
+
+        result_folder_path = "../Data Pool/DCT Process Results"
+        cost_df = pd.DataFrame(cost_data)
+        output_file = os.path.join(result_folder_path,
+                                   f"MP{project_number}_Valve_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
+        cost_df.to_excel(output_file, index=False)
+
+        # Save the unmatched data to a new Excel file
+        if unmatched_data:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+            unmatched_df = pd.DataFrame(unmatched_data)
+            output_file_unmatched = os.path.join(result_folder_path, f"Valve_NotMatched_ProductCode_{timestamp}.xlsx")
+            unmatched_df.to_excel(output_file_unmatched, index=False)
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
 
 
 def material_currency_cost_analyze_valve(project_number, material_codes, material_info):
@@ -417,20 +415,15 @@ def material_currency_cost_analyze_valve(project_number, material_codes, materia
                     "Average Weight": material_info[material]["Average Weight"]
                 })
 
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-    result_folder_path = "../Data Pool/DCT Process Results"
-    cost_df = pd.DataFrame(cost_data)
-    output_file = os.path.join(result_folder_path,
-                               f"MP{project_number}_Valve_MaterialCurrency_Cost_Analyze_{timestamp}.xlsx")
-    cost_df.to_excel(output_file, index=False)
-
-    #if unmatched_data:
-    #    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    #    unmatched_df = pd.DataFrame(unmatched_data)
-    #    output_file_unmatched = os.path.join(result_folder_path, f"Valve_NotMatch_ProductCode_{timestamp}.xlsx")
-    #    unmatched_df.to_excel(output_file_unmatched, index=False)
-
+        result_folder_path = "../Data Pool/DCT Process Results"
+        cost_df = pd.DataFrame(cost_data)
+        output_file = os.path.join(result_folder_path,
+                                   f"MP{project_number}_Valve_MaterialCurrency_Cost_Analyze_{timestamp}.xlsx")
+        cost_df.to_excel(output_file, index=False)
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
 
 #                       ------------------------ Bolt --------------------
 
@@ -457,7 +450,7 @@ def extract_distinct_product_codes_bolt(folder_path, project_number, material_ty
     material_codes = {}
     material_info = {}
 
-    required_columns = ["Pipe Base Material", "Product Code", "Total QTY to commit", "Qty confirmed in design", "SIZE", "SBM scope"]
+    required_columns = ["Pipe Base Material", "Product Code", "Total QTY to commit", "Qty confirmed in design", "SIZE", "SBM scope", "Tag Number"]
     if all(col in df.columns for col in required_columns):
         materials = df["Pipe Base Material"].unique()
 
@@ -475,6 +468,7 @@ def extract_distinct_product_codes_bolt(folder_path, project_number, material_ty
 
             # Extract additional columns data for each material
             total_qty_to_commit = material_rows["Total QTY to commit"].sum()
+            tag_number = material_rows["Tag Number"]
             #total_size = material_rows["SIZE"].sum()
             #average_size = material_rows["SIZE"].mean()
             total_qty_design = material_rows["Qty confirmed in design"].sum()
@@ -483,6 +477,7 @@ def extract_distinct_product_codes_bolt(folder_path, project_number, material_ty
             material_info[material] = {
                 "Total QTY to commit": total_qty_to_commit,
                 #"SIZE": total_size,
+                'Tag Number': tag_number,
                 "Qty confirmed in design": total_qty_design
                 #"Unit Weight UOM": uom_weight
                 #"Average Size": average_size

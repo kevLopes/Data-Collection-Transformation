@@ -70,10 +70,12 @@ def extract_distinct_tag_numbers_piping(folder_path, project_number, material_ty
                     "Unit Weight UOM": unit_weight_uom
                 }
 
-    material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info)
-    material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info)
+        material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info)
+        material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info)
 
-    return list(pipe_base_materials), tag_numbers, material_info
+        #return list(pipe_base_materials), tag_numbers, material_info
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
 
 
 def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info):
@@ -99,45 +101,61 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
     cost_data = []
     unmatched_data = []
 
-    for tag, material in tag_numbers.items():
-        tag_rows = df[df["Tag Number"] == tag]
+    required_columns = ["Cost Project Currency", "Transaction Date", "PO Description", "Tag Number", "Quantity", "UOM"]
+    if all(column in df.columns for column in required_columns):
+        for tag, material in tag_numbers.items():
+            tag_rows = df[df["Tag Number"] == tag]
 
-        if tag_rows.empty:
-            unmatched_data.append({
-                "Project Number": project_number,
-                "Base Material": material,
-                "Tag Number": tag
-            })
-        else:
-            tag_info = material_info[tag]
-            total_cost = tag_rows["Cost Project Currency"].sum()
+            if tag_rows.empty:
+                unmatched_data.append({
+                    "Project Number": project_number,
+                    "Base Material": material,
+                    "Tag Number": tag
+                })
+            else:
+                for uom in tag_rows["UOM"].unique():
+                    uom_rows = tag_rows[tag_rows["UOM"] == uom]
+                    tag_info = material_info[tag]
+                    total_cost = uom_rows["Cost Project Currency"].sum()
+                    material_quantity = uom_rows["Quantity"].sum()
+                    tr_date = uom_rows["Transaction Date"].unique()
+                    tr_date = ', '.join(map(str, tr_date))
+                    po_desc = uom_rows["PO Description"].unique()
+                    po_desc = ', '.join(map(str, po_desc))
 
-            cost_data.append({
-                "Project Number": project_number,
-                "Tag Number": tag,
-                "Base Material": material,
-                "Cost": total_cost,
-                "Currency": "USD",
-                "Total QTY to commit": tag_info["Total QTY to commit"],
-                "Unit Weight": tag_info["Unit Weight"],
-                "Total NET weight": tag_info["Total NET weight"],
-                "Quantity UOM": tag_info["Quantity UOM"],
-                "Unit Weight UOM": tag_info["Unit Weight UOM"]
-            })
+                    if total_cost > 0 or material_quantity > 0:
+                        cost_data.append({
+                            "Project Number": project_number,
+                            "Tag Number": tag,
+                            "Base Material": material,
+                            "Cost": total_cost,
+                            "Currency": "USD",
+                            "Transaction Date": tr_date,
+                            "PO Description": po_desc,
+                            "Total QTY to commit": tag_info["Total QTY to commit"],
+                            "Quantity UOM": tag_info["Quantity UOM"],
+                            "Unit Weight": tag_info["Unit Weight"],
+                            "Total NET weight": tag_info["Total NET weight"],
+                            "Weight UOM": tag_info["Unit Weight UOM"],
+                            "Quantity in PO": material_quantity,
+                            "UOM in PO": uom
+                        })
 
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    result_folder_path = "../Data Pool/DCT Process Results"
-    cost_df = pd.DataFrame(cost_data)
-    output_file = os.path.join(result_folder_path,
-                               f"MP{project_number}_Piping_TagBased_Cost_Analyze_{timestamp}.xlsx")
-    cost_df.to_excel(output_file, index=False)
-
-    # Save the unmatched data to a new Excel file
-    if unmatched_data:
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        unmatched_df = pd.DataFrame(unmatched_data)
-        output_file_unmatched = os.path.join(result_folder_path, f"Piping_NotMatched_TagNumber_{timestamp}.xlsx")
-        unmatched_df.to_excel(output_file_unmatched, index=False)
+        result_folder_path = "../Data Pool/DCT Process Results"
+        cost_df = pd.DataFrame(cost_data)
+        output_file = os.path.join(result_folder_path,
+                                   f"MP{project_number}_Piping_TagBased_Cost_Analyze_{timestamp}.xlsx")
+        cost_df.to_excel(output_file, index=False)
+
+        # Save the unmatched data to a new Excel file
+        if unmatched_data:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+            unmatched_df = pd.DataFrame(unmatched_data)
+            output_file_unmatched = os.path.join(result_folder_path, f"Piping_NotMatched_TagNumber_{timestamp}.xlsx")
+            unmatched_df.to_excel(output_file_unmatched, index=False)
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
 
 
 def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info):
@@ -161,34 +179,37 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
     df = pd.read_excel(file_path)
 
     cost_data = []
+    required_columns = ["Cost Project Currency", "Transaction Date", "PO Description", "Tag Number", "Quantity", "UOM"]
 
-    for tag, material in tag_numbers.items():
-        tag_rows = df[df["Tag Number"] == tag]
+    if all(column in df.columns for column in required_columns):
+        for tag, material in tag_numbers.items():
+            tag_rows = df[df["Tag Number"] == tag]
 
-        if tag_rows.empty:
-            continue
+            if tag_rows.empty:
+                continue
 
-        tag_info = material_info[tag]
-        currency_groups = tag_rows.groupby("Transaction Currency")
-        for currency, group in currency_groups:
-            cost_data.append({
-                "Project Number": project_number,
-                "Tag Number": tag,
-                "Base Material": material,
-                "Cost": group["Cost Transaction Currency"].sum(),
-                "Transaction Currency": currency,
-                "Total QTY to commit": tag_info["Total QTY to commit"],
-                "Unit Weight": tag_info["Unit Weight"],
-                "Total NET weight": tag_info["Total NET weight"],
-                "Quantity UOM": tag_info["Quantity UOM"],
-                "Unit Weight UOM": tag_info["Unit Weight UOM"]
-            })
+            tag_info = material_info[tag]
+            currency_groups = tag_rows.groupby("Transaction Currency")
+            for currency, group in currency_groups:
+                cost_data.append({
+                    "Project Number": project_number,
+                    "Tag Number": tag,
+                    "Base Material": material,
+                    "Cost": group["Cost Transaction Currency"].sum(),
+                    "Transaction Currency": currency,
+                    "Total QTY to commit": tag_info["Total QTY to commit"],
+                    "Quantity UOM": tag_info["Quantity UOM"],
+                    "Unit Weight": tag_info["Unit Weight"],
+                    "Total NET weight": tag_info["Total NET weight"],
+                    "Weight UOM": tag_info["Unit Weight UOM"]
+                })
 
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-    result_folder_path = "../Data Pool/DCT Process Results"
-    cost_df = pd.DataFrame(cost_data)
-    output_file = os.path.join(result_folder_path,
-                               f"MP{project_number}_Piping_TagCurrency_Cost_Analyze_{timestamp}.xlsx")
-    cost_df.to_excel(output_file, index=False)
-
+        result_folder_path = "../Data Pool/DCT Process Results"
+        cost_df = pd.DataFrame(cost_data)
+        output_file = os.path.join(result_folder_path,
+                                   f"MP{project_number}_Piping_TagCurrency_Cost_Analyze_{timestamp}.xlsx")
+        cost_df.to_excel(output_file, index=False)
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
