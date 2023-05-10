@@ -72,8 +72,6 @@ def extract_distinct_tag_numbers_piping(folder_path, project_number, material_ty
 
         material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info)
         material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info)
-
-        #return list(pipe_base_materials), tag_numbers, material_info
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 
@@ -122,6 +120,7 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
                     tr_date = ', '.join(map(str, tr_date))
                     po_desc = uom_rows["PO Description"].unique()
                     po_desc = ', '.join(map(str, po_desc))
+                    calc_weight = material_quantity * (tag_info["Unit Weight"])
 
                     if total_cost > 0 or material_quantity > 0:
                         cost_data.append({
@@ -138,7 +137,8 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
                             "Total NET weight": tag_info["Total NET weight"],
                             "Weight UOM": tag_info["Unit Weight UOM"],
                             "Quantity in PO": material_quantity,
-                            "UOM in PO": uom
+                            "UOM in PO": uom,
+                            "Total Weight using PO quantity": calc_weight
                         })
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
@@ -187,25 +187,41 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
 
             if tag_rows.empty:
                 continue
+            else:
+                tag_info = material_info[tag]
+                uom_groups = tag_rows.groupby("UOM")
+                for uom, group in uom_groups:
+                    currency_groups = group.groupby("Transaction Currency")
+                    for currency, group in currency_groups:
+                        key = (currency, uom)
+                        tag_quantity_by_currency_uom = tag_info.setdefault("Quantity by Currency and UOM", {})
+                        tag_quantity_by_currency_uom[key] = tag_quantity_by_currency_uom.get(key, 0) + group["Quantity"].sum()
 
-            tag_info = material_info[tag]
-            currency_groups = tag_rows.groupby("Transaction Currency")
-            for currency, group in currency_groups:
-                cost_data.append({
-                    "Project Number": project_number,
-                    "Tag Number": tag,
-                    "Base Material": material,
-                    "Cost": group["Cost Transaction Currency"].sum(),
-                    "Transaction Currency": currency,
-                    "Total QTY to commit": tag_info["Total QTY to commit"],
-                    "Quantity UOM": tag_info["Quantity UOM"],
-                    "Unit Weight": tag_info["Unit Weight"],
-                    "Total NET weight": tag_info["Total NET weight"],
-                    "Weight UOM": tag_info["Unit Weight UOM"]
-                })
+                        tr_date = group["Transaction Date"].unique()
+                        tr_date = ', '.join(map(str, tr_date))
+                        po_desc = group["PO Description"].unique()
+                        po_desc = ', '.join(map(str, po_desc))
+                        calc_weight = (tag_info["Quantity by Currency and UOM"][(currency, uom)])*(tag_info["Unit Weight"])
+
+                        cost_data.append({
+                            "Project Number": project_number,
+                            "Tag Number": tag,
+                            "Base Material": material,
+                            "Cost": group["Cost Transaction Currency"].sum(),
+                            "Transaction Currency": currency,
+                            "PO Description": po_desc,
+                            "Transaction Date": tr_date,
+                            "Total QTY to commit": tag_info["Total QTY to commit"],
+                            "Quantity UOM": tag_info["Quantity UOM"],
+                            "Unit Weight": tag_info["Unit Weight"],
+                            "Total NET weight": tag_info["Total NET weight"],
+                            "Weight UOM": tag_info["Unit Weight UOM"],
+                            "Quantity in PO": tag_info["Quantity by Currency and UOM"][(currency, uom)],
+                            "UOM in PO": uom,
+                            "Total Weight using PO quantity": calc_weight
+                        })
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
         result_folder_path = "../Data Pool/DCT Process Results"
         cost_df = pd.DataFrame(cost_data)
         output_file = os.path.join(result_folder_path,

@@ -74,7 +74,6 @@ def extract_distinct_product_codes_piping(folder_path, project_number, material_
 
         material_cost_analyze_piping(project_number, material_codes, material_info)
         material_currency_cost_analyze_piping(project_number, material_codes, material_info)
-        #return list(pipe_base_materials), material_codes, material_info
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 
@@ -82,18 +81,12 @@ def extract_distinct_product_codes_piping(folder_path, project_number, material_
 def material_cost_analyze_piping(project_number, material_codes, material_info):
     folder_path = "../Data Pool/Ecosys API Data/PO Lines"
 
-    excel_files = [
-        f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")
-    ]
+    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
 
-    matching_files = [
-        f for f in excel_files if str(project_number) in f
-    ]
+    matching_files = [f for f in excel_files if str(project_number) in f]
 
     if not matching_files:
-        raise FileNotFoundError(
-            f"No files containing the project number '{project_number}' were found."
-        )
+        raise FileNotFoundError(f"No files containing the project number '{project_number}' were found.")
 
     most_recent_file = get_most_recent_file(folder_path, matching_files)
     file_path = os.path.join(folder_path, most_recent_file)
@@ -140,11 +133,9 @@ def material_cost_analyze_piping(project_number, material_codes, material_info):
 
         # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
         result_folder_path = "../Data Pool/DCT Process Results"
         cost_df = pd.DataFrame(cost_data)
-        output_file = os.path.join(result_folder_path,
-                                   f"MP{project_number}_Piping_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
+        output_file = os.path.join(result_folder_path,f"MP{project_number}_Piping_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
 
         # Save the unmatched data to a new Excel file
@@ -200,23 +191,22 @@ def material_currency_cost_analyze_piping(project_number, material_codes, materi
                             material_quantity_by_currency = material_info[material].setdefault("Quantity by Currency and UOM", {})
                             material_quantity_by_currency[key] = material_quantity_by_currency.get(key, 0) + group["Quantity"].sum()
 
-            for (currency, uom), cost in material_info[material]["Cost by Currency and UOM"].items():
-                cost_data.append({
-                    "Project Number": project_number,
-                    "Base Material": material,
-                    "Product Code": ", ".join(codes),
-                    "Cost": cost,
-                    "Transaction Currency": currency,
-                    "Total QTY to commit per UOM": material_info[material]["Total QTY commit per UOM"],
-                    "Total NET weight": material_info[material]["Total NET weight"],
-                    "Average Net Weight": material_info[material]["Average Net Weight"],
-                    "Weight UOM": material_info[material]["Unit Weight UOM"],
-                    "Quantity in PO": material_info[material]["Quantity by Currency and UOM"][(currency, uom)],
-                    "UOM in PO": uom
-                })
+                    for (currency, uom), cost in material_info[material]["Cost by Currency and UOM"].items():
+                        cost_data.append({
+                            "Project Number": project_number,
+                            "Base Material": material,
+                            "Product Code": ", ".join(codes),
+                            "Cost": cost,
+                            "Transaction Currency": currency,
+                            "Total QTY to commit per UOM": material_info[material]["Total QTY commit per UOM"],
+                            "Total NET weight": material_info[material]["Total NET weight"],
+                            "Average Net Weight": material_info[material]["Average Net Weight"],
+                            "Weight UOM": material_info[material]["Unit Weight UOM"],
+                            "Quantity in PO": material_info[material]["Quantity by Currency and UOM"][(currency, uom)],
+                            "UOM in PO": uom
+                        })
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
         result_folder_path = "../Data Pool/DCT Process Results"
         cost_df = pd.DataFrame(cost_data)
         output_file = os.path.join(result_folder_path,
@@ -308,7 +298,7 @@ def material_cost_analyze_valve(project_number, material_codes, material_info):
     cost_data = []
     unmatched_data = []
 
-    if "Product Code" in df.columns and "Cost Project Currency" in df.columns:
+    if "Product Code" in df.columns and "Cost Project Currency" in df.columns and "Quantity" in df.columns and "UOM" in df.columns:
         for material, codes in material_codes.items():
             material_cost = 0
 
@@ -325,19 +315,19 @@ def material_cost_analyze_valve(project_number, material_codes, material_info):
                 else:
                     material_cost += cost_rows["Cost Project Currency"].sum()
 
-            if material_cost > 0:
-                cost_data.append({
-                    "Project Number": project_number,
-                    "Base Material": material,
-                    "Product Code": ", ".join(codes),
-                    "Cost": material_cost,
-                    "Currency": "USD",
-                    "Quantity": material_info[material]["Quantity"],
-                    "SIZE (inch)": material_info[material]["SIZE (inch)"],
-                    "Average Size (inch)": material_info[material]["Average Size (inch)"],
-                    "Weight": material_info[material]["Weight"],
-                    "Average Weight": material_info[material]["Average Weight"]
-                })
+                    if material_cost > 0:
+                        cost_data.append({
+                            "Project Number": project_number,
+                            "Base Material": material,
+                            "Product Code": ", ".join(codes),
+                            "Cost": material_cost,
+                            "Currency": "USD",
+                            "Quantity": material_info[material]["Quantity"],
+                            "SIZE (inch)": material_info[material]["SIZE (inch)"],
+                            "Average Size (inch)": material_info[material]["Average Size (inch)"],
+                            "Weight": material_info[material]["Weight"],
+                            "Average Weight": material_info[material]["Average Weight"]
+                        })
 
         # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
