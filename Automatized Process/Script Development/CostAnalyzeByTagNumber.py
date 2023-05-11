@@ -52,28 +52,29 @@ def extract_distinct_tag_numbers_piping(folder_path, project_number, material_ty
             for _, row in material_rows.iterrows():
                 tag_number = row["Tag Number"]
 
+                # Update material_info dictionary for the tag_number
+                if tag_number in material_info:
+                    # Accumulate quantity and total weight for existing tag_number
+                    material_info[tag_number]["Total QTY to commit"] += row["Total QTY to commit"]
+                    material_info[tag_number]["Total NET weight"] += row["Total NET weight"]
+                else:
+                    # Add new entry for tag_number
+                    material_info[tag_number] = {
+                        "Total QTY to commit": row["Total QTY to commit"],
+                        "Unit Weight": row["Unit Weight"],
+                        "Total NET weight": row["Total NET weight"],
+                        "Quantity UOM": row["Quantity UOM"],
+                        "Unit Weight UOM": row["Unit Weight UOM"]
+                    }
+
                 # Store tag_number directly in the tag_numbers dictionary
                 tag_numbers[tag_number] = material
-
-                total_qty_to_commit = row["Total QTY to commit"]
-                unit_weight = row["Unit Weight"]
-                total_net_weight = row["Total NET weight"]
-                quantity_uom = row["Quantity UOM"]
-                unit_weight_uom = row["Unit Weight UOM"]
-
-                # Store material information directly in the material_info dictionary based on tag_number
-                material_info[tag_number] = {
-                    "Total QTY to commit": total_qty_to_commit,
-                    "Unit Weight": unit_weight,
-                    "Total NET weight": total_net_weight,
-                    "Quantity UOM": quantity_uom,
-                    "Unit Weight UOM": unit_weight_uom
-                }
 
         material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info)
         material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info)
     else:
-        print("Was not possible to find the necessary fields on the file to do the calculation!")
+        print("Was not possible to find the necessary fields in the file to do the calculation!")
+
 
 
 def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info):
@@ -183,32 +184,57 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
 
     if all(column in df.columns for column in required_columns):
         for tag, material in tag_numbers.items():
-            tag_rows = df[df["Tag Number"] == tag]
+            # Regular Tags
+            regular_rows = df[df["Tag Number"] == tag]
 
-            if tag_rows.empty:
+            # Surplus Tags
+            surplus_rows = df[
+                df["Tag Number"].str.startswith(tag) &
+                (df["Tag Number"].str.endswith("-SURPLUS") | df["Tag Number"].str.endswith("-SURPLUS+"))
+                ]
+
+            # Combine Regular and Surplus Rows
+            combined_rows = pd.concat([regular_rows, surplus_rows])
+
+            if combined_rows.empty:
                 continue
             else:
                 tag_info = material_info[tag]
-                uom_groups = tag_rows.groupby("UOM")
+                uom_groups = combined_rows.groupby("UOM")
                 for uom, group in uom_groups:
                     currency_groups = group.groupby("Transaction Currency")
                     for currency, group in currency_groups:
                         key = (currency, uom)
                         tag_quantity_by_currency_uom = tag_info.setdefault("Quantity by Currency and UOM", {})
-                        tag_quantity_by_currency_uom[key] = tag_quantity_by_currency_uom.get(key, 0) + group["Quantity"].sum()
+                        tag_quantity_by_currency_uom[key] = tag_quantity_by_currency_uom.get(key, 0) + group[
+                            "Quantity"].sum()
 
                         tr_date = group["Transaction Date"].unique()
                         tr_date = ', '.join(map(str, tr_date))
                         po_desc = group["PO Description"].unique()
                         po_desc = ', '.join(map(str, po_desc))
-                        calc_weight = (tag_info["Quantity by Currency and UOM"][(currency, uom)])*(tag_info["Unit Weight"])
+                        calc_weight = (tag_info["Quantity by Currency and UOM"][(currency, uom)]) * (
+                        tag_info["Unit Weight"])
+
+                        remarks = ""
+                        surplus_rows = group[
+                            group["Tag Number"].str.contains("-SURPLUS") | group["Tag Number"].str.contains(
+                                "-SURPLUS+S")
+                            ]
+                        if not surplus_rows.empty:
+                            for _, surplus_row in surplus_rows.iterrows():
+                                surplus_quantity = surplus_row["Quantity"]
+                                surplus_cost = surplus_row["Cost Transaction Currency"]
+                                remarks += f"A surplus item found with the Quantity of {surplus_quantity} and with the cost {surplus_cost}\n"
 
                         cost_data.append({
                             "Project Number": project_number,
                             "Tag Number": tag,
                             "Base Material": material,
-                            "Cost": group["Cost Transaction Currency"].sum(),
+                            "PO Cost": group["Cost Transaction Currency"].sum(),
                             "Transaction Currency": currency,
+                            "Project Currency Cost": group["Cost Project Currency"].sum(),
+                            "Currency": "USD",
                             "PO Description": po_desc,
                             "Transaction Date": tr_date,
                             "Total QTY to commit": tag_info["Total QTY to commit"],
@@ -218,7 +244,8 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
                             "Weight UOM": tag_info["Unit Weight UOM"],
                             "Quantity in PO": tag_info["Quantity by Currency and UOM"][(currency, uom)],
                             "UOM in PO": uom,
-                            "Total Weight using PO quantity": calc_weight
+                            "Total Weight using PO quantity": calc_weight,
+                            "Remarks": remarks
                         })
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
