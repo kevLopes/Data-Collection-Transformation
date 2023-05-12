@@ -103,17 +103,27 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
     required_columns = ["Cost Project Currency", "Transaction Date", "PO Description", "Tag Number", "Quantity", "UOM"]
     if all(column in df.columns for column in required_columns):
         for tag, material in tag_numbers.items():
-            tag_rows = df[df["Tag Number"] == tag]
+            # Regular Tags
+            regular_rows = df[df["Tag Number"] == tag]
 
-            if tag_rows.empty:
+            # Surplus Tags
+            surplus_rows = df[
+                df["Tag Number"].str.startswith(tag) &
+                (df["Tag Number"].str.endswith("-SURPLUS") | df["Tag Number"].str.endswith("-SURPLUS+"))
+                ]
+
+            # Combine Regular and Surplus Rows
+            combined_rows = pd.concat([regular_rows, surplus_rows])
+
+            if combined_rows.empty:
                 unmatched_data.append({
                     "Project Number": project_number,
                     "Base Material": material,
                     "Tag Number": tag
                 })
             else:
-                for uom in tag_rows["UOM"].unique():
-                    uom_rows = tag_rows[tag_rows["UOM"] == uom]
+                for uom in combined_rows["UOM"].unique():
+                    uom_rows = combined_rows[combined_rows["UOM"] == uom]
                     tag_info = material_info[tag]
                     total_cost = uom_rows["Cost Project Currency"].sum()
                     material_quantity = uom_rows["Quantity"].sum()
@@ -121,9 +131,20 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
                     tr_date = ', '.join(map(str, tr_date))
                     po_desc = uom_rows["PO Description"].unique()
                     po_desc = ', '.join(map(str, po_desc))
-                    calc_weight = material_quantity * (tag_info["Unit Weight"])
+                    calc_weight = material_quantity * tag_info["Unit Weight"]
 
-                    if total_cost > 0 or material_quantity > 0:
+                    remarks = ""
+                    surplus_rows = uom_rows[
+                        uom_rows["Tag Number"].str.contains("-SURPLUS") | uom_rows["Tag Number"].str.contains(
+                            "-SURPLUS+S")
+                        ]
+                    if not surplus_rows.empty:
+                        for _, surplus_row in surplus_rows.iterrows():
+                            surplus_quantity = surplus_row["Quantity"]
+                            surplus_cost = surplus_row["Cost Transaction Currency"]
+                            remarks += f"A surplus item found with the Quantity of {surplus_quantity} and with the cost {surplus_cost}\n"
+
+                if total_cost > 0 or material_quantity > 0:
                         cost_data.append({
                             "Project Number": project_number,
                             "Tag Number": tag,
@@ -139,14 +160,35 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
                             "Weight UOM": tag_info["Unit Weight UOM"],
                             "Quantity in PO": material_quantity,
                             "UOM in PO": uom,
-                            "Total Weight using PO quantity": calc_weight
+                            "Total Weight using PO quantity": calc_weight,
+                            "Remarks": remarks
                         })
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         result_folder_path = "../Data Pool/DCT Process Results"
         cost_df = pd.DataFrame(cost_data)
-        output_file = os.path.join(result_folder_path,
-                                   f"MP{project_number}_Piping_TagBased_Cost_Analyze_{timestamp}.xlsx")
+
+        # Calculate column totals
+        total_row = {
+            "Base Material": "Total Amount:",
+            "Cost": cost_df["Cost"].sum(),
+            "Currency": "USD",
+            "PO Description": "Total Material Weight:",
+            "Total QTY to commit": cost_df["Total QTY to commit"].sum(),
+            "Unit Weight": "Total Material Weight:",
+            "Total NET weight": cost_df["Total NET weight"].sum(),
+            "Weight UOM": "Total Quantity from Ecosys",
+            "Quantity in PO": cost_df["Quantity in PO"].sum(),
+            "UOM in PO": "Total Weight Ecosys Quantity:",
+            "Total Weight using PO quantity": cost_df["Total Weight using PO quantity"].sum()
+        }
+
+        # Append total row to cost_data
+        cost_data.append(total_row)
+
+        cost_df = pd.DataFrame(cost_data)
+
+        output_file = os.path.join(result_folder_path,f"MP{project_number}_Piping_TagBased_Cost_Analyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
 
         # Save the unmatched data to a new Excel file
@@ -157,6 +199,7 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
             unmatched_df.to_excel(output_file_unmatched, index=False)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
+
 
 
 def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info):
@@ -191,7 +234,7 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
             surplus_rows = df[
                 df["Tag Number"].str.startswith(tag) &
                 (df["Tag Number"].str.endswith("-SURPLUS") | df["Tag Number"].str.endswith("-SURPLUS+"))
-                ]
+            ]
 
             # Combine Regular and Surplus Rows
             combined_rows = pd.concat([regular_rows, surplus_rows])
@@ -214,13 +257,13 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
                         po_desc = group["PO Description"].unique()
                         po_desc = ', '.join(map(str, po_desc))
                         calc_weight = (tag_info["Quantity by Currency and UOM"][(currency, uom)]) * (
-                        tag_info["Unit Weight"])
+                            tag_info["Unit Weight"])
 
                         remarks = ""
                         surplus_rows = group[
                             group["Tag Number"].str.contains("-SURPLUS") | group["Tag Number"].str.contains(
                                 "-SURPLUS+S")
-                            ]
+                        ]
                         if not surplus_rows.empty:
                             for _, surplus_row in surplus_rows.iterrows():
                                 surplus_quantity = surplus_row["Quantity"]
@@ -251,8 +294,29 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         result_folder_path = "../Data Pool/DCT Process Results"
         cost_df = pd.DataFrame(cost_data)
-        output_file = os.path.join(result_folder_path,
-                                   f"MP{project_number}_Piping_TagCurrency_Cost_Analyze_{timestamp}.xlsx")
+
+        # Calculate column totals
+        total_row = {
+            "Transaction Currency": "Total Amount:",
+            "Project Currency Cost": cost_df["Project Currency Cost"].sum(),
+            "Currency": "USD",
+            "Transaction Date": "Total MTO Quantity committed:",
+            "Total QTY to commit": cost_df["Total QTY to commit"].sum(),
+            "Unit Weight": "Total Material Weight:",
+            "Total NET weight": cost_df["Total NET weight"].sum(),
+            "Weight UOM": "Total Quantity from Ecosys",
+            "Quantity in PO": cost_df["Quantity in PO"].sum(),
+            "UOM in PO": "Total Weight Ecosys Quantity:",
+            "Total Weight using PO quantity": cost_df["Total Weight using PO quantity"].sum()
+        }
+
+        # Append total row to cost_data
+        cost_data.append(total_row)
+
+        cost_df = pd.DataFrame(cost_data)
+
+        output_file = os.path.join(result_folder_path,f"MP{project_number}_Piping_TagCurrency_Cost_Analyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
+
