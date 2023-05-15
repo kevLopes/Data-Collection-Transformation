@@ -41,7 +41,7 @@ def extract_distinct_tag_numbers_piping(folder_path, project_number, material_ty
     tag_numbers = {}
     material_info = {}
 
-    required_columns = ["Pipe Base Material", "Tag Number", "Total QTY to commit", "Unit Weight", "Total NET weight", "Quantity UOM", "Unit Weight UOM"]
+    required_columns = ["Pipe Base Material", "Tag Number", "Total QTY to commit", "Unit Weight", "Total NET weight", "Quantity UOM", "Unit Weight UOM", "Material", "Service Description"]
     if all(col in df.columns for col in required_columns):
         materials = df["Pipe Base Material"].unique()
 
@@ -60,6 +60,9 @@ def extract_distinct_tag_numbers_piping(folder_path, project_number, material_ty
                 else:
                     # Add new entry for tag_number
                     material_info[tag_number] = {
+                        "Pipe Base Material": row["Pipe Base Material"],
+                        "Material": row["Material"],
+                        "Service Description": row["Service Description"],
                         "Total QTY to commit": row["Total QTY to commit"],
                         "Unit Weight": row["Unit Weight"],
                         "Total NET weight": row["Total NET weight"],
@@ -116,10 +119,13 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
             combined_rows = pd.concat([regular_rows, surplus_rows])
 
             if combined_rows.empty:
+                tag_info = material_info[tag]
                 unmatched_data.append({
                     "Project Number": project_number,
                     "Base Material": material,
-                    "Tag Number": tag
+                    "Tag Number": tag,
+                    "Material": tag_info["Material"],
+                    "Service Description": tag_info["Service Description"],
                 })
             else:
                 for uom in combined_rows["UOM"].unique():
@@ -131,7 +137,7 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
                     tr_date = ', '.join(map(str, tr_date))
                     po_desc = uom_rows["PO Description"].unique()
                     po_desc = ', '.join(map(str, po_desc))
-                    calc_weight = material_quantity * tag_info["Unit Weight"]
+                    calc_weight = abs(material_quantity * tag_info["Unit Weight"])
 
                     remarks = ""
                     surplus_rows = uom_rows[
@@ -142,7 +148,8 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
                         for _, surplus_row in surplus_rows.iterrows():
                             surplus_quantity = surplus_row["Quantity"]
                             surplus_cost = surplus_row["Cost Transaction Currency"]
-                            remarks += f"A surplus item found with the Quantity of {surplus_quantity} and with the cost {surplus_cost}\n"
+                            surplus_tag = surplus_row["Tag Number"]
+                            remarks += f"A surplus item with Tag Number {surplus_tag} found with the Quantity of {surplus_quantity} and with the cost {surplus_cost}\n"
 
                 if total_cost > 0 or material_quantity > 0:
                         cost_data.append({
@@ -256,8 +263,8 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
                         tr_date = ', '.join(map(str, tr_date))
                         po_desc = group["PO Description"].unique()
                         po_desc = ', '.join(map(str, po_desc))
-                        calc_weight = (tag_info["Quantity by Currency and UOM"][(currency, uom)]) * (
-                            tag_info["Unit Weight"])
+                        calc_weight = abs((tag_info["Quantity by Currency and UOM"][(currency, uom)]) * (tag_info["Unit Weight"]))
+
 
                         remarks = ""
                         surplus_rows = group[
@@ -268,7 +275,8 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
                             for _, surplus_row in surplus_rows.iterrows():
                                 surplus_quantity = surplus_row["Quantity"]
                                 surplus_cost = surplus_row["Cost Transaction Currency"]
-                                remarks += f"A surplus item found with the Quantity of {surplus_quantity} and with the cost {surplus_cost}\n"
+                                surplus_tag = surplus_row["Tag Number"]
+                                remarks += f"A surplus item with Tag Number {surplus_tag} found with the Quantity of {surplus_quantity} and with the cost {surplus_cost}\n"
 
                         cost_data.append({
                             "Project Number": project_number,

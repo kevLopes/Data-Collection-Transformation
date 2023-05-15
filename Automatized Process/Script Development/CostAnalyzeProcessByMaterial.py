@@ -334,8 +334,21 @@ def material_cost_analyze_valve(project_number, material_codes, material_info):
 
         result_folder_path = "../Data Pool/DCT Process Results"
         cost_df = pd.DataFrame(cost_data)
-        output_file = os.path.join(result_folder_path,
-                                   f"MP{project_number}_Valve_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
+
+        # Calculate column totals
+        total_row = {
+            "Product Code": "Total Amount:",
+            "Cost": cost_df["Cost"].sum(),
+            "Currency": "USD",
+            "Quantity": cost_df["Quantity"].sum(),
+            "Average Size (inch)": "Total Material Weight:",
+            "Weight": cost_df["Weight"].sum()
+        }
+        # Append total row to cost_data
+        cost_data.append(total_row)
+
+        cost_df = pd.DataFrame(cost_data)
+        output_file = os.path.join(result_folder_path,f"MP{project_number}_Valve_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
 
         # Save the unmatched data to a new Excel file
@@ -459,18 +472,12 @@ def extract_distinct_product_codes_bolt(folder_path, project_number, material_ty
             # Extract additional columns data for each material
             total_qty_to_commit = material_rows["Total QTY to commit"].sum()
             tag_number = material_rows["Tag Number"]
-            #total_size = material_rows["SIZE"].sum()
-            #average_size = material_rows["SIZE"].mean()
             total_qty_design = material_rows["Qty confirmed in design"].sum()
-            #uom_weight = material_rows["Unit Weight UOM"].mean()
 
             material_info[material] = {
                 "Total QTY to commit": total_qty_to_commit,
-                #"SIZE": total_size,
                 'Tag Number': tag_number,
                 "Qty confirmed in design": total_qty_design
-                #"Unit Weight UOM": uom_weight
-                #"Average Size": average_size
             }
 
     material_cost_analyze_bolt(project_number, material_codes, material_info)
