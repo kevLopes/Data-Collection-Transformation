@@ -149,6 +149,8 @@ def plot_totals(cost_df, project_number):
 
     print(f'Figure saved at {fig_path}')
 
+
+#Below function not being used
 def plot_totals_other(cost_df, project_number):
     commit_totals = cost_df.groupby('Quantity UOM')['Total QTY to commit'].sum()
     po_totals = cost_df.groupby('UOM in PO')['Quantity in PO'].sum()
@@ -211,7 +213,7 @@ def plot_totals_other(cost_df, project_number):
 
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_PippingAnalyze_Graphics_Illustration_{timestamp}.png"
+    fig_name = f"MP{project_number}_Pipping_Analyze_Graphics_Illustration_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
 
@@ -221,6 +223,7 @@ def plot_totals_other(cost_df, project_number):
     print(f'Figure saved at {fig_path}')
 
 
+#below function not being used
 def plot_cost_per_weight(cost_df, project_number):
     # Calculate cost per weight for each row
     cost_df['Cost per Weight'] = cost_df['Project Currency Cost'] / cost_df['Total Weight using PO quantity']
@@ -256,6 +259,48 @@ def plot_cost_per_weight(cost_df, project_number):
 
     # Save figure
     fig_name = f"MP{project_number}_Total_Cost_Per_Weight.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    print(f'Figure saved at {fig_path}')
+
+
+def plot_cost_per_weight_and_totals(cost_df, project_number):
+    # Calculate cost per weight for each row
+    cost_df['Cost per Weight'] = cost_df['Project Currency Cost'] / cost_df['Total Weight using PO quantity']
+
+    # Aggregate totals
+    cost_totals = cost_df['Project Currency Cost'].sum()
+    net_weight_totals = cost_df['Total NET weight'].sum()
+    weight_totals = cost_df['Total Weight using PO quantity'].sum()
+
+    # Calculate total cost per weight
+    total_cost_per_weight = cost_totals / weight_totals
+
+    # Create graphics directory if not exists
+    graphics_dir = "../Data Pool/DCT Process Results/graphics"
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Create figure
+    fig, ax = plt.subplots(figsize=(12, 5))
+
+    # Plot total cost per weight
+    sns.barplot(x=['Cost per KG', 'Total Cost in Dollars', 'Total Weight in KG'],
+                y=[total_cost_per_weight, cost_totals, weight_totals], ax=ax)
+
+    ax.set_title('Graphic representation for Weight and Cost')
+    ax.set_ylabel('Values')
+
+    # Add value labels
+    for p in ax.patches:
+        ax.text(p.get_x() + p.get_width() / 2., p.get_height(),
+               '%.2f' % float(p.get_height()),
+               fontsize=12, color='black', ha='center', va='bottom')
+
+    plt.tight_layout()
+
+    # Save figure
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_Piping_Cost_and_Weight_Illustration_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')

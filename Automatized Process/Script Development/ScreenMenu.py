@@ -115,11 +115,12 @@ class MyWindow:
         # Get the user input and selected project type
         project_number = self.input_field.get()
         material_type = self.type_var.get()
-        #folder_path = self.folder_path_input.get()
-        folder_path = "../Data Pool/Material Data Organized"
+        folder_path_valve = "../Data Pool/Material Data Organized/Valve" #self.folder_path_input.get()
+        folder_path_piping = "../Data Pool/Material Data Organized/Piping"
+        folder_path_bolt = "../Data Pool/Material Data Organized/Bolt"
 
         # Check if all fields have data
-        if not project_number or material_type == "Choose Type" or not folder_path:
+        if not project_number or material_type == "Choose Type":
             # Display a message if fields are not filled in
             tk.messagebox.showerror("Error", "Please fill in the fields")
         else:
@@ -148,7 +149,7 @@ class MyWindow:
                 #DataCollector.data_collector_piping(project_number, material_type)
                 # Do something with the input and type (e.g., save to a file or database)
                 #CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, material_type)
-                CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path, project_number, material_type)
+                CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, material_type)
                 print("Analyze done for all Distinct Material codes:")
                 flag = True
             # Material Type Valve
@@ -156,7 +157,7 @@ class MyWindow:
                 # Organize Data from Data Hub
                 #DataCollector.data_collector_valve(project_number, material_type)
                 # Do something with the input and type (e.g., save to a file or database)
-                distinct_product_codes = CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path,project_number,material_type)
+                distinct_product_codes = CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path_valve,project_number,material_type)
                 print("Analyze done for all Distinct Material codes:",)
                 flag = True
             # Material Type Bolt
@@ -164,7 +165,7 @@ class MyWindow:
                 # Organize Data from Data Hub
                 DataCollector.data_collector_bolt(project_number, material_type)
                 # Do something with the input and type (e.g., save to a file or database)
-                distinct_product_codes = CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path,project_number,material_type)
+                distinct_product_codes = CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt,project_number,material_type)
                 print("Analyze done for all Distinct Material codes:", distinct_product_codes)
                 flag = True
             # Material Type Structure
@@ -176,9 +177,9 @@ class MyWindow:
             # All Materials
             elif material_type == "All Materials":
                 #print("Implementation not done yet")
-                CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, "Piping")
-                CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path, project_number, "Valve")
-                CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path, project_number, "Bolt")
+                CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, "Piping")
+                CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path_valve, project_number, "Valve")
+                CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number, "Bolt")
                 print("Cost Analyze done based on distinct Material types")
                 flag = True
 
