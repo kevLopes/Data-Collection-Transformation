@@ -31,7 +31,7 @@ def data_collector_piping(project_number_v, material_type):
         return
 
     # Check if the Data Organize folder exists, and create it if it doesn't
-    output_dir = "../Data Pool/Material Data Organized"
+    output_dir = "../Data Pool/Material Data Organized/Piping"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
@@ -107,7 +107,7 @@ def data_collector_valve(project_number_v, material_type):
         return
 
     # Check if the Materials Data Organized folder exists, and create it if it doesn't
-    output_dir = "../Data Pool/Material Data Organized"
+    output_dir = "../Data Pool/Material Data Organized/Valve"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
@@ -186,7 +186,7 @@ def data_collector_bolt(project_number_v, material_type):
         return
 
     # Check if the Materials Data Organized folder exists, and create it if it doesn't
-    output_dir = "../Data Pool/Material Data Organized"
+    output_dir = "../Data Pool/Material Data Organized/Bolt"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
