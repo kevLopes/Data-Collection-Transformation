@@ -83,13 +83,12 @@ class MyWindow:
     def on_check_button_clicked(self):
         pass
 
-    def choose_folder_path(self):
+    #def choose_folder_path(self):
         # Open the folder selection dialog and get the selected path
-        selected_path = filedialog.askdirectory(initialdir="/", title="Folder Path")
-
+        #selected_path = filedialog.askdirectory(initialdir="/", title="Folder Path")
         # Update the folder path input field with the selected path
-        self.folder_path_input.delete(0, tk.END)
-        self.folder_path_input.insert(0, selected_path)
+        #self.folder_path_input.delete(0, tk.END)
+        #self.folder_path_input.insert(0, selected_path)
 
     def adjust_submit_button_layout(self):
         # Change the background color of the Submit button
@@ -148,8 +147,8 @@ class MyWindow:
                 #Organize Data from Data Hub
                 #DataCollector.data_collector_piping(project_number, material_type)
                 # Do something with the input and type (e.g., save to a file or database)
-                #CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path, project_number, material_type)
-                CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, material_type)
+                CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, material_type)
+                #CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, material_type)
                 print("Analyze done for all Distinct Material codes:")
                 flag = True
             # Material Type Valve
@@ -183,13 +182,13 @@ class MyWindow:
                 print("Cost Analyze done based on distinct Material types")
                 flag = True
 
-            if flag != True:
-                tk.messagebox.showinfo("Process Finished",f"It seems that there was an error with the Process. Reference project number: {project_number}, and the for {material_type} Material")
+            if not flag:
+                tk.messagebox.showinfo("Process Finished", f"It seems that there was an error with the Process. Reference project number: {project_number}, and the for {material_type} Material")
             else:
                 if not EcosysData_API.api_error_track:
-                    tk.messagebox.showinfo("Process Finished - Ecosys Data Update",f"Please proceed to DCT Process Results folder to see your result for the project number: {project_number}, and the for {material_type} Material")
+                    tk.messagebox.showinfo("Process Finished - Ecosys Data Update", f"Please proceed to DCT Process Results folder to see your result for the project number: {project_number}, and the for {material_type} Material")
                 else:
-                    tk.messagebox.showinfo("Process Finished - Ecosys Data not Update",f"Please proceed to DCT Process Results folder to see your result for the project number: {project_number}, and the for {material_type} Material. Check error logs for more details")
+                    tk.messagebox.showinfo("Process Finished - Ecosys Data not Update", f"Please proceed to DCT Process Results folder to see your result for the project number: {project_number}, and the for {material_type} Material. Check error logs for more details")
 
             # Clear the input field
             self.input_field.delete(0, tk.END)

@@ -1,95 +1,7 @@
 import os
-import openpyxl
-from openpyxl.chart import ScatterChart, Reference, Series
 from datetime import datetime
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-def data_graphic_reports_func():
-    # Ask the user for the project ID
-    project_id = input("Please enter the Project ID: ")
-
-    # Find the Materials Data Organized folder
-    folder_path = os.path.join(os.getcwd(), "Materials Data Organized")
-    if not os.path.exists(folder_path):
-        print(f"Error: Folder '{folder_path}' not found.")
-        exit()
-
-    # Find all Excel files with the project ID in the name
-    files = [f for f in os.listdir(folder_path) if project_id in f and f.endswith('.xlsx')]
-
-    # Define the columns to analyze
-    columns = ["Tag Number", "ID", "Project Number", "Product Code", "Commodity Code",
-               "Service Description", "Pipe Base Material", "Material", "LineNumber",
-               "SBM scope", "Total QTY to commit", "Quantity UOM", "Unit Weight",
-               "Unit Weight UOM", "Total NET weight", "SIZE"]
-
-    # Create a dictionary to store the data
-    data_dict = {}
-    for column in columns:
-        data_dict[column] = []
-
-    # Loop through each file and extract the data
-    for file in files:
-        # Open the file
-        try:
-            workbook = openpyxl.load_workbook(os.path.join(folder_path, file))
-        except Exception as e:
-            print(f"Error: Could not load workbook {file} - {e}")
-            continue
-
-        # Loop through each worksheet
-        for worksheet in workbook:
-            # Loop through each row in the worksheet
-            for row in worksheet.iter_rows(min_row=2, values_only=True):
-                # Loop through each column in the row
-                for i, column in enumerate(columns):
-                    data_dict[column].append(row[i])
-
-    # Create a new workbook to store the results
-    result_workbook = openpyxl.Workbook()
-
-    # Create a worksheet to store the data
-    data_worksheet = result_workbook.create_sheet(title="Data")
-
-    # Write the data to the worksheet
-    for i, column in enumerate(columns):
-        data_worksheet.cell(row=1, column=i + 1, value=column)
-        for j, value in enumerate(data_dict[column]):
-            data_worksheet.cell(row=j + 2, column=i + 1, value=value)
-
-    # Create a scatter chart for each file
-    chart = ScatterChart()
-    chart.title = f"{project_id} - Total NET weight vs Unit Weight"
-    chart.x_axis.title = 'Total NET weight'
-    chart.y_axis.title = 'Unit Weight'
-    chart.legend = None
-
-    for file in files:
-        # Create a new series for the file
-        series = Series(
-            Reference(data_worksheet, min_col=columns.index("Total NET weight") + 1, min_row=2,
-                      max_row=len(data_dict[columns[0]])),
-            Reference(data_worksheet, min_col=columns.index("Unit Weight") + 1, min_row=2,
-                      max_row=len(data_dict[columns[0]])),
-            title=file
-        )
-
-        # Add the series to the chart
-        chart.series.append(series)
-
-    # Add the chart to the worksheet
-    chart_worksheet = result_workbook.create_sheet(title="Chart")
-    chart_worksheet.add_chart(chart, "A1")
-
-    # Get the current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
-    # Save the result workbook
-    result_filename = f"Result Graphic {project_id}_{timestamp}.xlsx"
-    result_workbook.save(os.path.join(folder_path, result_filename))
-
-    print("Done!")
 
 
 def plot_totals(cost_df, project_number):
@@ -140,13 +52,9 @@ def plot_totals(cost_df, project_number):
 
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_PippingAnalyze_Graphics_Illustration_{timestamp}.png"
+    fig_name = f"MP{project_number}_PipingAnalyze_Graphics_Illustration_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
-
-    plt.tight_layout()
-    plt.show()
-
     print(f'Figure saved at {fig_path}')
 
 
@@ -213,13 +121,9 @@ def plot_totals_other(cost_df, project_number):
 
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_Pipping_Analyze_Graphics_Illustration_{timestamp}.png"
+    fig_name = f"MP{project_number}_Piping_Analyze_Graphics_Illustration_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
-
-    plt.tight_layout()
-    plt.show()
-
     print(f'Figure saved at {fig_path}')
 
 
@@ -304,3 +208,168 @@ def plot_cost_per_weight_and_totals(cost_df, project_number):
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')
+
+
+def plot_material_cost1(cost_df, project_number):
+    # Aggregate costs and convert to thousands
+    material_costs = cost_df.groupby('Base Material')['Cost'].sum() / 1000
+
+    # Create graphics directory if not exists
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Create figure
+    fig, ax = plt.subplots(figsize=(12, 5))
+
+    # Plot total cost per material
+    sns.barplot(x=material_costs.index, y=material_costs.values, ax=ax)
+
+    ax.set_title('Total Cost per Material Type')
+    ax.set_xlabel('Material Type')
+    ax.set_ylabel('Total Cost (Thousands of Dollars)')
+    plt.xticks(rotation=60)  # Rotate the x-axis labels to be vertical
+
+    # Add value labels
+    for p in ax.patches:
+        ax.text(p.get_x() + p.get_width() / 2., p.get_height(),
+               '%.2f' % float(p.get_height()),
+               fontsize=12, color='black', ha='center', va='bottom')
+
+    plt.tight_layout()
+
+    # Save figure
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_PipingTotal_Cost_Material_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    print(f'Figure saved at {fig_path}')
+
+
+def plot_material_cost(cost_df, project_number):
+    # Create a dictionary mapping full names to codes
+    name_to_code = {
+        'CARBON STEEL': 'CST',
+        'CHROME-MOLY': 'CRM',
+        'COPPER-NICKEL': 'CUN',
+        'DUPLEX STAINLESS STEEL': 'DSS',
+        'GALVANIZED CARBON STEEL': 'GST',
+        'GRE PIPING': 'GRE',
+        'HIGH YIELD CARBON STEEL': 'HST',
+        'LOW TEMPERATURE CARBON STEEL': 'LST',
+        'METALLIC GASKETS': 'MET',
+        'NICKEL ALLOY': 'ICO',
+        'NON- METALLIC GASKETS': 'NMT',
+        'SUPER DUPLEX STAINLESS STEEL': 'SDS'
+        # Add more mappings as needed...
+    }
+    # And a dictionary mapping codes back to full names
+    code_to_name = {v: k for k, v in name_to_code.items()}
+
+    # Replace the material names in the DataFrame with their codes
+    cost_df_copy = cost_df.copy()
+    cost_df_copy['Base Material'] = cost_df_copy['Base Material'].map(name_to_code)
+
+    # Aggregate costs and convert to thousands
+    material_costs = cost_df_copy.groupby('Base Material')['Cost'].sum() / 1000
+
+    # Create graphics directory if not exists
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Create figure
+    fig, ax = plt.subplots(figsize=(12, 5))
+
+    # Plot total cost per material
+    barplot = sns.barplot(x=material_costs.index, y=material_costs.values, ax=ax)
+
+    ax.set_title('Total Cost per Material Type')
+    ax.set_xlabel('Material Type Code')
+    ax.set_ylabel('Total Cost (Thousands of Dollars)')
+
+    # Add value labels on the bars
+    for i, bar in enumerate(barplot.patches):
+        barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
+                     f'{bar.get_height():.2f}',
+                     ha='center', va='bottom',
+                     fontsize=12, color='black')
+
+    # Create a legend mapping codes to full names
+    handles = [plt.Rectangle((0, 0), 1, 1, color=barplot.patches[i].get_facecolor()) for i in range(len(code_to_name))]
+    plt.legend(handles, code_to_name.values(), title='Code to Material Type')
+
+    plt.tight_layout()
+
+    # Save figure
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_PipingTotal_Cost_Material_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    print(f'Figure saved at {fig_path}')
+    cost_df['Base Material'] = cost_df['Base Material'].map(code_to_name)  # Add this line
+
+
+
+
+def plot_material_weight(cost_df, project_number):
+    # Create a dictionary mapping full names to codes
+    name_to_code = {
+        'CARBON STEEL': 'CST',
+        'CHROME-MOLY': 'CRM',
+        'COPPER-NICKEL': 'CUN',
+        'DUPLEX STAINLESS STEEL': 'DSS',
+        'GALVANIZED CARBON STEEL': 'GST',
+        'GRE PIPING': 'GRE',
+        'HIGH YIELD CARBON STEEL': 'HST',
+        'LOW TEMPERATURE CARBON STEEL': 'LST',
+        'METALLIC GASKETS': 'MET',
+        'NICKEL ALLOY': 'ICO',
+        'NON- METALLIC GASKETS': 'NMT',
+        'SUPER DUPLEX STAINLESS STEEL': 'SDS'
+        # Add more mappings as needed...
+    }
+    # And a dictionary mapping codes back to full names
+    code_to_name = {v: k for k, v in name_to_code.items()}
+
+    # Replace the material names in the DataFrame with their codes
+    cost_df_copy = cost_df.copy()
+    cost_df_copy['Base Material'] = cost_df_copy['Base Material'].map(name_to_code)
+
+    # Aggregate weights and convert to tons
+    material_weights = cost_df_copy.drop_duplicates(subset='Base Material', keep='first').set_index('Base Material')[
+                           'Total NET weight'] / 1000
+
+    # Create graphics directory if not exists
+    graphics_dir = "../Data Pool/DCT Process Results/graphics"
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Create figure
+    fig, ax = plt.subplots(figsize=(12, 5))
+
+    # Plot total weight per material
+    barplot = sns.barplot(x=material_weights.index, y=material_weights.values, ax=ax)
+
+    ax.set_title('Total Net Weight per Material Type')
+    ax.set_xlabel('Material Type Code')
+    ax.set_ylabel('Total Net Weight (TONs)')
+    #plt.xticks(rotation=75)  # Rotate the x-axis labels to be vertical
+
+    # Add value labels on the bars
+    for i, bar in enumerate(barplot.patches):
+        barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
+                     f'{bar.get_height():.2f}',
+                     ha='center', va='bottom',
+                     fontsize=12, color='black')
+
+    # Create a legend mapping codes to full names
+    handles = [plt.Rectangle((0, 0), 1, 1, color=barplot.patches[i].get_facecolor()) for i in range(len(code_to_name))]
+    plt.legend(handles, code_to_name.values(), title='Material Type Legend')
+
+    plt.tight_layout()
+
+    # Save figure
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_PipingTotal_Net_Weight_Per_Material_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    print(f'Figure saved at {fig_path}')
+    cost_df['Base Material'] = cost_df['Base Material'].map(code_to_name)  # Add this line

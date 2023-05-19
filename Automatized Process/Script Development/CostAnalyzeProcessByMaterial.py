@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from datetime import datetime
+import ExportReportsGraphics
 
 
 def get_most_recent_file(folder_path, matching_files):
@@ -144,6 +145,12 @@ def material_cost_analyze_piping(project_number, material_codes, material_info):
             unmatched_df = pd.DataFrame(unmatched_data)
             output_file_unmatched = os.path.join(result_folder_path, f"Piping_NotMatched_ProductCode_{timestamp}.xlsx")
             unmatched_df.to_excel(output_file_unmatched, index=False)
+
+        cost_df_mt = cost_df.copy()
+        cost_df_mw = cost_df.copy()
+
+        ExportReportsGraphics.plot_material_cost(cost_df_mt, project_number)
+        #ExportReportsGraphics.plot_material_weight(cost_df_mw, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 
@@ -210,7 +217,7 @@ def material_currency_cost_analyze_piping(project_number, material_codes, materi
         result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
         cost_df = pd.DataFrame(cost_data)
         output_file = os.path.join(result_folder_path,
-                                   f"MP{project_number}_Piping_MaterialCurrency_Cost_Analyze_{timestamp}.xlsx")
+                                   f"MP{project_number}_Piping_MatCurrency_CostAnalyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
@@ -423,7 +430,7 @@ def material_currency_cost_analyze_valve(project_number, material_codes, materia
         result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
         cost_df = pd.DataFrame(cost_data)
         output_file = os.path.join(result_folder_path,
-                                   f"MP{project_number}_Valve_MaterialCurrency_Cost_Analyze_{timestamp}.xlsx")
+                                   f"MP{project_number}_Valve_MatCurrency_CostAnalyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
@@ -618,7 +625,7 @@ def material_currency_cost_analyze_bolt(project_number, material_codes, material
     result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
     cost_df = pd.DataFrame(cost_data)
     output_file = os.path.join(result_folder_path,
-                               f"MP{project_number}_Bolt_MaterialCurrency_Cost_Analyze_{timestamp}.xlsx")
+                               f"MP{project_number}_Bolt_MatCurrency_CostAnalyze_{timestamp}.xlsx")
     cost_df.to_excel(output_file, index=False)
 
     #if unmatched_data:
