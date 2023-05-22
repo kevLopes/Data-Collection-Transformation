@@ -136,7 +136,7 @@ def material_cost_analyze_piping(project_number, material_codes, material_info):
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
         cost_df = pd.DataFrame(cost_data)
-        output_file = os.path.join(result_folder_path,f"MP{project_number}_Piping_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
+        output_file = os.path.join(result_folder_path, f"MP{project_number}_Piping_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
 
         # Save the unmatched data to a new Excel file
@@ -149,8 +149,8 @@ def material_cost_analyze_piping(project_number, material_codes, material_info):
         cost_df_mt = cost_df.copy()
         cost_df_mw = cost_df.copy()
 
-        ExportReportsGraphics.plot_material_cost(cost_df_mt, project_number)
-        #ExportReportsGraphics.plot_material_weight(cost_df_mw, project_number)
+        ExportReportsGraphics.plot_piping_material_cost(cost_df_mt, project_number)
+        ExportReportsGraphics.plot_piping_material_weight(cost_df_mw, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 
@@ -215,10 +215,10 @@ def material_currency_cost_analyze_piping(project_number, material_codes, materi
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
-        cost_df = pd.DataFrame(cost_data)
+        cost_df_c = pd.DataFrame(cost_data)
         output_file = os.path.join(result_folder_path,
                                    f"MP{project_number}_Piping_MatCurrency_CostAnalyze_{timestamp}.xlsx")
-        cost_df.to_excel(output_file, index=False)
+        cost_df_c.to_excel(output_file, index=False)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 

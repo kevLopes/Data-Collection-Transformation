@@ -206,9 +206,7 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
 
         # Append total row to cost_data
         cost_data.append(total_row)
-
         cost_df = pd.DataFrame(cost_data)
-
         output_file = os.path.join(result_folder_path, f"MP{project_number}_Piping_TagBased_Cost_Analyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
 
@@ -351,8 +349,8 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
         cost_df.to_excel(output_file, index=False)
 
         # Plot totals
-        ExportReportsGraphics.plot_totals(cost_df, project_number)
-        ExportReportsGraphics.plot_cost_per_weight_and_totals(cost_df, project_number)
+        ExportReportsGraphics.plot_piping_totals(cost_df, project_number)
+        ExportReportsGraphics.plot_piping_cost_per_weight_and_totals(cost_df, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 

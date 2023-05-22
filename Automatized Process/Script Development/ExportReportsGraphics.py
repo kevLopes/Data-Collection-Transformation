@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def plot_totals(cost_df, project_number):
+def plot_piping_totals(cost_df, project_number):
     commit_totals = cost_df.groupby('Quantity UOM')['Total QTY to commit'].sum()
     po_totals = cost_df.groupby('UOM in PO')['Quantity in PO'].sum()
     currency_totals = cost_df.groupby('Transaction Currency')['PO Cost'].sum()
@@ -168,7 +168,7 @@ def plot_cost_per_weight(cost_df, project_number):
     print(f'Figure saved at {fig_path}')
 
 
-def plot_cost_per_weight_and_totals(cost_df, project_number):
+def plot_piping_cost_per_weight_and_totals(cost_df, project_number):
     # Calculate cost per weight for each row
     cost_df['Cost per Weight'] = cost_df['Project Currency Cost'] / cost_df['Total Weight using PO quantity']
 
@@ -227,7 +227,7 @@ def plot_material_cost1(cost_df, project_number):
     ax.set_title('Total Cost per Material Type')
     ax.set_xlabel('Material Type')
     ax.set_ylabel('Total Cost (Thousands of Dollars)')
-    plt.xticks(rotation=60)  # Rotate the x-axis labels to be vertical
+    plt.xticks(rotation=90)  # Rotate the x-axis labels to be vertical
 
     # Add value labels
     for p in ax.patches:
@@ -245,7 +245,7 @@ def plot_material_cost1(cost_df, project_number):
     print(f'Figure saved at {fig_path}')
 
 
-def plot_material_cost(cost_df, project_number):
+def plot_piping_material_cost(cost_df_mt, project_number):
     # Create a dictionary mapping full names to codes
     name_to_code = {
         'CARBON STEEL': 'CST',
@@ -259,20 +259,25 @@ def plot_material_cost(cost_df, project_number):
         'METALLIC GASKETS': 'MET',
         'NICKEL ALLOY': 'ICO',
         'NON- METALLIC GASKETS': 'NMT',
+        'STAINLESS STEEL': 'SST',
         'SUPER DUPLEX STAINLESS STEEL': 'SDS'
         # Add more mappings as needed...
     }
-    # And a dictionary mapping codes back to full names
-    code_to_name = {v: k for k, v in name_to_code.items()}
 
     # Replace the material names in the DataFrame with their codes
-    cost_df_copy = cost_df.copy()
+    cost_df_copy = cost_df_mt.copy()
     cost_df_copy['Base Material'] = cost_df_copy['Base Material'].map(name_to_code)
+
+    # Sort the DataFrame by the material codes
+    cost_df_copy.sort_values(by='Base Material', inplace=True)
 
     # Aggregate costs and convert to thousands
     material_costs = cost_df_copy.groupby('Base Material')['Cost'].sum() / 1000
 
-    # Create graphics directory if not exists
+    # Sort the material costs based on the material codes
+    material_costs = material_costs.reindex(sorted(name_to_code.values()))
+
+    # Create graphics directory if it doesn't exist
     graphics_dir = "../Data Pool/DCT Process Results/Graphics"
     os.makedirs(graphics_dir, exist_ok=True)
 
@@ -293,9 +298,11 @@ def plot_material_cost(cost_df, project_number):
                      ha='center', va='bottom',
                      fontsize=12, color='black')
 
-    # Create a legend mapping codes to full names
-    handles = [plt.Rectangle((0, 0), 1, 1, color=barplot.patches[i].get_facecolor()) for i in range(len(code_to_name))]
-    plt.legend(handles, code_to_name.values(), title='Code to Material Type')
+    # Create a legend mapping material codes to full names
+    code_to_name = {v: k for k, v in name_to_code.items()}
+    unique_materials = sorted(name_to_code.values())
+    handles = [plt.Rectangle((0, 0), 1, 1, color=barplot.patches[i].get_facecolor()) for i in range(len(unique_materials))]
+    plt.legend(handles, [code_to_name[code] for code in unique_materials], title='Material Type Legend')
 
     plt.tight_layout()
 
@@ -305,12 +312,10 @@ def plot_material_cost(cost_df, project_number):
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')
-    cost_df['Base Material'] = cost_df['Base Material'].map(code_to_name)  # Add this line
 
 
 
-
-def plot_material_weight(cost_df, project_number):
+def plot_piping_material_weight(cost_df_mw, project_number):
     # Create a dictionary mapping full names to codes
     name_to_code = {
         'CARBON STEEL': 'CST',
@@ -324,6 +329,7 @@ def plot_material_weight(cost_df, project_number):
         'METALLIC GASKETS': 'MET',
         'NICKEL ALLOY': 'ICO',
         'NON- METALLIC GASKETS': 'NMT',
+        'STAINLESS STEEL': 'SST',
         'SUPER DUPLEX STAINLESS STEEL': 'SDS'
         # Add more mappings as needed...
     }
@@ -331,7 +337,7 @@ def plot_material_weight(cost_df, project_number):
     code_to_name = {v: k for k, v in name_to_code.items()}
 
     # Replace the material names in the DataFrame with their codes
-    cost_df_copy = cost_df.copy()
+    cost_df_copy = cost_df_mw.copy()
     cost_df_copy['Base Material'] = cost_df_copy['Base Material'].map(name_to_code)
 
     # Aggregate weights and convert to tons
@@ -372,4 +378,4 @@ def plot_material_weight(cost_df, project_number):
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')
-    cost_df['Base Material'] = cost_df['Base Material'].map(code_to_name)  # Add this line
+    #cost_df_copy['Base Material'] = cost_df_copy['Base Material'].map(code_to_name)  # Add this line
