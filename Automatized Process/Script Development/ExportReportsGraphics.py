@@ -173,12 +173,12 @@ def plot_piping_cost_per_weight_and_totals(cost_df, project_number):
     cost_df['Cost per Weight'] = cost_df['Project Currency Cost'] / cost_df['Total Weight using PO quantity']
 
     # Aggregate totals
-    cost_totals = cost_df['Project Currency Cost'].sum()
+    cost_totals = cost_df['Project Currency Cost'].sum() / 1000
     net_weight_totals = cost_df['Total NET weight'].sum()
-    weight_totals = cost_df['Total Weight using PO quantity'].sum()
+    weight_totals = cost_df['Total Weight using PO quantity'].sum() / 1000
 
     # Calculate total cost per weight
-    total_cost_per_weight = cost_totals / weight_totals
+    total_cost_per_weight = (cost_totals / weight_totals)
 
     # Create graphics directory if not exists
     graphics_dir = "../Data Pool/DCT Process Results/graphics"
@@ -188,7 +188,7 @@ def plot_piping_cost_per_weight_and_totals(cost_df, project_number):
     fig, ax = plt.subplots(figsize=(12, 5))
 
     # Plot total cost per weight
-    sns.barplot(x=['Cost per KG', 'Total Cost in Dollars', 'Total Weight in KG'],
+    sns.barplot(x=['Cost per KG', 'Total Cost in Thousands of USD', 'Total Weight in TON'],
                 y=[total_cost_per_weight, cost_totals, weight_totals], ax=ax)
 
     ax.set_title('Graphic representation for Weight and Cost')

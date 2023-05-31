@@ -104,7 +104,7 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
     cost_data = []
     unmatched_data = []
 
-    required_columns = ["Cost Project Currency", "Transaction Date", "PO Description", "Tag Number", "Quantity", "UOM", "Cost Object ID"]
+    required_columns = ["Cost Project Currency", "Transaction Date", "PO Description", "Tag Number", "Quantity", "UOM", "Cost Object ID", "PO Line Number"]
     if all(column in df.columns for column in required_columns):
         for tag, material in tag_numbers.items():
             # Regular Tags
@@ -139,8 +139,10 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
                     po_tr_date = ', '.join(map(str, po_tr_date))
                     po_desc = uom_rows["PO Description"].unique()
                     po_desc = ', '.join(map(str, po_desc))
-                    po_number = uom_rows["Cost Object ID"].unique()
+                    po_number = regular_rows["Cost Object ID"].unique()  # Get PO number for only regular rows
                     po_number = ', '.join(map(str, po_number))
+                    po_linenr = regular_rows["PO Line Number"].unique()  # Get PO Line number for only regular rows
+                    po_linenr = ', '.join(map(str, po_linenr))
 
                     calc_weight = abs(material_quantity * tag_info["Unit Weight"])
 
@@ -153,22 +155,16 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
                                 quantity_uom == 'METER' and uom_in_po == 'm')):
                             remarks += 'Please note difference between MTO and PO UOM\n'
 
-                    surplus_rows = uom_rows[
-                        uom_rows["Tag Number"].str.contains("-SURPLUS") | uom_rows["Tag Number"].str.contains(
-                            "-SURPLUS+S")
-                        ]
-                    if not surplus_rows.empty:
-                        for _, surplus_row in surplus_rows.iterrows():
-                            surplus_quantity = surplus_row["Quantity"]
-                            surplus_cost = surplus_row["Cost Transaction Currency"]
-                            surplus_tag = surplus_row["Tag Number"]
-                            remarks += f"A surplus item with Tag Number {surplus_tag} found with the Quantity of {surplus_quantity} and with the cost {surplus_cost}\n"
+                    surplus_tags = [row["Tag Number"] for _, row in surplus_rows.iterrows()]
+                    for surplus_tag in surplus_tags:
+                        remarks += f"This tag number has the surplus reference {surplus_tag}\n"
 
                     if total_cost > 0 or material_quantity > 0:
                         cost_data.append({
                             "Project Number": project_number,
                             "Tag Number": tag,
                             "PO Number": po_number,
+                            #"PO Line Number": po_linenr,
                             "Base Material": material,
                             "Cost": total_cost,
                             "Currency": "USD",
@@ -185,6 +181,34 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
                             "Remarks": remarks
                         })
 
+                    if not surplus_rows.empty:
+                        for _, surplus_row in surplus_rows.iterrows():
+                            surplus_quantity = surplus_row["Quantity"]
+                            surplus_cost = surplus_row["Cost Project Currency"]
+                            surplus_tag = surplus_row["Tag Number"]
+                            surplus_po_number = surplus_row["Cost Object ID"]  # Get unique PO number for surplus
+
+                            cost_data.append({
+                                "Project Number": project_number,
+                                "Tag Number": surplus_tag,
+                                "PO Number": surplus_po_number,  # Assign unique PO number to surplus tag
+                                #"PO Line Number": surplus_row["PO Line Number"],
+                                "Base Material": material,
+                                "Cost": surplus_cost,
+                                "Currency": "USD",
+                                "Transaction Date": po_tr_date,
+                                "PO Description": po_desc,
+                                "Total QTY to commit": tag_info["Total QTY to commit"],
+                                "Quantity UOM": tag_info["Quantity UOM"],
+                                "Unit Weight": tag_info["Unit Weight"],
+                                "Total NET weight": tag_info["Total NET weight"],
+                                "Weight UOM": tag_info["Unit Weight UOM"],
+                                "Quantity in PO": surplus_quantity,
+                                "UOM in PO": uom,
+                                "Total Weight using PO quantity": calc_weight,
+                                "Remarks": ""  # Clear remarks for surplus rows
+                            })
+
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
         cost_df = pd.DataFrame(cost_data)
@@ -194,14 +218,6 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
             "Base Material": "Total Amount:",
             "Cost": cost_df["Cost"].sum(),
             "Currency": "USD"
-            #"PO Description": "Total Material Weight:",
-            #"Total QTY to commit": cost_df["Total QTY to commit"].sum(),
-            #"Unit Weight": "Total Material Weight:",
-            #"Total NET weight": cost_df["Total NET weight"].sum(),
-            #"Weight UOM": "Total Quantity from Ecosys",
-            #"Quantity in PO": cost_df["Quantity in PO"].sum(),
-            #"UOM in PO": "Total Weight Ecosys Quantity:",
-            #"Total Weight using PO quantity": cost_df["Total Weight using PO quantity"].sum()
         }
 
         # Append total row to cost_data
@@ -242,7 +258,7 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
     df = pd.read_excel(file_path)
 
     cost_data = []
-    required_columns = ["Cost Project Currency", "Transaction Date", "PO Description", "Tag Number", "Quantity", "UOM", "Cost Object ID"]
+    required_columns = ["Cost Project Currency", "Cost Project Currency", "Transaction Date", "PO Description", "Tag Number", "Quantity", "UOM", "Cost Object ID"]
 
     if all(column in df.columns for column in required_columns):
         for tag, material in tag_numbers.items():

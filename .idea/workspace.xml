@@ -5,17 +5,94 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work">
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_MatCurrency_CostAnalyze_2023-05-24 14-21-31.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_MaterialBased_Cost_Analyze_2023-05-24 14-21-25.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-24 14-25-55.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-24 14-30-31.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-24 14-25-56.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-24 14-30-32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingTotal_Cost_Material_2023-05-24 14-21-26.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingTotal_Net_Weight_Per_Material_2023-05-24 14-21-26.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-24 14-30-32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Piping/SO17033 - Piping Organized_2023-05-24 14-21-05.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-25 17-00-55.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-25 17-18-09.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-25 17-31-38.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-25 17-59-14.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 10-29-58.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 13-32-24.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 13-47-21.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 14-22-56.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 15-23-35.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 15-49-48.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 16-28-08.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 16-43-01.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 17-14-47.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 17-27-47.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 17-41-11.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-30 18-01-29.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagBased_Cost_Analyze_2023-05-31 15-05-19.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-25 17-04-27.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-25 17-21-37.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-25 17-35-03.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-25 18-03-11.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 10-33-56.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 13-36-24.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 13-51-21.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 14-26-57.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 15-28-09.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 15-54-00.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 16-32-23.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 16-47-30.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 17-18-40.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 17-31-52.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 17-45-03.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-30 18-05-07.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/MP17033_Piping_TagCurrency_Cost_Analyze_2023-05-31 15-10-48.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-25 17-00-56.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-25 17-18-10.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-25 17-31-39.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-25 17-59-15.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 10-29-59.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 13-32-25.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 13-47-21.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 14-22-57.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 15-23-35.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 15-49-49.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 16-28-08.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 16-43-02.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 17-14-48.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 17-27-47.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 17-41-12.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-30 18-01-29.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping_NotMatched_TagNumber_2023-05-31 15-05-20.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-25 17-04-28.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-25 17-21-38.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-25 17-35-04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-25 18-03-11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 10-33-57.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 13-36-25.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 13-51-22.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 14-26-58.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 15-28-10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 15-54-01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 16-32-24.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 16-47-31.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 17-18-41.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 17-31-52.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 17-45-04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-30 18-05-08.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_PipingAnalyze_Graphics_Illustration_2023-05-31 15-10-49.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-25 17-04-28.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-25 17-21-38.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-25 17-35-04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-25 18-03-12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 10-33-58.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 13-36-25.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 13-51-23.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 14-26-58.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 15-28-11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 15-54-01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 16-32-24.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 16-47-32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 17-18-41.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 17-31-53.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 17-45-04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-30 18-05-08.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/MP17033_Piping_Cost_and_Weight_Illustration_2023-05-31 15-10-50.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/CostAnalyzeByTagNumber.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/CostAnalyzeByTagNumber.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/ExportReportsGraphics.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/ExportReportsGraphics.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/ScreenMenu.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/ScreenMenu.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -226,13 +303,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679215832537</updated>
-    </task>
-    <task id="LOCAL-00015" summary="folder name changed">
-      <created>1679763194181</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1679763194181</updated>
     </task>
     <task id="LOCAL-00016" summary="folder name changed">
       <created>1679765877516</created>
@@ -570,7 +640,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684764552515</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="All Script Dev done at work">
+      <created>1684938737094</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1684938737094</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
