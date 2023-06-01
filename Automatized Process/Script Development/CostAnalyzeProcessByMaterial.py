@@ -277,7 +277,6 @@ def extract_distinct_product_codes_valve(folder_path, project_number, material_t
 
         material_cost_analyze_valve(project_number, material_codes, material_info)
         material_currency_cost_analyze_valve(project_number, material_codes, material_info)
-        return list(general_materials), material_codes, material_info
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 
@@ -487,10 +486,10 @@ def extract_distinct_product_codes_bolt(folder_path, project_number, material_ty
                 "Qty confirmed in design": total_qty_design
             }
 
-    material_cost_analyze_bolt(project_number, material_codes, material_info)
-    material_currency_cost_analyze_bolt(project_number, material_codes, material_info)
-
-    return list(general_materials), material_codes, material_info
+        material_cost_analyze_bolt(project_number, material_codes, material_info)
+        material_currency_cost_analyze_bolt(project_number, material_codes, material_info)
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
 
 
 def material_cost_analyze_bolt(project_number, material_codes, material_info):

@@ -4,8 +4,6 @@ import json
 from datetime import datetime
 import os
 
-api_error_track = False
-
 
 def ecosys_poheader_data_api(api, username, password, project_number):
 
@@ -54,18 +52,20 @@ def ecosys_poheader_data_api(api, username, password, project_number):
 
         # save the Excel file
         writer.save()
-        api_error_track = False
         print('PO Header file extracted from Ecosys successfully!')
 
     except requests.exceptions.RequestException as re:
         error_msg = f"RequestException: {re}"
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         print(error_msg)
         log_error(error_msg, timestamp)
 
     except Exception as e:
         error_msg = f"Error: {e}"
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         print(error_msg)
-        api_error_track = True
         log_error(error_msg, timestamp)
 
 
@@ -116,17 +116,19 @@ def ecosys_sun_lines_data_api(api, username, password, project_number):
 
         # save the Excel file
         writer.save()
-        api_error_track = False
         print('SUN Transactions file extracted from Ecosys successfully!')
 
     except requests.exceptions.RequestException as re:
         error_msg = f"RequestException: {re}"
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         print(error_msg)
-        api_error_track = True
         log_error(error_msg, timestamp)
 
     except Exception as e:
         error_msg = f"Error: {e}"
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         print(error_msg)
         log_error(error_msg, timestamp)
 
@@ -179,19 +181,18 @@ def ecosys_po_lines_data_api(api, username, password, project_number):
         writer = pd.ExcelWriter(f'..\\Data Pool\\Ecosys API Data\\PO Lines\\MP{project_number}_Ecosys PO Lines_{timestamp}.xlsx')
         df.to_excel(writer, index=False)
         writer.save()
-
-        api_error_track = False
         print("PO Lines file extracted from Ecosys successfully!")
 
     except requests.exceptions.RequestException as re:
         error_msg = f"RequestException: {re}"
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         print(error_msg)
-        api_error_track = True
         log_error(error_msg, timestamp)
 
     except Exception as e:
         error_msg = f"Error: {e}"
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         print(error_msg)
-        api_error_track = True
         log_error(error_msg, timestamp)
-
