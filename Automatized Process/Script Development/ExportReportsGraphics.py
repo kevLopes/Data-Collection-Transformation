@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 
 
 def plot_piping_totals(cost_df, project_number):
@@ -429,6 +430,91 @@ def plot_valve_cost_quantity_per_currency(cost_df_currency, project_number):
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
     fig_name = f"MP{project_number}_Valve_CostQuantity_Currency_Illustration_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    print(f'Figure saved at {fig_path}')
+
+
+#-------------------- Bolt --------------------
+def plot_bolt_material_cost(cost_df_mt, project_number):
+
+    # Replace the material names in the DataFrame with their codes
+    cost_df_copy = cost_df_mt.copy()
+    cost_df_copy['Base Material'] = cost_df_copy['Base Material']
+
+    # Aggregate costs and convert to thousands
+    material_costs = cost_df_copy.groupby('Base Material')['Cost'].sum() / 1000
+
+    # Create graphics directory if it doesn't exist
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Create figure
+    fig, ax = plt.subplots(figsize=(12, 5))
+
+    # Plot total cost per material
+    barplot = sns.barplot(x=material_costs.index, y=material_costs.values, ax=ax)
+
+    ax.set_title('Total Cost per Material Type')
+    ax.set_xlabel('Material Type')
+    ax.set_ylabel('Total Cost (Thousands of Dollars)')
+
+    # Add value labels on the bars
+    for i, bar in enumerate(barplot.patches):
+        barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
+                     f'{bar.get_height():.2f}',
+                     ha='center', va='bottom',
+                     fontsize=12, color='black')
+
+    plt.tight_layout()
+
+    # Save figure
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_BoltTotal_Cost_Illustration_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    print(f'Figure saved at {fig_path}')
+
+
+def plot_bolt_quantity_difference(material_info, project_number):
+    # Create a DataFrame from the material info dictionary
+    data = []
+    for material, info in material_info.items():
+        data.append({
+            'Material': material,
+            'Total QTY to commit': info['Total QTY to commit'],
+            'Qty confirmed in design': info['Qty confirmed in design']
+        })
+    df = pd.DataFrame(data)
+
+    # Create graphics directory if it doesn't exist
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Melt the DataFrame to make it suitable for seaborn
+    df_melted = df.melt(id_vars='Material', var_name='Quantity Type', value_name='Quantity')
+
+    # Create a barplot
+    plt.figure(figsize=(12, 8))
+    barplot = sns.barplot(x='Material', y='Quantity', hue='Quantity Type', data=df_melted)
+
+    # Add labels and title
+    plt.xlabel('Material Type')
+    plt.ylabel('Quantity')
+    plt.title('Difference between "Quantity Commit" and "Quantity Confirmed"')
+
+    # Add quantity labels on the bars
+    for i, bar in enumerate(barplot.patches):
+        barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
+                     f'{bar.get_height():.2f}',
+                     ha='center', va='bottom',
+                     fontsize=12, color='black')
+
+    plt.tight_layout()
+
+    # Save figure
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_BoltQuantity_Illustration_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')

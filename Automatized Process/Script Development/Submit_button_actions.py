@@ -32,40 +32,45 @@ def action_for_material_analyze(project_number, material_type):
         # Organize Data from Data Hub
         DataCollector.data_collector_piping(project_number, material_type)
         # Do something with the input and type
-        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, material_type)
+        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number,
+                                                                           material_type)
         CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, material_type)
         print("Analyze done for all Piping Material Codes")
-        flag = True
+        return True
 
     # Material Type Valve
     elif material_type == "Valve":
         # Organize Data from Data Hub
-        #DataCollector.data_collector_valve(project_number, material_type)
+        DataCollector.data_collector_valve(project_number, material_type)
         # Do something with the input and type
-        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path_valve, project_number, material_type)
+        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path_valve, project_number,
+                                                                          material_type)
         print("Analyze done for all Valve Material Codes")
-        flag = True
+        return True
 
     # Material Type Bolt
     elif material_type == "Bolt":
         # Organize Data from Data Hub
         DataCollector.data_collector_bolt(project_number, material_type)
         # Do something with the input and type
-        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number, material_type)
+        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number,
+                                                                         material_type)
         print("Analyze done for all Bolt Material Codes")
-        flag = True
+        return True
 
     # Material Type Structure
     elif material_type == "Structure":
         # Organize Data from Data Hub
         DataCollector.data_collector_structure(project_number, material_type)
         print("Analyze done for all Structure Material Codes")
+        return True
 
     # Material Type Bend
     elif material_type == "Bend":
         # Organize Data from Data Hub
         DataCollector.data_collector_bend(project_number, material_type)
         print("Analyze done for all Bend Material Codes")
+        return True
 
     # All Materials
     elif material_type == "All Materials":
@@ -74,4 +79,6 @@ def action_for_material_analyze(project_number, material_type):
         CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path_valve, project_number, "Valve")
         CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number, "Bolt")
         print("Cost Analyze done based on distinct Material types")
-        flag = True
+        return True
+
+    return False

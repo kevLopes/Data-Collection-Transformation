@@ -497,6 +497,8 @@ def extract_distinct_product_codes_bolt(folder_path, project_number, material_ty
                 "Qty confirmed in design": total_qty_design
             }
 
+        ExportReportsGraphics.plot_bolt_quantity_difference(material_info, project_number)
+
         material_cost_analyze_bolt(project_number, material_codes, material_info)
         material_currency_cost_analyze_bolt(project_number, material_codes, material_info)
     else:
@@ -557,21 +559,25 @@ def material_cost_analyze_bolt(project_number, material_codes, material_info):
                     "Qty confirmed in design": material_info[material]["Qty confirmed in design"],
                 })
 
-    # Get the current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
-    result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
-    cost_df = pd.DataFrame(cost_data)
-    output_file = os.path.join(result_folder_path,
-                               f"MP{project_number}_Bolt_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
-    cost_df.to_excel(output_file, index=False)
-
-    # Save the unmatched data to a new Excel file
-    if unmatched_data:
+        # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        unmatched_df = pd.DataFrame(unmatched_data)
-        output_file_unmatched = os.path.join(result_folder_path, f"Bolt_NotMatched_ProductCode_{timestamp}.xlsx")
-        unmatched_df.to_excel(output_file_unmatched, index=False)
+
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        cost_df = pd.DataFrame(cost_data)
+        output_file = os.path.join(result_folder_path,
+                                   f"MP{project_number}_Bolt_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
+        cost_df.to_excel(output_file, index=False)
+
+        # Save the unmatched data to a new Excel file
+        if unmatched_data:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+            unmatched_df = pd.DataFrame(unmatched_data)
+            output_file_unmatched = os.path.join(result_folder_path, f"Bolt_NotMatched_ProductCode_{timestamp}.xlsx")
+            unmatched_df.to_excel(output_file_unmatched, index=False)
+
+        ExportReportsGraphics.plot_bolt_material_cost(cost_df, project_number)
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
 
 
 def material_currency_cost_analyze_bolt(project_number, material_codes, material_info):

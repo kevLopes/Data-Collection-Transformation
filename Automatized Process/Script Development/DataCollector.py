@@ -179,7 +179,7 @@ def data_collector_bolt(project_number, material_type):
     columns_to_extract = ["Tag Number", "ID", "Project Number", "Product Code", "Commodity Code",
                           "Service Description", "Pipe Base Material", "Material", "LineNumber",
                           "SBM scope", "Qty confirmed in design", "Total QTY to commit", "Quantity UOM",
-                          "Unit Weight UOM", "SIZE"]
+                          "SIZE"]
 
     # Check if the Data Pool folder exists, and display an error message if it doesn't
     if not os.path.exists(search_dir):

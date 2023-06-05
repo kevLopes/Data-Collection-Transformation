@@ -117,16 +117,17 @@ class MyWindow:
             tk.messagebox.showerror("Error", "Please fill in the fields")
         else:
             # Check if the check button is checked
-            flag = False
+            api_flag = False
             if self.check_button_var.get():
                 Submit_button_actions.action_for_ecosys_api(project_number)
+                api_flag = True
 
-            Submit_button_actions.action_for_material_analyze(project_number, material_type)
+            flag = Submit_button_actions.action_for_material_analyze(project_number, material_type)
 
             if not flag:
                 tk.messagebox.showinfo("Process Finished", f"It seems that there was an error with the Process. Reference project number: {project_number}, and the for {material_type} Material")
             else:
-                if flag:
+                if api_flag:
                     tk.messagebox.showinfo("Process Finished - Ecosys Data Update", f"Please proceed to DCT Process Results folder to see your result for the project number: {project_number}, and the for {material_type} Material")
                 else:
                     tk.messagebox.showinfo("Process Finished - Ecosys Data not Update", f"Please proceed to DCT Process Results folder to see your result for the project number: {project_number}, and the for {material_type} Material. Check error logs for more details")
