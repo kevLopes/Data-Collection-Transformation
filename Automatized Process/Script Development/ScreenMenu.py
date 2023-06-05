@@ -120,8 +120,6 @@ class MyWindow:
             flag = False
             if self.check_button_var.get():
                 Submit_button_actions.action_for_ecosys_api(project_number)
-            else:
-                print("Analyze on going without collecting data from Ecosys")
 
             Submit_button_actions.action_for_material_analyze(project_number, material_type)
 

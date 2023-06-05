@@ -301,12 +301,13 @@ def material_cost_analyze_valve(project_number, material_codes, material_info):
     file_path = os.path.join(folder_path, most_recent_file)
     df = pd.read_excel(file_path)
 
-    cost_data = []
+    cost_data_dict = {}
     unmatched_data = []
 
     if "Product Code" in df.columns and "Cost Project Currency" in df.columns and "Quantity" in df.columns and "UOM" in df.columns:
         for material, codes in material_codes.items():
             material_cost = 0
+            quantity_po = 0
 
             for code in codes:
                 cost_rows = df[df["Product Code"].apply(lambda x: isinstance(x, str) and x.startswith(code))]
@@ -320,41 +321,45 @@ def material_cost_analyze_valve(project_number, material_codes, material_info):
                     })
                 else:
                     material_cost += cost_rows["Cost Project Currency"].sum()
+                    quantity_po += cost_rows["Quantity"].sum()
 
-                    if material_cost > 0:
-                        cost_data.append({
-                            "Project Number": project_number,
-                            "Base Material": material,
-                            "Product Code": ", ".join(codes),
-                            "Cost": material_cost,
-                            "Currency": "USD",
-                            "Quantity": material_info[material]["Quantity"],
-                            "SIZE (inch)": material_info[material]["SIZE (inch)"],
-                            "Average Size (inch)": material_info[material]["Average Size (inch)"],
-                            "Weight": material_info[material]["Weight"],
-                            "Average Weight": material_info[material]["Average Weight"]
-                        })
+            if material in cost_data_dict:
+                cost_data_dict[material]["Cost"] += material_cost
+                cost_data_dict[material]["Product Code"].extend(codes)
+                cost_data_dict[material]["Quantity"] += material_info[material]["Quantity"]
+                cost_data_dict[material]["Weight"] += material_info[material]["Weight"]
+                cost_data_dict[material]["SIZE (inch)"] += material_info[material]["SIZE (inch)"]
+                cost_data_dict[material]["Quantity in PO"] += quantity_po
+                cost_data_dict[material]["Count"] += 1  # keep track of items count
+            else:
+                if material_cost > 0:
+                    cost_data_dict[material] = {
+                        "Project Number": project_number,
+                        "Base Material": material,
+                        "Product Code": codes,
+                        "Cost": material_cost,
+                        "Currency": "USD",
+                        "Quantity": material_info[material]["Quantity"],
+                        "SIZE (inch)": material_info[material]["SIZE (inch)"],
+                        "Weight": material_info[material]["Weight"],
+                        "Quantity in PO": quantity_po,
+                        "Count": 1  # initialize count
+                    }
+
+        # Calculating averages and converting product codes to strings
+        for material, data in cost_data_dict.items():
+            data["Average Size (inch)"] = data["SIZE (inch)"] / data["Count"]
+            data["Average Weight"] = data["Weight"] / data["Count"]
+            data["Product Code"] = ", ".join(data["Product Code"])
+            del data["Count"]  # remove count before exporting data
 
         # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
         result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        cost_data = list(cost_data_dict.values())
         cost_df = pd.DataFrame(cost_data)
-
-        # Calculate column totals
-        total_row = {
-            "Product Code": "Total Amount:",
-            "Cost": cost_df["Cost"].sum(),
-            "Currency": "USD",
-            "Quantity": cost_df["Quantity"].sum(),
-            "Average Size (inch)": "Total Material Weight:",
-            "Weight": cost_df["Weight"].sum()
-        }
-        # Append total row to cost_data
-        cost_data.append(total_row)
-
-        cost_df = pd.DataFrame(cost_data)
-        output_file = os.path.join(result_folder_path,f"MP{project_number}_Valve_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
+        output_file = os.path.join(result_folder_path, f"MP{project_number}_Valve_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
 
         # Save the unmatched data to a new Excel file
@@ -363,6 +368,9 @@ def material_cost_analyze_valve(project_number, material_codes, material_info):
             unmatched_df = pd.DataFrame(unmatched_data)
             output_file_unmatched = os.path.join(result_folder_path, f"Valve_NotMatched_ProductCode_{timestamp}.xlsx")
             unmatched_df.to_excel(output_file_unmatched, index=False)
+
+        ExportReportsGraphics.plot_valve_material_cost(cost_df, project_number)
+        ExportReportsGraphics.plot_valve_material_quantity_weight(cost_df, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 
@@ -419,6 +427,7 @@ def material_currency_cost_analyze_valve(project_number, material_codes, materia
                     "Transaction Currency": currency,
                     "Cost": cost,
                     "SIZE (inch)": material_info[material]["SIZE (inch)"],
+                    "Quantity": material_quantity_by_currency[currency],
                     "Average Size (inch)": material_info[material]["Average Size (inch)"],
                     "Weight": material_info[material]["Weight"],
                     "Average Weight": material_info[material]["Average Weight"]
@@ -431,6 +440,8 @@ def material_currency_cost_analyze_valve(project_number, material_codes, materia
         output_file = os.path.join(result_folder_path,
                                    f"MP{project_number}_Valve_MatCurrency_CostAnalyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
+
+        ExportReportsGraphics.plot_valve_cost_quantity_per_currency(cost_df, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 
@@ -561,7 +572,6 @@ def material_cost_analyze_bolt(project_number, material_codes, material_info):
         unmatched_df = pd.DataFrame(unmatched_data)
         output_file_unmatched = os.path.join(result_folder_path, f"Bolt_NotMatched_ProductCode_{timestamp}.xlsx")
         unmatched_df.to_excel(output_file_unmatched, index=False)
-
 
 
 def material_currency_cost_analyze_bolt(project_number, material_codes, material_info):
