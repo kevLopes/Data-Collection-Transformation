@@ -93,7 +93,7 @@ def extract_po_numbers_and_costs(project_number, keyword):
     cost_df = pd.DataFrame(cost_data)
     output_folder_path = os.path.join(folder_path, "PO Analyze")
     os.makedirs(output_folder_path, exist_ok=True)  # Create the folder if it doesn't exist
-    cost_df.to_excel(os.path.join(output_folder_path, "Cost_related_to_Piping_PO.xlsx"), index=False)
+    cost_df.to_excel(os.path.join(output_folder_path, "../Data Pool/Cost_related_to_Piping_PO.xlsx"), index=False)
 
 
 

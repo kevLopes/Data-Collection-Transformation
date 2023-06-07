@@ -643,9 +643,7 @@ def material_currency_cost_analyze_bolt(project_number, material_codes, material
                                f"MP{project_number}_Bolt_MatCurrency_CostAnalyze_{timestamp}.xlsx")
     cost_df.to_excel(output_file, index=False)
 
-    #if unmatched_data:
-    #    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    #    unmatched_df = pd.DataFrame(unmatched_data)
-    #    output_file_unmatched = os.path.join(result_folder_path, f"Bolt_NotMatch_ProductCode_{timestamp}.xlsx")
-    #    unmatched_df.to_excel(output_file_unmatched, index=False)
+#                       ------------------------ Structure --------------------
+
+
 

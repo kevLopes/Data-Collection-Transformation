@@ -34,7 +34,7 @@ class MyWindow:
         self.type_var = tk.StringVar(value="Choose Type")
         self.type_dropdown = ttk.OptionMenu(self.frame, self.type_var, "Choose Type", "All Materials", "Piping",
                                             "Valve", "Bolt",
-                                            "Special Piping", "Structure", "Bent")
+                                            "Special Piping", "Structure", "Bend")
         self.type_dropdown.config(width=16)
         self.type_dropdown.grid(row=1, column=1, padx=5, pady=5)
 

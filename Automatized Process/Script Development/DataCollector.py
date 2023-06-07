@@ -368,33 +368,99 @@ def data_collector_bend(project_number, material_type):
             # Load the Excel file into a pandas dataframe
             df = pd.read_excel(os.path.join(search_dir, file), engine='openpyxl')
 
-            # Check if the project number matches the specified one
-            if df["Project Number"].astype(str).str.contains(str(project_number)).any():
-                # Find the specified columns
-                extract_columns = []
-                for column in df.columns:
-                    if any(col in str(column) for col in columns_to_extract):
-                        extract_columns.append(column)
+            # Find the specified columns
+            extract_columns = []
+            for column in df.columns:
+                if any(col in str(column) for col in columns_to_extract):
+                    extract_columns.append(column)
 
-                # If any of the specified columns were found, extract them and all rows below with data information
-                if extract_columns:
-                    extract_df = df.loc[df[extract_columns].notnull().any(axis=1), extract_columns]
+            # If any of the specified columns were found, extract them and all rows below with data information
+            if extract_columns:
+                extract_df = df.loc[df[extract_columns].notnull().any(axis=1), extract_columns]
 
-                    # Get the current timestamp
-                    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+                # Get the current timestamp
+                timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-                    # Save the data to a new Excel file with the project number in the filename
-                    output_filename = os.path.join(output_dir, f"{project_number} - Bend Organized_{timestamp}.xlsx")
-                    extract_df.to_excel(output_filename, index=False)
+                # Save the data to a new Excel file with the project number in the filename
+                output_filename = os.path.join(output_dir, f"SO{project_number} - Bend Organized_{timestamp}.xlsx")
+                extract_df.to_excel(output_filename, index=False)
 
-                    logging.info(
-                        f"Extracted data from {file} with Project Number {project_number} and saved it to {output_filename}")
-                    return True
-                else:
-                    logging.error(f"Could not find any of the specified columns in {file}")
-                    return False
+                logging.info(
+                    f"Extracted data from {file} with Project Number {project_number} and saved it to {output_filename}")
+                return True
             else:
-                logging.error(f"No files were found for the project {project_number} for the {material_type} material")
+                logging.error(f"Could not find any of the specified columns in {file}")
+                return False
+        except Exception as e:
+            logging.error(f"Failed to process file {file} due to error: {e}")
+            return False
+
+    logging.error("No files were processed successfully.")
+    return False
+
+# --------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------
+
+
+def data_collector_specialpip(project_number, material_type):
+    logging.info("Function to capture all Special Piping Data Initialized")
+
+    # Set the search directory and keyword
+    search_dir = "../Data Pool/Data Hub Materials"
+    keyword = material_type
+
+    # Set the columns to extract
+    columns_to_extract = ["TagNumber", "Size (Inch)", "Description", "Weight", "Service", "Remarks", "PO Number", "Qty", "Linenumber"]
+
+    # Check if the Data Pool folder exists, and display an error message if it doesn't
+    if not os.path.exists(search_dir):
+        logging.error("Data Pool folder not found.")
+        return False
+
+    # Search for Excel files containing the keyword
+    files = [file for file in os.listdir(search_dir) if keyword in file and file.endswith(".xlsx")]
+
+    # Check if any Excel files were found with the specified keyword
+    if not files:
+        logging.error("No Excel files found for the Special Piping data.")
+        return False
+
+    # Check if the Materials Data Organized folder exists, and create it if it doesn't
+    output_dir = "../Data Pool/Material Data Organized/Special Piping"
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
+
+    # Loop through the files and extract the specified columns
+    for file in files:
+        try:
+            # Load the Excel file into a pandas dataframe
+            df = pd.read_excel(os.path.join(search_dir, file), engine='openpyxl')
+
+            # Filter out the rows where 'PO Number' is 'BY YARD'
+            df = df[df['PO Number'] != 'BY YARD']
+
+            # Find the specified columns
+            extract_columns = []
+            for column in df.columns:
+                if any(col in str(column) for col in columns_to_extract):
+                    extract_columns.append(column)
+
+            # If any of the specified columns were found, extract them and all rows below with data information
+            if extract_columns:
+                extract_df = df.loc[df[extract_columns].notnull().any(axis=1), extract_columns]
+
+                # Get the current timestamp
+                timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+
+                # Save the data to a new Excel file with the project number in the filename
+                output_filename = os.path.join(output_dir, f"SO{project_number} - SPC Piping Organized_{timestamp}.xlsx")
+                extract_df.to_excel(output_filename, index=False)
+
+                logging.info(
+                    f"Extracted data from {file} with Project Number {project_number} and saved it to {output_filename}")
+                return True
+            else:
+                logging.error(f"Could not find any of the specified columns in {file}")
                 return False
         except Exception as e:
             logging.error(f"Failed to process file {file} due to error: {e}")

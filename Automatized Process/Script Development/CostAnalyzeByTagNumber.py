@@ -232,6 +232,8 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
             unmatched_df = pd.DataFrame(unmatched_data)
             output_file_unmatched = os.path.join(result_folder_path, f"Piping_NotMatched_TagNumber_{timestamp}.xlsx")
             unmatched_df.to_excel(output_file_unmatched, index=False)
+
+        ExportReportsGraphics.plot_piping_cost_per_po(cost_df, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 
@@ -258,7 +260,7 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
     df = pd.read_excel(file_path)
 
     cost_data = []
-    required_columns = ["Cost Project Currency", "Cost Project Currency", "Transaction Date", "PO Description", "Tag Number", "Quantity", "UOM", "Cost Object ID"]
+    required_columns = ["Cost Project Currency", "Cost Transaction Currency", "Transaction Date", "PO Description", "Tag Number", "Quantity", "UOM", "Cost Object ID"]
 
     if all(column in df.columns for column in required_columns):
         for tag, material in tag_numbers.items():
@@ -367,6 +369,251 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
         # Plot totals
         ExportReportsGraphics.plot_piping_totals(cost_df, project_number)
         ExportReportsGraphics.plot_piping_cost_per_weight_and_totals(cost_df, project_number)
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
+
+# ----------------------------------------- SPC Piping -------------------------
+
+
+def extract_distinct_tag_numbers_special_piping(folder_path, project_number, material_type):
+    excel_files = [
+        f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")
+    ]
+
+    matching_files = [
+        f for f in excel_files if str(project_number) in f and material_type in f
+    ]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' and material type '{material_type}' were found."
+        )
+
+    most_recent_file = get_most_recent_file(folder_path, matching_files)
+    file_path = os.path.join(folder_path, most_recent_file)
+    df = pd.read_excel(file_path)
+
+    tag_numbers = {}
+    tag_info = {}
+
+    required_columns = ["TagNumber", "Description", "Size (Inch)", "Service", "Weight", "PO Number", "Qty"]
+    if all(col in df.columns for col in required_columns):
+        tag_numbers = df["TagNumber"].unique()
+
+        for tag_number in tag_numbers:
+            tag_rows = df[df["TagNumber"] == tag_number]
+
+            for _, row in tag_rows.iterrows():
+                # Update tag_info dictionary for the tag_number
+                if tag_number in tag_info:
+                    # Accumulate quantity for existing tag_number
+                    tag_info[tag_number]["Qty"] += row["Qty"]
+                else:
+                    # Add new entry for tag_number
+                    tag_info[tag_number] = {
+                        "Description": row["Description"],
+                        "Size (Inch)": row["Size (Inch)"],
+                        "Service": row["Service"],
+                        "Weight": row["Weight"],
+                        "MTO PO Number": row["PO Number"],
+                        "Qty": row["Qty"]
+                    }
+
+        # Assuming you have similar functions for special piping as you had for piping
+        material_cost_analyze_special_piping_by_tag(project_number, tag_numbers, tag_info)
+        material_currency_cost_analyze_special_piping_by_tag(project_number, tag_numbers, tag_info)
+    else:
+        print("Was not possible to find the necessary fields in the file to do the calculation!")
+
+
+def material_cost_analyze_special_piping_by_tag(project_number, tag_numbers, tag_info):
+    folder_path = "../Data Pool/Ecosys API Data/PO Lines"
+
+    excel_files = [
+        f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")
+    ]
+
+    matching_files = [
+        f for f in excel_files if str(project_number) in f
+    ]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' were found."
+        )
+
+    most_recent_file = get_most_recent_file(folder_path, matching_files)
+    file_path = os.path.join(folder_path, most_recent_file)
+    df = pd.read_excel(file_path)
+
+    cost_data = []
+    unmatched_data = []
+
+    required_columns = ["Cost Project Currency", "Transaction Date", "PO Description", "Tag Number", "Quantity", "UOM", "Cost Object ID", "PO Line Number"]
+    if all(column in df.columns for column in required_columns):
+        for tag in tag_numbers:
+            rows = df[df["Tag Number"] == tag]
+
+            if rows.empty:
+                tag_detail = tag_info[tag]
+                unmatched_data.append({
+                    "Project Number": project_number,
+                    "Tag Number": tag,
+                    "Description": tag_detail["Description"],
+                    "Size (Inch)": tag_detail["Size (Inch)"],
+                    "Service": tag_detail["Service"],
+                    "Weight": tag_detail["Weight"],
+                    "MTO PO Number": tag_detail["MTO PO Number"],
+                    "Qty": tag_detail["Qty"]
+                })
+            else:
+                for uom in rows["UOM"].unique():
+                    uom_rows = rows[rows["UOM"] == uom]
+                    tag_detail = tag_info[tag]
+                    total_cost = uom_rows["Cost Project Currency"].sum()
+                    quantity_in_po = uom_rows["Quantity"].sum()
+
+                    po_tr_date = uom_rows["Transaction Date"].unique()
+                    po_tr_date = ', '.join(map(str, po_tr_date))
+                    po_desc = uom_rows["PO Description"].unique()
+                    po_desc = ', '.join(map(str, po_desc))
+                    po_number = uom_rows["Cost Object ID"].unique()
+                    po_number = ', '.join(map(str, po_number))
+                    po_linenr = uom_rows["PO Line Number"].unique()
+                    po_linenr = ', '.join(map(str, po_linenr))
+
+                    remarks = ""
+                    # Add check for UOM mismatch here
+                    uom_in_po = uom
+                    quantity_uom = 'EA'  # Assuming 'EA' is the unit of measure used in this scenario
+                    if quantity_uom != uom_in_po:
+                        remarks += 'Please note difference between MTO and PO UOM\n'
+
+                    cost_data.append({
+                        "Project Number": project_number,
+                        "Tag Number": tag,
+                        "PO Number": po_number,
+                        "Description": tag_detail["Description"],
+                        "Size (Inch)": tag_detail["Size (Inch)"],
+                        "Service": tag_detail["Service"],
+                        "MTO Quantity": tag_detail["Qty"],
+                        "Weight": tag_detail["Weight"],
+                        "MTO PO Number": tag_detail["MTO PO Number"],
+                        "Cost": total_cost,
+                        "Currency": "USD",
+                        "Transaction Date": po_tr_date,
+                        "PO Description": po_desc,
+                        "Quantity in PO": quantity_in_po,
+                        "UOM in PO": uom,
+                        "Remarks": remarks
+                    })
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        cost_df = pd.DataFrame(cost_data)
+
+        # Calculate column totals
+        total_row = {
+            "Description": "Total Amount:",
+            "Cost": cost_df["Cost"].sum(),
+            "Currency": "USD"
+        }
+
+        # Append total row to cost_data
+        cost_data.append(total_row)
+        cost_df = pd.DataFrame(cost_data)
+        output_file = os.path.join(result_folder_path, f"MP{project_number}_SPCPiping_TagBased_Cost_{timestamp}.xlsx")
+        cost_df.to_excel(output_file, index=False)
+
+        # Save the unmatched data to a new Excel file
+        if unmatched_data:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+            unmatched_df = pd.DataFrame(unmatched_data)
+            output_file_unmatched = os.path.join(result_folder_path, f"Special_Piping_NotMatched_TagNumber_{timestamp}.xlsx")
+            unmatched_df.to_excel(output_file_unmatched, index=False)
+
+        # Assuming you have a similar plot function for special piping
+        #ExportReportsGraphics.plot_special_piping_cost_per_po(cost_df, project_number)
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
+
+
+def material_currency_cost_analyze_special_piping_by_tag(project_number, tag_numbers, material_info):
+    folder_path = "../Data Pool/Ecosys API Data/PO Lines"
+
+    excel_files = [
+        f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")
+    ]
+
+    matching_files = [
+        f for f in excel_files if str(project_number) in f
+    ]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' were found."
+        )
+
+    most_recent_file = get_most_recent_file(folder_path, matching_files)
+    file_path = os.path.join(folder_path, most_recent_file)
+    df = pd.read_excel(file_path)
+
+    cost_data = []
+    required_columns = ["Cost Project Currency", "Transaction Date", "PO Description", "Tag Number", "Quantity", "UOM", "Cost Object ID", "Cost Transaction Currency"]
+
+    if all(column in df.columns for column in required_columns):
+        for tag in tag_numbers:
+            rows = df[df["Tag Number"] == tag]
+
+            if rows.empty:
+                continue
+            else:
+                tag_info = material_info[tag]
+                uom_groups = rows.groupby("UOM")
+                for uom, group in uom_groups:
+                    currency_groups = group.groupby("Transaction Currency")
+                    for currency, group in currency_groups:
+                        key = (currency, uom)
+                        tag_quantity_by_currency_uom = tag_info.setdefault("Quantity by Currency and UOM", {})
+                        tag_quantity_by_currency_uom[key] = tag_quantity_by_currency_uom.get(key, 0) + group[
+                            "Quantity"].sum()
+
+                        po_tr_date = group["Transaction Date"].unique()
+                        po_tr_date = ', '.join(map(str, po_tr_date))
+                        po_desc = group["PO Description"].unique()
+                        po_desc = ', '.join(map(str, po_desc))
+                        po_number = group["Cost Object ID"].unique()
+                        po_number = ', '.join(map(str, po_number))
+
+                        calc_weight = abs((tag_info["Quantity by Currency and UOM"][(currency, uom)]) * (tag_info["Weight"]))
+
+                        cost_data.append({
+                            "Project Number": project_number,
+                            "Tag Number": tag,
+                            "MTO PO Number": tag_info["MTO PO Number"],
+                            "PO Number": po_number,
+                            "PO Cost": group["Cost Transaction Currency"].sum(),
+                            "Transaction Currency": currency,
+                            "Project Currency Cost": group["Cost Project Currency"].sum(),
+                            "Currency": "USD",
+                            "PO Description": po_desc,
+                            "Transaction Date": po_tr_date,
+                            "MTO Quantity": tag_info["Qty"],
+                            "Quantity in PO": tag_info["Quantity by Currency and UOM"][(currency, uom)],
+                            "UOM in PO": uom,
+                            "Total Weight using PO quantity": calc_weight,
+                        })
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        cost_df = pd.DataFrame(cost_data)
+
+        output_file = os.path.join(result_folder_path, f"MP{project_number}_SPCPiping_TagCurrency_Cost_{timestamp}.xlsx")
+        cost_df.to_excel(output_file, index=False)
+
+        # Plot totals
+        #ExportReportsGraphics.plot_special_piping_totals(cost_df, project_number)
+        #ExportReportsGraphics.plot_special_piping_cost_per_weight_and_totals(cost_df, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 
