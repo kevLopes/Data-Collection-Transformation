@@ -419,7 +419,6 @@ def extract_distinct_tag_numbers_special_piping(folder_path, project_number, mat
                         "Qty": row["Qty"]
                     }
 
-        # Assuming you have similar functions for special piping as you had for piping
         material_cost_analyze_special_piping_by_tag(project_number, tag_numbers, tag_info)
         material_currency_cost_analyze_special_piping_by_tag(project_number, tag_numbers, tag_info)
     else:
@@ -481,28 +480,26 @@ def material_cost_analyze_special_piping_by_tag(project_number, tag_numbers, tag
                     po_number = ', '.join(map(str, po_number))
                     po_linenr = uom_rows["PO Line Number"].unique()
                     po_linenr = ', '.join(map(str, po_linenr))
+                    po_revision = uom_rows["PO Revision"].unique()
+                    po_revision = ', '.join(map(str, po_revision))
 
                     remarks = ""
-                    # Add check for UOM mismatch here
-                    uom_in_po = uom
-                    quantity_uom = 'EA'  # Assuming 'EA' is the unit of measure used in this scenario
-                    if quantity_uom != uom_in_po:
-                        remarks += 'Please note difference between MTO and PO UOM\n'
 
                     cost_data.append({
                         "Project Number": project_number,
                         "Tag Number": tag,
+                        "MTO PO Number": tag_detail["MTO PO Number"],
                         "PO Number": po_number,
                         "Description": tag_detail["Description"],
                         "Size (Inch)": tag_detail["Size (Inch)"],
                         "Service": tag_detail["Service"],
                         "MTO Quantity": tag_detail["Qty"],
-                        "Weight": tag_detail["Weight"],
-                        "MTO PO Number": tag_detail["MTO PO Number"],
+                        "MTO Weight": tag_detail["Weight"],
                         "Cost": total_cost,
                         "Currency": "USD",
                         "Transaction Date": po_tr_date,
                         "PO Description": po_desc,
+                        "PO Revision": po_revision,
                         "Quantity in PO": quantity_in_po,
                         "UOM in PO": uom,
                         "Remarks": remarks
@@ -533,7 +530,7 @@ def material_cost_analyze_special_piping_by_tag(project_number, tag_numbers, tag
             unmatched_df.to_excel(output_file_unmatched, index=False)
 
         # Assuming you have a similar plot function for special piping
-        #ExportReportsGraphics.plot_special_piping_cost_per_po(cost_df, project_number)
+        ExportReportsGraphics.plot_special_piping_cost_per_po(cost_df, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 
@@ -584,6 +581,8 @@ def material_currency_cost_analyze_special_piping_by_tag(project_number, tag_num
                         po_desc = ', '.join(map(str, po_desc))
                         po_number = group["Cost Object ID"].unique()
                         po_number = ', '.join(map(str, po_number))
+                        po_revision = group["PO Revision"].unique()
+                        po_revision = ', '.join(map(str, po_revision))
 
                         calc_weight = abs((tag_info["Quantity by Currency and UOM"][(currency, uom)]) * (tag_info["Weight"]))
 
@@ -598,6 +597,8 @@ def material_currency_cost_analyze_special_piping_by_tag(project_number, tag_num
                             "Currency": "USD",
                             "PO Description": po_desc,
                             "Transaction Date": po_tr_date,
+                            "PO Revision": po_revision,
+                            "MTO Weight": tag_info["Weight"],
                             "MTO Quantity": tag_info["Qty"],
                             "Quantity in PO": tag_info["Quantity by Currency and UOM"][(currency, uom)],
                             "UOM in PO": uom,
@@ -613,7 +614,7 @@ def material_currency_cost_analyze_special_piping_by_tag(project_number, tag_num
 
         # Plot totals
         #ExportReportsGraphics.plot_special_piping_totals(cost_df, project_number)
-        #ExportReportsGraphics.plot_special_piping_cost_per_weight_and_totals(cost_df, project_number)
+        ExportReportsGraphics.plot_special_piping_cost_per_weight_and_totals(cost_df, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 

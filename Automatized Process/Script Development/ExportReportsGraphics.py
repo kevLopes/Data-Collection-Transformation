@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import CostAnalyzeProcessByMaterial
+import numpy as np
 
 
 def plot_piping_totals(cost_df, project_number):
@@ -337,7 +338,6 @@ def plot_piping_material_weight(cost_df_mw, project_number):
     ax.set_title('Piping Total Net Weight per Material Type')
     ax.set_xlabel('Material Type Code')
     ax.set_ylabel('Total Net Weight (TONs)')
-    #plt.xticks(rotation=75)  # Rotate the x-axis labels to be vertical
 
     # Add value labels on the bars
     for i, bar in enumerate(barplot.patches):
@@ -358,7 +358,343 @@ def plot_piping_material_weight(cost_df_mw, project_number):
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')
-    #cost_df_copy['Base Material'] = cost_df_copy['Base Material'].map(code_to_name)  # Add this line
+
+#-------------------- Special Piping ---------------
+
+
+#all images separated
+def plot_special_piping_cost_per_po(cost_df, project_number):
+    folder_path = "../Data Pool/Ecosys API Data/PO Headers"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+
+    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+    matching_files = [f for f in excel_files if str(project_number) in f]
+
+    # Convert cost to thousands for better readability
+    cost_df['Cost'] = cost_df['Cost'] / 1000
+
+    metrics = ['Cost', 'Quantity in PO', 'MTO Weight']  # Metrics to be plotted
+
+    # Create graphics directory if it doesn't exist
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Create a DataFrame to hold PO Numbers, Costs, Quantity, Weight and Supplier Names
+    final_df = pd.DataFrame(columns=['PO Number', 'Cost', 'Quantity in PO', 'MTO Weight', 'Supplier Name'])
+
+    if matching_files:
+        most_recent_poheader = CostAnalyzeProcessByMaterial.get_most_recent_file(folder_path, matching_files)
+        file_path = os.path.join(folder_path, most_recent_poheader)
+        df = pd.read_excel(file_path)
+
+        # Iterate over each metric
+        for metric in metrics:
+            po_totals = cost_df.groupby('PO Number')[metric].sum()
+
+            for po_number, metric_value in po_totals.items():
+                # Convert the PO Number to the format in the PO Header file
+                po_number_converted = po_number.split('||')[1].replace('-', '.')
+
+                # Find corresponding Supplier Name in df
+                supplier_series = df.loc[df['PO Number'] == po_number_converted, 'Supplier Name']
+
+                if not supplier_series.empty:
+                    supplier_name = supplier_series.iloc[0]
+
+                    if po_number not in final_df['PO Number'].values:
+                        final_df = final_df.append({
+                            'PO Number': po_number,
+                            metric: metric_value,
+                            'Supplier Name': supplier_name
+                        }, ignore_index=True)
+                    else:
+                        final_df.loc[final_df['PO Number'] == po_number, metric] = metric_value
+                else:
+                    # Handle the case when there is no matching Supplier Name
+                    if po_number not in final_df['PO Number'].values:
+                        final_df = final_df.append({
+                            'PO Number': po_number,
+                            metric: metric_value,
+                            'Supplier Name': 'Unknown'
+                        }, ignore_index=True)
+                    else:
+                        final_df.loc[final_df['PO Number'] == po_number, metric] = metric_value
+
+            # Create figure for current metric
+            fig, ax = plt.subplots(figsize=(12, 8))
+            # Sort for better visibility
+            data_to_plot = final_df.sort_values(by=metric, ascending=False)
+
+            # Plot current metric
+            sns.barplot(y=data_to_plot['PO Number'], x=data_to_plot[metric], ax=ax, orient='h')
+            ax.set_title(f'Special Piping Total {metric} per PO Number')
+            ax.set_xlabel(f'Total {metric} (if Cost then in Thousands of Dollars)')
+            ax.set_ylabel('PO Number')
+
+            # Add value labels
+            for p in ax.patches:
+                ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
+                        '%.2f' % float(p.get_width()),
+                        fontsize=12, color='black', va='center')
+
+            plt.tight_layout()
+
+            # Save the figure
+            timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+            fig_name = f"MP{project_number}_SpecialPiping_{metric}_PerPO_{timestamp}.png"
+            fig_path = os.path.join(graphics_dir, fig_name)
+            plt.savefig(fig_path)
+            print(f'Figure saved at {fig_path}')
+
+            plt.close(fig)
+
+
+#Analyse with 1 pictures for all POs and supplier
+def plot_special_piping_cost_per_po1(cost_df, project_number):
+    folder_path = "../Data Pool/Ecosys API Data/PO Headers"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+
+    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+    matching_files = [f for f in excel_files if str(project_number) in f]
+
+    # Convert cost to thousands for better readability
+    cost_df['Cost'] = cost_df['Cost'] / 1000
+
+    metrics = ['Cost', 'Quantity in PO', 'MTO Weight']  # Metrics to be plotted
+
+    # Create graphics directory if it doesn't exist
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Create a DataFrame to hold PO Numbers, Costs, Quantity, Weight and Supplier Names
+    final_df = pd.DataFrame(columns=['PO Number', 'Cost', 'Quantity in PO', 'MTO Weight', 'Supplier Name'])
+
+    if matching_files:
+        most_recent_poheader = CostAnalyzeProcessByMaterial.get_most_recent_file(folder_path, matching_files)
+        file_path = os.path.join(folder_path, most_recent_poheader)
+        df = pd.read_excel(file_path)
+
+        # Iterate over each metric
+        for metric in metrics:
+            po_totals = cost_df.groupby('PO Number')[metric].sum()
+
+            for po_number, metric_value in po_totals.items():
+                # Convert the PO Number to the format in the PO Header file
+                po_number_converted = po_number.split('||')[1].replace('-', '.')
+
+                # Find corresponding Supplier Name in df
+                supplier_series = df.loc[df['PO Number'] == po_number_converted, 'Supplier Name']
+
+                if not supplier_series.empty:
+                    supplier_name = supplier_series.iloc[0]
+
+                    if po_number not in final_df['PO Number'].values:
+                        final_df = final_df.append({
+                            'PO Number': po_number,
+                            metric: metric_value,
+                            'Supplier Name': supplier_name
+                        }, ignore_index=True)
+                    else:
+                        final_df.loc[final_df['PO Number'] == po_number, metric] = metric_value
+                else:
+                    # Handle the case when there is no matching Supplier Name
+                    if po_number not in final_df['PO Number'].values:
+                        final_df = final_df.append({
+                            'PO Number': po_number,
+                            metric: metric_value,
+                            'Supplier Name': 'Unknown'
+                        }, ignore_index=True)
+                    else:
+                        final_df.loc[final_df['PO Number'] == po_number, metric] = metric_value
+
+    # Create a single figure with three subplots (arranged vertically)
+    fig, axes = plt.subplots(nrows=3, figsize=(12, 24))
+
+    # Iterate over each metric for plotting
+    for i, metric in enumerate(metrics):
+        # Sort for better visibility
+        data_to_plot = final_df.sort_values(by=metric, ascending=False)
+
+        # Plot on the ith subplot
+        ax = axes[i]
+        sns.barplot(y=data_to_plot['PO Number'], x=data_to_plot[metric], ax=ax, orient='h')
+        ax.set_title(f'Special Piping Total {metric} per PO Number')
+        ax.set_xlabel(f'Total {metric} (if Cost then in Thousands of Dollars)')
+        ax.set_ylabel('PO Number')
+
+        # Add value labels
+        for p in ax.patches:
+            ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
+                    '%.2f' % float(p.get_width()),
+                    fontsize=12, color='black', va='center')
+
+    plt.tight_layout()
+
+    # Save the figure with all three subplots
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_SpecialPiping_Metrics_PerPO_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    print(f'Figure saved at {fig_path}')
+
+    plt.close(fig)
+
+    # Create a separate figure for total cost by supplier
+    fig, ax = plt.subplots(figsize=(12, 8))
+    supplier_totals = final_df.groupby('Supplier Name')['Cost'].sum().sort_values(ascending=False)
+    sns.barplot(y=supplier_totals.index, x=supplier_totals.values, ax=ax, orient='h')
+    ax.set_title('Special Piping Total Cost per Supplier')
+    ax.set_xlabel('Total Cost (Thousands of Dollars)')
+    ax.set_ylabel('Supplier Name')
+
+    # Add value labels
+    for p in ax.patches:
+        ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
+                '%.2f' % float(p.get_width()),
+                fontsize=12, color='black', va='center')
+
+    plt.tight_layout()
+
+    # Save this separate figure
+    fig_name = f"MP{project_number}_SpecialPiping_Cost_PerSupplier_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    print(f'Figure saved at {fig_path}')
+
+
+#3 separeted image
+def plot_special_piping_cost_per_po1(cost_df, project_number):
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+
+    # Convert cost to thousands for better readability
+    cost_df['Cost'] = cost_df['Cost'] / 1000
+
+    metrics = ['Cost', 'Quantity in PO', 'MTO Weight']  # Metrics to be plotted
+
+    # Create graphics directory if it doesn't exist
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Iterate over each metric
+    for metric in metrics:
+        # Group by PO Number and calculate the sum of the current metric
+        po_totals = cost_df.groupby('PO Number')[metric].sum().sort_values(ascending=False)
+
+        # Create the plot
+        fig, ax = plt.subplots(figsize=(12, 8))
+        sns.barplot(y=po_totals.index, x=po_totals.values, ax=ax, orient='h')
+        ax.set_title(f'Special Piping Total {metric} per PO Number')
+        ax.set_xlabel(f'Total {metric} (if Cost then in Thousands of Dollars)')
+        ax.set_ylabel('PO Number')
+
+        # Add value labels
+        for p in ax.patches:
+            ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
+                    '%.2f' % float(p.get_width()),
+                    fontsize=12, color='black', va='center')
+        plt.tight_layout()
+
+        # Save the figure
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        fig_name = f"MP{project_number}_SpecialPiping_{metric}_PerPO_{timestamp}.png"
+        fig_path = os.path.join(graphics_dir, fig_name)
+        plt.savefig(fig_path)
+        print(f'Figure saved at {fig_path}')
+
+#All in one image
+def plot_special_piping_cost_per_po2(cost_df, project_number):
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+
+    # Convert cost to thousands for better readability
+    cost_df['Cost'] = cost_df['Cost'] / 1000
+
+    metrics = ['Cost', 'Quantity in PO', 'MTO Weight']  # Metrics to be plotted
+
+    # Create graphics directory if it doesn't exist
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Create a single figure with three subplots (arranged vertically)
+    fig, axes = plt.subplots(nrows=3, figsize=(12, 24))
+
+    # Iterate over each metric
+    for i, metric in enumerate(metrics):
+        # Group by PO Number and calculate the sum of the current metric
+        po_totals = cost_df.groupby('PO Number')[metric].sum().sort_values(ascending=False)
+
+        # Plot on the ith subplot
+        ax = axes[i]
+        sns.barplot(y=po_totals.index, x=po_totals.values, ax=ax, orient='h')
+        ax.set_title(f'Special Piping Total {metric} per PO Number')
+        ax.set_xlabel(f'Total {metric} (if Cost then in Thousands of Dollars)')
+        ax.set_ylabel('PO Number')
+
+        # Add value labels
+        for p in ax.patches:
+            ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
+                    '%.2f' % float(p.get_width()),
+                    fontsize=12, color='black', va='center')
+
+    plt.tight_layout()
+
+    # Save the figure with all three subplots
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_SpecialPiping_Metrics_PerPO_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    print(f'Figure saved at {fig_path}')
+
+
+
+def plot_special_piping_cost_per_weight_and_totals(cost_df, project_number):
+    # Calculate cost per weight for each row
+    cost_df['Cost per Weight'] = cost_df['Project Currency Cost'] / cost_df['Total Weight using PO quantity']
+
+    # Aggregate totals
+    cost_totals = cost_df['Project Currency Cost'].sum() / 1000
+    weight_totals = cost_df['Total Weight using PO quantity'].sum() / 1000
+
+    # Calculate total cost per weight
+    total_cost_per_weight = (cost_totals / weight_totals) if weight_totals else np.nan
+
+    # Calculate total cost per currency
+    total_cost_per_currency = cost_df.groupby('Transaction Currency')['Project Currency Cost'].sum().div(1000)
+
+    # Create graphics directory if not exists
+    graphics_dir = "../Data Pool/DCT Process Results/graphics"
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Create figure
+    fig, axs = plt.subplots(2, 1, figsize=(12, 10))
+
+    # Plot total cost per weight and other totals
+    sns.barplot(x=['Cost per KG', 'Total Cost in Thousands of USD', 'Total Weight in TON'],
+                y=[total_cost_per_weight, cost_totals, weight_totals], ax=axs[0])
+    axs[0].set_title('Special Piping Cost per Weight and Totals')
+    axs[0].set_ylabel('Values')
+
+    # Add value labels
+    for p in axs[0].patches:
+        axs[0].text(p.get_x() + p.get_width() / 2., p.get_height(),
+                    '%.2f' % float(p.get_height()),
+                    fontsize=12, color='black', ha='center', va='bottom')
+
+    # Plot total cost per currency
+    sns.barplot(x=total_cost_per_currency.index, y=total_cost_per_currency.values, ax=axs[1])
+    axs[1].set_title('Special Piping Cost per Currency')
+    axs[1].set_ylabel('Cost in Thousands of USD')
+
+    # Add value labels
+    for p in axs[1].patches:
+        axs[1].text(p.get_x() + p.get_width() / 2., p.get_height(),
+                    '%.2f' % float(p.get_height()),
+                    fontsize=12, color='black', ha='center', va='bottom')
+
+    plt.tight_layout()
+
+    # Save figure
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_SPiping_Cost_Weight_Currency_Illustration_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    print(f'Figure saved at {fig_path}')
+
 
 
 #-------------------- Valve --------------------
