@@ -123,10 +123,8 @@ def material_cost_analyze_piping(project_number, material_codes, material_info):
                                 "Cost": material_cost,
                                 "Currency": "USD",
                                 "Total QTY to commit per UOM": material_info[material]["Total QTY commit per UOM"],
-                                #"Unit Weight": material_info[material]["Unit Weight"],
                                 "Total NET weight": material_info[material]["Total NET weight"],
                                 "Average Net Weight": material_info[material]["Average Net Weight"],
-                                #"Quantity UOM": material_info[material]["Quantity UOM"],
                                 "Unit Weight UOM": material_info[material]["Unit Weight UOM"],
                                 "Quantity in PO": material_quantity,
                                 "UOM in PO": uom
@@ -243,18 +241,18 @@ def extract_distinct_product_codes_valve(folder_path, project_number, material_t
     file_path = os.path.join(folder_path, most_recent_file)
     df = pd.read_excel(file_path)
 
-    general_materials = set()
-    material_codes = {}
-    material_info = {}
-
-    required_columns = ["General Material Description", "Product Code", "Quantity", "Weight", "SIZE (inch)"]
+    required_columns = ["General Material Description", "Product Code", "Quantity", "Weight", "SIZE (inch)", "Status", "Remarks"]
     if all(col in df.columns for col in required_columns):
-        materials = df["General Material Description"].unique()
+        filtered_df = df[(df["Status"] == "CONFIRMED") & (df["Remarks"] != "Yard Scope")]
+        materials = filtered_df["General Material Description"].unique()
+
+        general_materials = set()
+        material_codes = {}
+        material_info = {}
 
         for material in materials:
             general_materials.add(material)
-            material_rows = df[df["General Material Description"] == material]
-            #product_codes = set()  # Create a new set for each material
+            material_rows = filtered_df[filtered_df["General Material Description"] == material]
 
             product_codes = set(material_rows["Product Code"].unique())
 
@@ -279,6 +277,7 @@ def extract_distinct_product_codes_valve(folder_path, project_number, material_t
         material_currency_cost_analyze_valve(project_number, material_codes, material_info)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
+
 
 
 def material_cost_analyze_valve(project_number, material_codes, material_info):

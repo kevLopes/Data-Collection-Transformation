@@ -1,0 +1,1 @@
+RequestException: No connection adapters were found for "('https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson/EcosysPOLinesData_DCTAPI_KOL/?RootCostObject=MP17033',)"

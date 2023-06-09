@@ -345,24 +345,6 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
         result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
         cost_df = pd.DataFrame(cost_data)
 
-        # Calculate column totals
-        #total_row = {
-            #"Base Material": "Total Amount:",
-            #"Project Currency Cost": cost_df["Project Currency Cost"].sum(),
-            #"Currency": "USD"
-            #"Transaction Date": "Total MTO Quantity committed:",
-            #"Total QTY to commit": cost_df["Total QTY to commit"].sum(),
-            #"Unit Weight": "Total Material Weight:",
-            #"Total NET weight": cost_df["Total NET weight"].sum(),
-            #"Weight UOM": "Total Quantity from Ecosys",
-            #"Quantity in PO": cost_df["Quantity in PO"].sum(),
-            #"UOM in PO": "Total Weight Ecosys Quantity:",
-            #"Total Weight using PO quantity": cost_df["Total Weight using PO quantity"].sum()
-        #}
-
-        # Append total row to cost_data
-        #cost_data.append(total_row)
-        #cost_df = pd.DataFrame(cost_data)
         output_file = os.path.join(result_folder_path, f"MP{project_number}_Piping_TagCurrency_Cost_Analyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
 
@@ -529,7 +511,7 @@ def material_cost_analyze_special_piping_by_tag(project_number, tag_numbers, tag
             output_file_unmatched = os.path.join(result_folder_path, f"Special_Piping_NotMatched_TagNumber_{timestamp}.xlsx")
             unmatched_df.to_excel(output_file_unmatched, index=False)
 
-        # Assuming you have a similar plot function for special piping
+        # Plot totals
         ExportReportsGraphics.plot_special_piping_cost_per_po(cost_df, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
@@ -613,7 +595,6 @@ def material_currency_cost_analyze_special_piping_by_tag(project_number, tag_num
         cost_df.to_excel(output_file, index=False)
 
         # Plot totals
-        #ExportReportsGraphics.plot_special_piping_totals(cost_df, project_number)
         ExportReportsGraphics.plot_special_piping_cost_per_weight_and_totals(cost_df, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")

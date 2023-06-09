@@ -7,18 +7,11 @@ import DataCollector
 def action_for_ecosys_api(project_number):
     print("Analyze on going. Data are being refreshed from Ecosys")
     # Ecosys PO Lines
-    EcosysData_API.ecosys_po_lines_data_api(
-        f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson/EcosysPOLinesData_DCTAPI_KOL"
-        f"/?RootCostObject=MP{project_number}", "keven.deOliveiralope", "My-SBM#code23", project_number)
+    EcosysData_API.ecosys_po_lines_data_api("keven.deOliveiralope", "My-SBM#code23", project_number)
 
     # PO Header and SUN transactions API
-    EcosysData_API.ecosys_poheader_data_api(
-        f"https://ecosys-stg.sbmoffshore.com/ecosys/api"f"/restjson/EcosysPOHeadersData_DCTAPI_KOL"
-        f"/?RootCostObject=MP{project_number}", "keven.deOliveiralope", "My-SBM#code23", project_number)
-
-    EcosysData_API.ecosys_sun_lines_data_api(
-        f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson"f"/EcosysSUNData_DCTAPI_KOL"
-        f"/?RootCostObject=MP{project_number}", "keven.deOliveiralope", "My-SBM#code23", project_number)
+    EcosysData_API.ecosys_poheader_data_api("keven.deOliveiralope", "My-SBM#code23", project_number)
+    EcosysData_API.ecosys_sun_lines_data_api("keven.deOliveiralope", "My-SBM#code23", project_number)
 
 
 def action_for_material_analyze(project_number, material_type):
@@ -81,11 +74,12 @@ def action_for_material_analyze(project_number, material_type):
 
     # All Materials
     elif material_type == "All Materials":
-        # print("Implementation not done yet")
         CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, "Piping")
         CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path_valve, project_number, "Valve")
         CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number, "Bolt")
-        print("Cost Analyze done based on distinct Material types")
+        CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, "Piping")
+        CostAnalyzeByTagNumber.extract_distinct_tag_numbers_special_piping(folder_path_sp, project_number, "SPC Piping")
+        print("Cost Analyze done based on all distinct Material types")
         return True
 
     return False

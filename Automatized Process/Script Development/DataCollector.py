@@ -97,7 +97,7 @@ def data_collector_valve(project_number, material_type):
     # Set the columns to extract
     columns_to_extract = ["TAG NUMBER", "Status", "Project Number", "Product Code",
                           "Service Description", "MOC", "Bulk ID Long", "Line Number",
-                          "SIZE (inch)", "General Material Description", "Quantity", "Revised", "Weight"]
+                          "SIZE (inch)", "General Material Description", "Quantity", "Revised", "Weight", "Remarks"]
 
     # Check if the Data Pool folder exists, and display an error message if it doesn't
     if not os.path.exists(search_dir):

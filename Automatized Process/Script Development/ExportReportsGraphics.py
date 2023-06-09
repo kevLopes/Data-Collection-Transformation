@@ -94,7 +94,6 @@ def plot_piping_cost_per_weight_and_totals(cost_df, project_number):
                fontsize=12, color='black', ha='center', va='bottom')
 
     plt.tight_layout()
-
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
     fig_name = f"MP{project_number}_Piping_Cost_and_Weight_Illustration_{timestamp}.png"
@@ -230,7 +229,7 @@ def plot_piping_material_cost(cost_df_mt, project_number):
     # Create a dictionary mapping full names to codes
     name_to_code = {
         'CARBON STEEL': 'CST',
-        'CHROME-MOLY': 'CRM',
+        'CHROME-MOLLY': 'CRM',
         'COPPER-NICKEL': 'CUN',
         'DUPLEX STAINLESS STEEL': 'DSS',
         'GALVANIZED CARBON STEEL': 'GST',
@@ -242,7 +241,6 @@ def plot_piping_material_cost(cost_df_mt, project_number):
         'NON- METALLIC GASKETS': 'NMT',
         'STAINLESS STEEL': 'SST',
         'SUPER DUPLEX STAINLESS STEEL': 'SDS'
-        # Add more mappings as needed...
     }
 
     # Replace the material names in the DataFrame with their codes
@@ -312,7 +310,6 @@ def plot_piping_material_weight(cost_df_mw, project_number):
         'NON- METALLIC GASKETS': 'NMT',
         'STAINLESS STEEL': 'SST',
         'SUPER DUPLEX STAINLESS STEEL': 'SDS'
-        # Add more mappings as needed...
     }
     # And a dictionary mapping codes back to full names
     code_to_name = {v: k for k, v in name_to_code.items()}
@@ -560,7 +557,7 @@ def plot_special_piping_cost_per_po1(cost_df, project_number):
     print(f'Figure saved at {fig_path}')
 
 
-#3 separeted image
+#3 separated image
 def plot_special_piping_cost_per_po1(cost_df, project_number):
     graphics_dir = "../Data Pool/DCT Process Results/Graphics"
 
@@ -597,49 +594,6 @@ def plot_special_piping_cost_per_po1(cost_df, project_number):
         fig_path = os.path.join(graphics_dir, fig_name)
         plt.savefig(fig_path)
         print(f'Figure saved at {fig_path}')
-
-#All in one image
-def plot_special_piping_cost_per_po2(cost_df, project_number):
-    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
-
-    # Convert cost to thousands for better readability
-    cost_df['Cost'] = cost_df['Cost'] / 1000
-
-    metrics = ['Cost', 'Quantity in PO', 'MTO Weight']  # Metrics to be plotted
-
-    # Create graphics directory if it doesn't exist
-    os.makedirs(graphics_dir, exist_ok=True)
-
-    # Create a single figure with three subplots (arranged vertically)
-    fig, axes = plt.subplots(nrows=3, figsize=(12, 24))
-
-    # Iterate over each metric
-    for i, metric in enumerate(metrics):
-        # Group by PO Number and calculate the sum of the current metric
-        po_totals = cost_df.groupby('PO Number')[metric].sum().sort_values(ascending=False)
-
-        # Plot on the ith subplot
-        ax = axes[i]
-        sns.barplot(y=po_totals.index, x=po_totals.values, ax=ax, orient='h')
-        ax.set_title(f'Special Piping Total {metric} per PO Number')
-        ax.set_xlabel(f'Total {metric} (if Cost then in Thousands of Dollars)')
-        ax.set_ylabel('PO Number')
-
-        # Add value labels
-        for p in ax.patches:
-            ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
-                    '%.2f' % float(p.get_width()),
-                    fontsize=12, color='black', va='center')
-
-    plt.tight_layout()
-
-    # Save the figure with all three subplots
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_SpecialPiping_Metrics_PerPO_{timestamp}.png"
-    fig_path = os.path.join(graphics_dir, fig_name)
-    plt.savefig(fig_path)
-    print(f'Figure saved at {fig_path}')
-
 
 
 def plot_special_piping_cost_per_weight_and_totals(cost_df, project_number):
@@ -696,8 +650,9 @@ def plot_special_piping_cost_per_weight_and_totals(cost_df, project_number):
     print(f'Figure saved at {fig_path}')
 
 
-
 #-------------------- Valve --------------------
+
+
 def plot_valve_material_cost(cost_df_mt, project_number):
     # Create a dictionary mapping full names to codes
     name_to_code = {
@@ -714,7 +669,6 @@ def plot_valve_material_cost(cost_df_mt, project_number):
         'ALUMINUM BRONZE': 'ABR',
         'STAINLESS STEEL': 'SST',
         'SUPER DUPLEX STAINLESS STEEL': 'SDS'
-        # Add more mappings as needed...
     }
 
     # Replace the material names in the DataFrame with their codes
@@ -777,7 +731,6 @@ def plot_valve_material_quantity_weight(cost_df_mt, project_number):
         'ALUMINUM BRONZE': 'ABR',
         'STAINLESS STEEL': 'SST',
         'SUPER DUPLEX STAINLESS STEEL': 'SDS'
-        # Add more mappings as needed...
     }
 
     # Replace the material names in the DataFrame with their codes
