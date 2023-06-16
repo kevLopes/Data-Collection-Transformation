@@ -512,7 +512,7 @@ def material_cost_analyze_special_piping_by_tag(project_number, tag_numbers, tag
             unmatched_df.to_excel(output_file_unmatched, index=False)
 
         # Plot totals
-        ExportReportsGraphics.plot_special_piping_cost_per_po(cost_df, project_number)
+        ExportReportsGraphics.plot_special_piping_cost_per_po_and_supplier(cost_df, project_number)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 

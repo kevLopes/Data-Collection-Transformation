@@ -10,55 +10,39 @@ import numpy as np
 def plot_piping_totals(cost_df, project_number):
     commit_totals = cost_df.groupby('Quantity UOM')['Total QTY to commit'].sum()
     po_totals = cost_df.groupby('UOM in PO')['Quantity in PO'].sum()
-    currency_totals = cost_df.groupby('Transaction Currency')['PO Cost'].sum()
+    currency_totals = cost_df.groupby('Transaction Currency')['PO Cost'].sum() / 1000
 
     # Create graphics directory if not exists
     graphics_dir = "../Data Pool/DCT Process Results/graphics"
     os.makedirs(graphics_dir, exist_ok=True)
 
-    fig, axs = plt.subplots(3, 1, figsize=(12, 15))
+    totals = [(commit_totals, 'Piping Total Committed Quantities per MTO', 'UOM in MTO', 'Committed Quantity'),
+              (po_totals, 'Piping Total Quantities per Purchase Order', 'UOM in Purchase Orders', 'Quantity in PO'),
+              (currency_totals, 'Piping Total Cost per Currencies', 'Transaction Currency', 'Cost (Thousands of Dollars)')]
 
-    sns.barplot(x=commit_totals.index, y=commit_totals.values, ax=axs[0])
-    axs[0].set_title('Piping Committed Quantities per MTO - Totals')
-    axs[0].set_xlabel('Quantity UOM')
-    axs[0].set_ylabel('Total Committed Quantity')
+    for idx, (total, title, xlabel, ylabel) in enumerate(totals):
+        fig, ax = plt.subplots(figsize=(12, 5))
+        sns.barplot(x=total.index, y=total.values, ax=ax)
+        ax.set_title(title)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
 
-    # Add value labels
-    for p in axs[0].patches:
-        axs[0].text(p.get_x() + p.get_width() / 2., p.get_height(),
-               '%d' % int(p.get_height()),
-               fontsize=12, color='black', ha='center', va='bottom')
+        # Add value labels
+        for p in ax.patches:
+            ax.text(p.get_x() + p.get_width() / 2., p.get_height(),
+                   '%d' % int(p.get_height()),
+                   fontsize=12, color='black', ha='center', va='bottom')
 
-    sns.barplot(x=po_totals.index, y=po_totals.values, ax=axs[1])
-    axs[1].set_title('Piping Quantities per Purchase Order - Totals')
-    axs[1].set_xlabel('UOM in PO')
-    axs[1].set_ylabel('Total Quantity in PO')
+        plt.tight_layout()
 
-    # Add value labels
-    for p in axs[1].patches:
-        axs[1].text(p.get_x() + p.get_width() / 2., p.get_height(),
-               '%d' % int(p.get_height()),
-               fontsize=12, color='black', ha='center', va='bottom')
+        # Save figure
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        fig_name = f"MP{project_number}_Piping_Graphics_{idx}_{timestamp}.png"
+        fig_path = os.path.join(graphics_dir, fig_name)
+        plt.savefig(fig_path)
+        print(f'Figure saved at {fig_path}')
 
-    sns.barplot(x=currency_totals.index, y=currency_totals.values, ax=axs[2])
-    axs[2].set_title('Piping Total Cost per Currencies')
-    axs[2].set_xlabel('Transaction Currency')
-    axs[2].set_ylabel('Total Cost')
-
-    # Add value labels
-    for p in axs[2].patches:
-        axs[2].text(p.get_x() + p.get_width() / 2., p.get_height(),
-               '%d' % int(p.get_height()),
-               fontsize=12, color='black', ha='center', va='bottom')
-
-    plt.tight_layout()
-
-    # Save figure
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_PipingAnalyze_Graphics_Illustration_{timestamp}.png"
-    fig_path = os.path.join(graphics_dir, fig_name)
-    plt.savefig(fig_path)
-    print(f'Figure saved at {fig_path}')
+    plt.close('all') # Close all figures at the end
 
 
 def plot_piping_cost_per_weight_and_totals(cost_df, project_number):
@@ -81,7 +65,7 @@ def plot_piping_cost_per_weight_and_totals(cost_df, project_number):
     fig, ax = plt.subplots(figsize=(12, 5))
 
     # Plot total cost per weight
-    sns.barplot(x=['Cost per KG', 'Total Cost in Thousands of USD', 'Total Weight in TON'],
+    sns.barplot(x=['Cost per KG', 'Total Cost (Thousands of Dollars)', 'Total Weight in TON'],
                 y=[total_cost_per_weight, cost_totals, weight_totals], ax=ax)
 
     ax.set_title('Piping Representation for Weight and Cost')
@@ -96,7 +80,7 @@ def plot_piping_cost_per_weight_and_totals(cost_df, project_number):
     plt.tight_layout()
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_Piping_Cost_and_Weight_Illustration_{timestamp}.png"
+    fig_name = f"MP{project_number}_Piping_Cost_Weight_Graphic_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')
@@ -110,34 +94,7 @@ def plot_piping_cost_per_po(cost_df, project_number):
 
     matching_files = [f for f in excel_files if str(project_number) in f]
 
-    if not matching_files:
-        cost_df['Cost'] = cost_df['Cost'] / 1000  # Convert to thousands
-
-        # Remove NaN values, strip whitespace, and filter out empty strings
-        cost_df['PO Number'] = cost_df['PO Number'].dropna().str.strip()
-        cost_df = cost_df[cost_df['PO Number'] != '']
-
-        po_totals = cost_df.groupby('PO Number')['Cost'].sum().sort_values(
-            ascending=False)  # Sort for better visibility
-
-        # Create graphics directory if not exists
-        os.makedirs(graphics_dir, exist_ok=True)
-
-        # Plot
-        fig, axs = plt.subplots(figsize=(12, 8))
-        sns.barplot(y=po_totals.index, x=po_totals.values, ax=axs, orient='h')  # Change to horizontal bar plot
-        axs.set_title('Piping Total Cost per PO Number')
-        axs.set_xlabel('Total Cost (Thousands of Dollars)')
-        axs.set_ylabel('PO Number')
-
-        # Add value labels
-        for p in axs.patches:
-            axs.text(p.get_width(), p.get_y() + p.get_height() / 2.,
-                     '%.2f' % float(p.get_width()),
-                     fontsize=12, color='black', va='center')
-
-        plt.tight_layout()
-    else:
+    if matching_files:
         most_recent_poheader = CostAnalyzeProcessByMaterial.get_most_recent_file(folder_path, matching_files)
         file_path = os.path.join(folder_path, most_recent_poheader)
         df = pd.read_excel(file_path)
@@ -180,34 +137,19 @@ def plot_piping_cost_per_po(cost_df, project_number):
                     'Supplier Name': 'Unknown'
                 }, ignore_index=True)
 
-        fig, axs = plt.subplots(2, figsize=(12, 16))
-
-        # Plot total cost by PO Number
-        bplot1 = sns.barplot(y=final_df['PO Number'], x=final_df['Cost'], ax=axs[0], orient='h')
-        axs[0].set_title('Piping Total Cost per PO Number')
-        axs[0].set_xlabel('Total Cost in Dollars')
-        axs[0].set_ylabel('PO Number')
-
-        # Add cost total to the end of each bar
-        for p in bplot1.patches:
-            bplot1.annotate(format(p.get_width(), '.2f'),
-                            (p.get_width(), p.get_y() + p.get_height() / 2.),
-                            ha='center',
-                            va='center',
-                            size=10,
-                            xytext=(20, 0),
-                            textcoords='offset points')
+        os.makedirs(graphics_dir, exist_ok=True)
 
         # Plot total cost by Supplier Name
         supplier_totals = final_df.groupby('Supplier Name')['Cost'].sum().sort_values(ascending=False)
-        bplot2 = sns.barplot(y=supplier_totals.index, x=supplier_totals.values, ax=axs[1], orient='h')
-        axs[1].set_title('Piping Total Cost per Supplier')
-        axs[1].set_xlabel('Total Cost (Thousands of Dollars)')
-        axs[1].set_ylabel('Supplier Name')
+        fig, axs = plt.subplots(figsize=(12, 8))
+        sns.barplot(y=supplier_totals.index, x=supplier_totals.values, ax=axs, orient='h')
+        axs.set_title('Piping Total Cost per Supplier')
+        axs.set_xlabel('Total Cost (Thousands of Dollars)')
+        axs.set_ylabel('Supplier Name')
 
         # Add cost total to the end of each bar
-        for p in bplot2.patches:
-            bplot2.annotate(format(p.get_width(), '.2f'),
+        for p in axs.patches:
+            axs.annotate(format(p.get_width(), '.2f'),
                             (p.get_width(), p.get_y() + p.get_height() / 2.),
                             ha='center',
                             va='center',
@@ -217,12 +159,41 @@ def plot_piping_cost_per_po(cost_df, project_number):
 
         plt.tight_layout()
 
-    # Save figure
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_Piping_CostPerPO_Supplier_Illustration_{timestamp}.png"
-    fig_path = os.path.join(graphics_dir, fig_name)
-    plt.savefig(fig_path)
-    print(f'Figure saved at {fig_path}')
+        # Save figure
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        fig_name = f"MP{project_number}_Piping_CostPerSupplier_Graphic_{timestamp}.png"
+        fig_path = os.path.join(graphics_dir, fig_name)
+        plt.savefig(fig_path)
+        plt.close() # Close the current plot
+        print(f'Figure saved at {fig_path}')
+
+        # Plot total cost by PO Number
+        fig, axs = plt.subplots(figsize=(12, 8))
+        sns.barplot(y=final_df['PO Number'], x=final_df['Cost'], ax=axs, orient='h')
+        axs.set_title('Piping Total Cost per PO Number')
+        axs.set_xlabel('Total Cost (Thousands of Dollars)')
+        axs.set_ylabel('PO Number')
+
+        # Add cost total to the end of each bar
+        for p in axs.patches:
+            axs.annotate(format(p.get_width(), '.2f'),
+                            (p.get_width(), p.get_y() + p.get_height() / 2.),
+                            ha='center',
+                            va='center',
+                            size=10,
+                            xytext=(20, 0),
+                            textcoords='offset points')
+
+        plt.tight_layout()
+
+        # Save figure
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        fig_name = f"MP{project_number}_Piping_CostPerPO_Graphic_{timestamp}.png"
+        fig_path = os.path.join(graphics_dir, fig_name)
+        plt.savefig(fig_path)
+        plt.close() # Close the current plot
+        print(f'Figure saved at {fig_path}')
+
 
 
 def plot_piping_material_cost(cost_df_mt, project_number):
@@ -360,7 +331,7 @@ def plot_piping_material_weight(cost_df_mw, project_number):
 
 
 #all images separated
-def plot_special_piping_cost_per_po(cost_df, project_number):
+def plot_special_piping_cost_per_po_and_supplier(cost_df, project_number):
     folder_path = "../Data Pool/Ecosys API Data/PO Headers"
     graphics_dir = "../Data Pool/DCT Process Results/Graphics"
 
@@ -416,15 +387,15 @@ def plot_special_piping_cost_per_po(cost_df, project_number):
                     else:
                         final_df.loc[final_df['PO Number'] == po_number, metric] = metric_value
 
-            # Create figure for current metric
+            # Create figure for current metric per PO Number
             fig, ax = plt.subplots(figsize=(12, 8))
             # Sort for better visibility
             data_to_plot = final_df.sort_values(by=metric, ascending=False)
 
-            # Plot current metric
+            # Plot current metric per PO Number
             sns.barplot(y=data_to_plot['PO Number'], x=data_to_plot[metric], ax=ax, orient='h')
             ax.set_title(f'Special Piping Total {metric} per PO Number')
-            ax.set_xlabel(f'Total {metric} (if Cost then in Thousands of Dollars)')
+            ax.set_xlabel(f'Total {metric}')
             ax.set_ylabel('PO Number')
 
             # Add value labels
@@ -438,6 +409,36 @@ def plot_special_piping_cost_per_po(cost_df, project_number):
             # Save the figure
             timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
             fig_name = f"MP{project_number}_SpecialPiping_{metric}_PerPO_{timestamp}.png"
+            fig_path = os.path.join(graphics_dir, fig_name)
+            plt.savefig(fig_path)
+            print(f'Figure saved at {fig_path}')
+
+            plt.close(fig)
+
+            # Create figure for current metric per Supplier
+            fig, ax = plt.subplots(figsize=(12, 8))
+
+            # Aggregate and sort for better visibility
+            supplier_totals = final_df.groupby('Supplier Name')[metric].sum()
+            data_to_plot = supplier_totals.sort_values(ascending=False).reset_index()
+
+            # Plot current metric per Supplier
+            sns.barplot(y=data_to_plot['Supplier Name'], x=data_to_plot[metric], ax=ax, orient='h')
+            ax.set_title(f'Special Piping Total {metric} per Supplier')
+            ax.set_xlabel(f'Total {metric}')
+            ax.set_ylabel('Supplier Name')
+
+            # Add value labels
+            for p in ax.patches:
+                ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
+                        '%.2f' % float(p.get_width()),
+                        fontsize=12, color='black', va='center')
+
+            plt.tight_layout()
+
+            # Save the figure
+            timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+            fig_name = f"MP{project_number}_SpecialPiping_{metric}_PerSupplier_{timestamp}.png"
             fig_path = os.path.join(graphics_dir, fig_name)
             plt.savefig(fig_path)
             print(f'Figure saved at {fig_path}')
@@ -514,7 +515,7 @@ def plot_special_piping_cost_per_po1(cost_df, project_number):
         ax = axes[i]
         sns.barplot(y=data_to_plot['PO Number'], x=data_to_plot[metric], ax=ax, orient='h')
         ax.set_title(f'Special Piping Total {metric} per PO Number')
-        ax.set_xlabel(f'Total {metric} (if Cost then in Thousands of Dollars)')
+        ax.set_xlabel(f'Total {metric}')
         ax.set_ylabel('PO Number')
 
         # Add value labels
@@ -564,7 +565,7 @@ def plot_special_piping_cost_per_po1(cost_df, project_number):
     # Convert cost to thousands for better readability
     cost_df['Cost'] = cost_df['Cost'] / 1000
 
-    metrics = ['Cost', 'Quantity in PO', 'MTO Weight']  # Metrics to be plotted
+    metrics = ['Cost', 'Quantity in Purchase Order', 'MTO Weight']  # Metrics to be plotted
 
     # Create graphics directory if it doesn't exist
     os.makedirs(graphics_dir, exist_ok=True)
@@ -578,7 +579,7 @@ def plot_special_piping_cost_per_po1(cost_df, project_number):
         fig, ax = plt.subplots(figsize=(12, 8))
         sns.barplot(y=po_totals.index, x=po_totals.values, ax=ax, orient='h')
         ax.set_title(f'Special Piping Total {metric} per PO Number')
-        ax.set_xlabel(f'Total {metric} (if Cost then in Thousands of Dollars)')
+        ax.set_xlabel(f'Total {metric} ')#(if Cost then in Thousands of Dollars)')
         ax.set_ylabel('PO Number')
 
         # Add value labels
@@ -614,41 +615,50 @@ def plot_special_piping_cost_per_weight_and_totals(cost_df, project_number):
     graphics_dir = "../Data Pool/DCT Process Results/graphics"
     os.makedirs(graphics_dir, exist_ok=True)
 
-    # Create figure
-    fig, axs = plt.subplots(2, 1, figsize=(12, 10))
-
-    # Plot total cost per weight and other totals
-    sns.barplot(x=['Cost per KG', 'Total Cost in Thousands of USD', 'Total Weight in TON'],
-                y=[total_cost_per_weight, cost_totals, weight_totals], ax=axs[0])
-    axs[0].set_title('Special Piping Cost per Weight and Totals')
-    axs[0].set_ylabel('Values')
+    # Create figure for total cost per weight
+    fig, axs = plt.subplots(figsize=(12, 6))
+    sns.barplot(x=['Cost per KG', 'Total Cost (Thousands of Dollars)', 'Total Weight in TON'],
+                y=[total_cost_per_weight, cost_totals, weight_totals], ax=axs)
+    axs.set_title('Special Piping Cost per Weight')
+    axs.set_ylabel('Values')
 
     # Add value labels
-    for p in axs[0].patches:
-        axs[0].text(p.get_x() + p.get_width() / 2., p.get_height(),
-                    '%.2f' % float(p.get_height()),
-                    fontsize=12, color='black', ha='center', va='bottom')
-
-    # Plot total cost per currency
-    sns.barplot(x=total_cost_per_currency.index, y=total_cost_per_currency.values, ax=axs[1])
-    axs[1].set_title('Special Piping Cost per Currency')
-    axs[1].set_ylabel('Cost in Thousands of USD')
-
-    # Add value labels
-    for p in axs[1].patches:
-        axs[1].text(p.get_x() + p.get_width() / 2., p.get_height(),
-                    '%.2f' % float(p.get_height()),
-                    fontsize=12, color='black', ha='center', va='bottom')
+    for p in axs.patches:
+        axs.text(p.get_x() + p.get_width() / 2., p.get_height(),
+                 '%.2f' % float(p.get_height()),
+                 fontsize=12, color='black', ha='center', va='bottom')
 
     plt.tight_layout()
 
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_SPiping_Cost_Weight_Currency_Illustration_{timestamp}.png"
+    fig_name = f"MP{project_number}_SPiping_Cost_Weight_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
+    plt.close()  # Close the current plot
     print(f'Figure saved at {fig_path}')
 
+    # Create figure for total cost per currency
+    fig, axs = plt.subplots(figsize=(12, 6))
+    sns.barplot(x=total_cost_per_currency.index, y=total_cost_per_currency.values, ax=axs)
+    axs.set_title('Special Piping Cost per Currency')
+    axs.set_ylabel('Cost (Thousands of Dollars)')
+
+    # Add value labels
+    for p in axs.patches:
+        axs.text(p.get_x() + p.get_width() / 2., p.get_height(),
+                 '%.2f' % float(p.get_height()),
+                 fontsize=12, color='black', ha='center', va='bottom')
+
+    plt.tight_layout()
+
+    # Save figure
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_SPiping_Cost_Currency_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    plt.close()  # Close the current plot
+    print(f'Figure saved at {fig_path}')
 
 #-------------------- Valve --------------------
 
@@ -709,7 +719,7 @@ def plot_valve_material_cost(cost_df_mt, project_number):
 
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_ValveTotal_Cost_Illustration_{timestamp}.png"
+    fig_name = f"MP{project_number}_ValveTotal_Cost_Graphic_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')
@@ -745,10 +755,8 @@ def plot_valve_material_quantity_weight(cost_df_mt, project_number):
     graphics_dir = "../Data Pool/DCT Process Results/Graphics"
     os.makedirs(graphics_dir, exist_ok=True)
 
-    # Create figure with two subplots
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10))
-
     # Plot total quantity per material
+    fig, ax1 = plt.subplots(figsize=(12, 6))
     barplot1 = sns.barplot(x=material_quantity.index, y=material_quantity.values, ax=ax1)
 
     ax1.set_title('Total Valve Quantity per Material Type')
@@ -762,14 +770,25 @@ def plot_valve_material_quantity_weight(cost_df_mt, project_number):
                       ha='center', va='bottom',
                       fontsize=12, color='black')
 
-    # Create a legend for the first subplot
+    # Create a legend for the plot
     code_to_name = {v: k for k, v in name_to_code.items()}
     unique_materials = sorted(name_to_code.values())
     handles = [plt.Rectangle((0, 0), 1, 1, color=barplot1.patches[i].get_facecolor()) for i in
                range(len(unique_materials))]
     ax1.legend(handles, [code_to_name[code] for code in unique_materials], title='Material Type Legend')
 
+    plt.tight_layout()
+
+    # Save figure
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_ValveQuantity_Graphic_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    plt.close()  # Close the current plot
+    print(f'Figure saved at {fig_path}')
+
     # Plot total weight per material
+    fig, ax2 = plt.subplots(figsize=(12, 6))
     barplot2 = sns.barplot(x=material_weight.index, y=material_weight.values, ax=ax2)
 
     ax2.set_title('Total Valve Weight per Material Type')
@@ -783,7 +802,7 @@ def plot_valve_material_quantity_weight(cost_df_mt, project_number):
                       ha='center', va='bottom',
                       fontsize=12, color='black')
 
-    # Create a legend for the second subplot
+    # Create a legend for the plot
     code_to_name = {v: k for k, v in name_to_code.items()}
     unique_materials = sorted(name_to_code.values())
     handles = [plt.Rectangle((0, 0), 1, 1, color=barplot2.patches[i].get_facecolor()) for i in
@@ -794,9 +813,10 @@ def plot_valve_material_quantity_weight(cost_df_mt, project_number):
 
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_ValveQuantityWeight_Illustration_{timestamp}.png"
+    fig_name = f"MP{project_number}_ValveWeight_Graphic_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
+    plt.close()  # Close the current plot
     print(f'Figure saved at {fig_path}')
 
 
@@ -809,10 +829,8 @@ def plot_valve_cost_quantity_per_currency(cost_df_currency, project_number):
     graphics_dir = "../Data Pool/DCT Process Results/Graphics"
     os.makedirs(graphics_dir, exist_ok=True)
 
-    # Create figure with two subplots
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10))
-
     # Plot total cost per currency
+    fig, ax1 = plt.subplots(figsize=(12, 6))
     barplot1 = sns.barplot(x=currency_cost.index, y=currency_cost.values, ax=ax1)
     ax1.set_title('Total Valve Cost per Currency')
     ax1.set_xlabel('Currency')
@@ -825,7 +843,18 @@ def plot_valve_cost_quantity_per_currency(cost_df_currency, project_number):
                       ha='center', va='bottom',
                       fontsize=12, color='black')
 
+    plt.tight_layout()
+
+    # Save figure
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_Valve_Cost_Graphic_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path)
+    plt.close()  # Close the current plot
+    print(f'Figure saved at {fig_path}')
+
     # Plot total quantity per currency
+    fig, ax2 = plt.subplots(figsize=(12, 6))
     barplot2 = sns.barplot(x=currency_quantity.index, y=currency_quantity.values, ax=ax2)
     ax2.set_title('Total Valve Quantity per Currency')
     ax2.set_xlabel('Currency')
@@ -842,13 +871,16 @@ def plot_valve_cost_quantity_per_currency(cost_df_currency, project_number):
 
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_Valve_CostQuantity_Currency_Illustration_{timestamp}.png"
+    fig_name = f"MP{project_number}_Valve_Quantity_Graphic_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
+    plt.close()  # Close the current plot
     print(f'Figure saved at {fig_path}')
 
 
 #-------------------- Bolt --------------------
+
+
 def plot_bolt_material_cost(cost_df_mt, project_number):
 
     # Replace the material names in the DataFrame with their codes
@@ -870,7 +902,7 @@ def plot_bolt_material_cost(cost_df_mt, project_number):
 
     ax.set_title('Bolt Total Cost per Material Type')
     ax.set_xlabel('Material Type')
-    ax.set_ylabel('Total Cost (Thousands of Dollars)')
+    ax.set_ylabel('Total Cost')
 
     # Add value labels on the bars
     for i, bar in enumerate(barplot.patches):
@@ -883,7 +915,7 @@ def plot_bolt_material_cost(cost_df_mt, project_number):
 
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_BoltTotal_Cost_Illustration_{timestamp}.png"
+    fig_name = f"MP{project_number}_BoltTotal_Cost_Graphic_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')
@@ -927,7 +959,7 @@ def plot_bolt_quantity_difference(material_info, project_number):
 
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_BoltQuantity_Illustration_{timestamp}.png"
+    fig_name = f"MP{project_number}_BoltQuantity_Graphic_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')
