@@ -2,6 +2,7 @@ import EcosysData_API
 import CostAnalyzeByTagNumber
 import CostAnalyzeProcessByMaterial
 import DataCollector
+import AnalyzeProcessByYard
 
 
 def action_for_ecosys_api(project_number):
@@ -25,10 +26,10 @@ def action_for_material_analyze(project_number, material_type):
     # Material Type Piping
     if material_type == "Piping":
         # Organize Data from Data Hub
-        DataCollector.data_collector_piping(project_number, material_type)
+        #DataCollector.data_collector_piping(project_number, material_type)
         # Do something with the input and type
-        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, material_type)
-        CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, material_type)
+        #CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, material_type)
+        #CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, material_type)
         print("Analyze done for all Piping Material Codes")
         return True
 
@@ -98,6 +99,7 @@ def action_for_material_analyze_by_yard(project_number, material_type):
         # Organize Data from Data Hub
         DataCollector.data_collector_piping_yard(project_number, material_type)
         # Do something with the input and type
+        AnalyzeProcessByYard.yard_material_type_analyze(folder_path_piping, project_number, material_type)
         return True
 
     # Material Type Valve
