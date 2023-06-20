@@ -38,29 +38,29 @@ class MyWindow:
         self.type_dropdown.config(width=16)
         self.type_dropdown.grid(row=1, column=1, padx=5, pady=5)
 
-        # Create a label for the folder path input field
-        #self.folder_path_label = tk.Label(self.frame, text="Materials Data Hub Folder:")
-        #self.folder_path_label.grid(row=2, column=0, padx=5, pady=5, sticky="w")
-
-        # Create an entry field for the folder path
-        #self.folder_path_input = tk.Entry(self.frame)
-        #self.folder_path_input.grid(row=2, column=1, padx=5, pady=5)
-
-        # Create a button to open the folder selection dialog
-        #self.folder_path_button = tk.Button(self.frame, text="Browse", command=self.choose_folder_path)
-        #self.folder_path_button.grid(row=2, column=2, padx=5, pady=5)
-
-        # Create a check button variable
+        # Create a check button variable for Refresh Ecosys Data
         self.check_button_var = tk.BooleanVar()
 
-        # Create a label for the check button
+        # Create a label for the Refresh Ecosys Data check button
         self.check_button_label = tk.Label(self.frame, text="Refresh Ecosys Data")
         self.check_button_label.grid(row=3, column=0, padx=5, pady=5, sticky="w")
 
-        # Create a check button
+        # Create a check button for Refresh Ecosys Data
         self.check_button = tk.Checkbutton(self.frame, variable=self.check_button_var, width=2, height=2,
                                            command=self.on_check_button_clicked)
         self.check_button.grid(row=3, column=1, padx=5, pady=5, sticky="w")
+
+        # Create a check button variable for Include YARD Scope
+        self.yard_scope_var = tk.BooleanVar()
+
+        # Create a label for the Include YARD Scope check button
+        self.yard_scope_label = tk.Label(self.frame, text="Include YARD Scope")
+        self.yard_scope_label.grid(row=4, column=0, padx=5, pady=5, sticky="w")
+
+        # Create a check button for Include YARD Scope
+        self.yard_scope_button = tk.Checkbutton(self.frame, variable=self.yard_scope_var, width=2, height=2,
+                                                command=self.on_yard_scope_clicked)
+        self.yard_scope_button.grid(row=4, column=1, padx=5, pady=5, sticky="w")
 
         # Create a submit button
         self.submit_button = tk.Button(master, text="Submit Data", command=self.on_submit_clicked)
@@ -76,15 +76,14 @@ class MyWindow:
         # Center the window and widgets
         self.center_window()
 
-    def on_check_button_clicked(self):
+    def on_yard_scope_clicked(self):
+        # This function will run when the "Include YARD Scope" check button is clicked.
+        # Implement the functionality here
         pass
 
-    #def choose_folder_path(self):
-        # Open the folder selection dialog and get the selected path
-        #selected_path = filedialog.askdirectory(initialdir="/", title="Folder Path")
-        # Update the folder path input field with the selected path
-        #self.folder_path_input.delete(0, tk.END)
-        #self.folder_path_input.insert(0, selected_path)
+
+    def on_check_button_clicked(self):
+        pass
 
     def adjust_submit_button_layout(self):
         # Change the background color of the Submit button
@@ -123,6 +122,9 @@ class MyWindow:
                 api_flag = True
 
             flag = Submit_button_actions.action_for_material_analyze(project_number, material_type)
+
+            if self.yard_scope_var.get():
+                Submit_button_actions.action_for_material_analyze_by_yard(project_number, material_type)
 
             if not flag:
                 tk.messagebox.showinfo("Process Finished", f"It seems that there was an error with the Process. Reference project number: {project_number}, and the for {material_type} Material")

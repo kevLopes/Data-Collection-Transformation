@@ -558,45 +558,6 @@ def plot_special_piping_cost_per_po1(cost_df, project_number):
     print(f'Figure saved at {fig_path}')
 
 
-#3 separated image
-def plot_special_piping_cost_per_po1(cost_df, project_number):
-    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
-
-    # Convert cost to thousands for better readability
-    cost_df['Cost'] = cost_df['Cost'] / 1000
-
-    metrics = ['Cost', 'Quantity in Purchase Order', 'MTO Weight']  # Metrics to be plotted
-
-    # Create graphics directory if it doesn't exist
-    os.makedirs(graphics_dir, exist_ok=True)
-
-    # Iterate over each metric
-    for metric in metrics:
-        # Group by PO Number and calculate the sum of the current metric
-        po_totals = cost_df.groupby('PO Number')[metric].sum().sort_values(ascending=False)
-
-        # Create the plot
-        fig, ax = plt.subplots(figsize=(12, 8))
-        sns.barplot(y=po_totals.index, x=po_totals.values, ax=ax, orient='h')
-        ax.set_title(f'Special Piping Total {metric} per PO Number')
-        ax.set_xlabel(f'Total {metric} ')#(if Cost then in Thousands of Dollars)')
-        ax.set_ylabel('PO Number')
-
-        # Add value labels
-        for p in ax.patches:
-            ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
-                    '%.2f' % float(p.get_width()),
-                    fontsize=12, color='black', va='center')
-        plt.tight_layout()
-
-        # Save the figure
-        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        fig_name = f"MP{project_number}_SpecialPiping_{metric}_PerPO_{timestamp}.png"
-        fig_path = os.path.join(graphics_dir, fig_name)
-        plt.savefig(fig_path)
-        print(f'Figure saved at {fig_path}')
-
-
 def plot_special_piping_cost_per_weight_and_totals(cost_df, project_number):
     # Calculate cost per weight for each row
     cost_df['Cost per Weight'] = cost_df['Project Currency Cost'] / cost_df['Total Weight using PO quantity']
@@ -902,7 +863,7 @@ def plot_bolt_material_cost(cost_df_mt, project_number):
 
     ax.set_title('Bolt Total Cost per Material Type')
     ax.set_xlabel('Material Type')
-    ax.set_ylabel('Total Cost')
+    ax.set_ylabel('Total Cost (Thousands of Dollars)')
 
     # Add value labels on the bars
     for i, bar in enumerate(barplot.patches):
