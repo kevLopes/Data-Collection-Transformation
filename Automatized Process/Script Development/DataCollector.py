@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from datetime import datetime
 import logging
+import ExportGraphicsbyYard
 logging.basicConfig(level=logging.INFO)
 
 
@@ -112,7 +113,7 @@ def data_collector_piping_yard(project_number, material_type):
         return False
 
     # Check if the Data Organize folder exists, and create it if it doesn't
-    output_dir = "../Data Pool/Material Data Organized/Piping"
+    output_dir = "../Data Pool/Material Data Organized/Piping/Yard"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
@@ -273,7 +274,7 @@ def data_collector_valve_yard(project_number, material_type):
         return False
 
     # Check if the Materials Data Organized folder exists, and create it if it doesn't
-    output_dir = "../Data Pool/Material Data Organized/Valve"
+    output_dir = "../Data Pool/Material Data Organized/Valve/Yard"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
@@ -356,7 +357,7 @@ def data_collector_bolt_yard(project_number, material_type):
         return False
 
     # Check if the Materials Data Organized folder exists, and create it if it doesn't
-    output_dir = "../Data Pool/Material Data Organized/Bolt"
+    output_dir = "../Data Pool/Material Data Organized/Bolt/Yard"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
@@ -739,7 +740,7 @@ def data_collector_specialpip_yard(project_number, material_type):
         return False
 
     # Check if the Materials Data Organized folder exists, and create it if it doesn't
-    output_dir = "../Data Pool/Material Data Organized/Special Piping"
+    output_dir = "../Data Pool/Material Data Organized/Special Piping/Yard"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
@@ -771,6 +772,8 @@ def data_collector_specialpip_yard(project_number, material_type):
 
                 logging.info(
                     f"Extracted data from {file} with Project Number {project_number} and saved it to {output_filename} (YARD Scope)")
+
+                ExportGraphicsbyYard.plot_special_piping_yard(extract_df, project_number)
                 return True
             else:
                 logging.error(f"Could not find any of the specified columns in {file} (YARD Scope)")

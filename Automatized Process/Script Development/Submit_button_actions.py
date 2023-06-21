@@ -26,11 +26,11 @@ def action_for_material_analyze(project_number, material_type):
     # Material Type Piping
     if material_type == "Piping":
         # Organize Data from Data Hub
-        #DataCollector.data_collector_piping(project_number, material_type)
+        DataCollector.data_collector_piping(project_number, material_type)
         # Do something with the input and type
-        #CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, material_type)
-        #CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, material_type)
-        print("Analyze done for all Piping Material Codes")
+        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, material_type)
+        CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, material_type)
+        print("Analyze done for all SBM Scope Piping Materials")
         return True
 
     # Material Type Valve
@@ -39,7 +39,7 @@ def action_for_material_analyze(project_number, material_type):
         DataCollector.data_collector_valve(project_number, material_type)
         # Do something with the input and type
         CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path_valve, project_number, material_type)
-        print("Analyze done for all Valve Material Codes")
+        print("Analyze done for all SBM Scope Valve Materials")
         return True
 
     # Material Type Bolt
@@ -48,30 +48,30 @@ def action_for_material_analyze(project_number, material_type):
         DataCollector.data_collector_bolt(project_number, material_type)
         # Do something with the input and type
         CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number, material_type)
-        print("Analyze done for all Bolt Material Codes")
+        print("Analyze done for all SBM Scope Bolt Materials")
         return True
 
     # Material Type Structure
     elif material_type == "Structure":
         # Organize Data from Data Hub
         DataCollector.data_collector_structure(project_number, material_type)
-        print("Analyze done for all Structure Material Codes")
+        print("Analyze done for all SBM Scope Structure Materials")
         return True
 
     # Material Type Bend
     elif material_type == "Bend":
         # Organize Data from Data Hub
         DataCollector.data_collector_bend(project_number, material_type)
-        print("Analyze done for all Bend Material Codes")
+        print("Analyze done for all SBM Scope Bend Materials")
         return True
 
     # Material Type Special Piping
     elif material_type == "Special Piping":
         # Organize Data from Data Hub
-        DataCollector.data_collector_specialpip(project_number, "Special PIP")
+        #DataCollector.data_collector_specialpip(project_number, "Special PIP")
         # Do something with the input and type
-        CostAnalyzeByTagNumber.extract_distinct_tag_numbers_special_piping(folder_path_sp, project_number, "SPC Piping")
-        print("Analyze done for all Special Piping Material Codes")
+        #CostAnalyzeByTagNumber.extract_distinct_tag_numbers_special_piping(folder_path_sp, project_number, "SPC Piping")
+        print("Analyze done for all SBM Scope Special Piping Materials")
         return True
 
     # All Materials
@@ -99,7 +99,7 @@ def action_for_material_analyze_by_yard(project_number, material_type):
         # Organize Data from Data Hub
         DataCollector.data_collector_piping_yard(project_number, material_type)
         # Do something with the input and type
-        AnalyzeProcessByYard.yard_material_type_analyze(folder_path_piping, project_number, material_type)
+        AnalyzeProcessByYard.yard_piping_material_type_analyze(folder_path_piping, project_number, material_type)
         return True
 
     # Material Type Valve
@@ -107,6 +107,7 @@ def action_for_material_analyze_by_yard(project_number, material_type):
         # Organize Data from Data Hub
         DataCollector.data_collector_valve_yard(project_number, material_type)
         # Do something with the input and type
+        AnalyzeProcessByYard.yard_valve_material_type_analyze(folder_path_valve, project_number, material_type)
         return True
 
     # Material Type Bolt
@@ -114,6 +115,7 @@ def action_for_material_analyze_by_yard(project_number, material_type):
         # Organize Data from Data Hub
         DataCollector.data_collector_bolt_yard(project_number, material_type)
         # Do something with the input and type
+        AnalyzeProcessByYard.yard_bolt_material_type_analyze(folder_path_bolt, project_number, material_type)
         return True
 
     # Material Type Structure
