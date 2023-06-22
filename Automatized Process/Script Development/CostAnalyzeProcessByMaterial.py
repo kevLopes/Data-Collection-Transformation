@@ -132,7 +132,7 @@ def material_cost_analyze_piping(project_number, material_codes, material_info):
 
         # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/Piping"
         cost_df = pd.DataFrame(cost_data)
         output_file = os.path.join(result_folder_path, f"MP{project_number}_Piping_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
         cost_df.to_excel(output_file, index=False)
@@ -212,7 +212,7 @@ def material_currency_cost_analyze_piping(project_number, material_codes, materi
                         })
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/Piping"
         cost_df_c = pd.DataFrame(cost_data)
         output_file = os.path.join(result_folder_path,
                                    f"MP{project_number}_Piping_MatCurrency_CostAnalyze_{timestamp}.xlsx")
@@ -355,7 +355,7 @@ def material_cost_analyze_valve(project_number, material_codes, material_info):
         # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/Valve"
         cost_data = list(cost_data_dict.values())
         cost_df = pd.DataFrame(cost_data)
         output_file = os.path.join(result_folder_path, f"MP{project_number}_Valve_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
@@ -434,7 +434,7 @@ def material_currency_cost_analyze_valve(project_number, material_codes, materia
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/Valve"
         cost_df = pd.DataFrame(cost_data)
         output_file = os.path.join(result_folder_path,
                                    f"MP{project_number}_Valve_MatCurrency_CostAnalyze_{timestamp}.xlsx")
@@ -561,7 +561,7 @@ def material_cost_analyze_bolt(project_number, material_codes, material_info):
         # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/Bolt"
         cost_df = pd.DataFrame(cost_data)
         output_file = os.path.join(result_folder_path,
                                    f"MP{project_number}_Bolt_MaterialBased_Cost_Analyze_{timestamp}.xlsx")
@@ -636,7 +636,7 @@ def material_currency_cost_analyze_bolt(project_number, material_codes, material
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-    result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+    result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/Bolt"
     cost_df = pd.DataFrame(cost_data)
     output_file = os.path.join(result_folder_path,
                                f"MP{project_number}_Bolt_MatCurrency_CostAnalyze_{timestamp}.xlsx")

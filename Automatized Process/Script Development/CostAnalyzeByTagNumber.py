@@ -210,7 +210,7 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
                             })
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/Piping"
         cost_df = pd.DataFrame(cost_data)
 
         # Calculate column totals
@@ -342,7 +342,7 @@ def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, ma
                         })
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/Piping"
         cost_df = pd.DataFrame(cost_data)
 
         output_file = os.path.join(result_folder_path, f"MP{project_number}_Piping_TagCurrency_Cost_Analyze_{timestamp}.xlsx")
@@ -488,7 +488,7 @@ def material_cost_analyze_special_piping_by_tag(project_number, tag_numbers, tag
                     })
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/SPC Piping"
         cost_df = pd.DataFrame(cost_data)
 
         # Calculate column totals
@@ -588,7 +588,7 @@ def material_currency_cost_analyze_special_piping_by_tag(project_number, tag_num
                         })
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files"
+        result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/SPC Piping"
         cost_df = pd.DataFrame(cost_data)
 
         output_file = os.path.join(result_folder_path, f"MP{project_number}_SPCPiping_TagCurrency_Cost_{timestamp}.xlsx")

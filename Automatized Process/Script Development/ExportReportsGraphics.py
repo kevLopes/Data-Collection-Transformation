@@ -13,7 +13,7 @@ def plot_piping_totals(cost_df, project_number):
     currency_totals = cost_df.groupby('Transaction Currency')['PO Cost'].sum() / 1000
 
     # Create graphics directory if not exists
-    graphics_dir = "../Data Pool/DCT Process Results/graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Piping"
     os.makedirs(graphics_dir, exist_ok=True)
 
     totals = [(commit_totals, 'Piping Total Committed Quantities per MTO', 'UOM in MTO', 'Committed Quantity'),
@@ -58,7 +58,7 @@ def plot_piping_cost_per_weight_and_totals(cost_df, project_number):
     total_cost_per_weight = (cost_totals / weight_totals)
 
     # Create graphics directory if not exists
-    graphics_dir = "../Data Pool/DCT Process Results/graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Piping"
     os.makedirs(graphics_dir, exist_ok=True)
 
     # Create figure
@@ -88,7 +88,8 @@ def plot_piping_cost_per_weight_and_totals(cost_df, project_number):
 
 def plot_piping_cost_per_po(cost_df, project_number):
     folder_path = "../Data Pool/Ecosys API Data/PO Headers"
-    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Piping"
+    os.makedirs(graphics_dir, exist_ok=True)
 
     excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
 
@@ -228,7 +229,7 @@ def plot_piping_material_cost(cost_df_mt, project_number):
     material_costs = material_costs.reindex(sorted(name_to_code.values()))
 
     # Create graphics directory if it doesn't exist
-    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Piping"
     os.makedirs(graphics_dir, exist_ok=True)
 
     # Create figure
@@ -294,7 +295,7 @@ def plot_piping_material_weight(cost_df_mw, project_number):
                            'Total NET weight'] / 1000
 
     # Create graphics directory if not exists
-    graphics_dir = "../Data Pool/DCT Process Results/graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Piping"
     os.makedirs(graphics_dir, exist_ok=True)
 
     # Create figure
@@ -333,7 +334,8 @@ def plot_piping_material_weight(cost_df_mw, project_number):
 #all images separated
 def plot_special_piping_cost_per_po_and_supplier(cost_df, project_number):
     folder_path = "../Data Pool/Ecosys API Data/PO Headers"
-    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/SPC Piping"
+    os.makedirs(graphics_dir, exist_ok=True)
 
     excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
     matching_files = [f for f in excel_files if str(project_number) in f]
@@ -449,7 +451,8 @@ def plot_special_piping_cost_per_po_and_supplier(cost_df, project_number):
 #Analyse with 1 pictures for all POs and supplier
 def plot_special_piping_cost_per_po1(cost_df, project_number):
     folder_path = "../Data Pool/Ecosys API Data/PO Headers"
-    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/SPC Piping"
+    os.makedirs(graphics_dir, exist_ok=True)
 
     excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
     matching_files = [f for f in excel_files if str(project_number) in f]
@@ -573,7 +576,7 @@ def plot_special_piping_cost_per_weight_and_totals(cost_df, project_number):
     total_cost_per_currency = cost_df.groupby('Transaction Currency')['Project Currency Cost'].sum().div(1000)
 
     # Create graphics directory if not exists
-    graphics_dir = "../Data Pool/DCT Process Results/graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/SPC Piping"
     os.makedirs(graphics_dir, exist_ok=True)
 
     # Create figure for total cost per weight
@@ -650,7 +653,7 @@ def plot_valve_material_cost(cost_df_mt, project_number):
     material_costs = cost_df_copy.groupby('Base Material')['Cost'].sum() / 1000
 
     # Create graphics directory if it doesn't exist
-    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Valve"
     os.makedirs(graphics_dir, exist_ok=True)
 
     # Create figure
@@ -713,7 +716,7 @@ def plot_valve_material_quantity_weight(cost_df_mt, project_number):
     material_weight = cost_df_copy.groupby('Base Material')['Weight'].sum() / 1000
 
     # Create graphics directory if it doesn't exist
-    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Valve"
     os.makedirs(graphics_dir, exist_ok=True)
 
     # Plot total quantity per material
@@ -787,7 +790,7 @@ def plot_valve_cost_quantity_per_currency(cost_df_currency, project_number):
     currency_quantity = cost_df_currency.groupby('Transaction Currency')['Quantity'].sum()
 
     # Create graphics directory if it doesn't exist
-    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Valve"
     os.makedirs(graphics_dir, exist_ok=True)
 
     # Plot total cost per currency
@@ -852,7 +855,7 @@ def plot_bolt_material_cost(cost_df_mt, project_number):
     material_costs = cost_df_copy.groupby('Base Material')['Cost'].sum() / 1000
 
     # Create graphics directory if it doesn't exist
-    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Bolt"
     os.makedirs(graphics_dir, exist_ok=True)
 
     # Create figure
@@ -894,7 +897,7 @@ def plot_bolt_quantity_difference(material_info, project_number):
     df = pd.DataFrame(data)
 
     # Create graphics directory if it doesn't exist
-    graphics_dir = "../Data Pool/DCT Process Results/Graphics"
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Bolt"
     os.makedirs(graphics_dir, exist_ok=True)
 
     # Melt the DataFrame to make it suitable for seaborn
