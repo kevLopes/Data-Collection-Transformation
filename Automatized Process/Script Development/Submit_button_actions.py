@@ -22,6 +22,7 @@ def action_for_material_analyze(project_number, material_type):
     folder_path_piping = "../Data Pool/Material Data Organized/Piping"
     folder_path_bolt = "../Data Pool/Material Data Organized/Bolt"
     folder_path_sp = "../Data Pool/Material Data Organized/Special Piping"
+    folder_path_structure = "../Data Pool/Material Data Organized/Structure"
 
     # Material Type Piping
     if material_type == "Piping":
@@ -55,7 +56,9 @@ def action_for_material_analyze(project_number, material_type):
     elif material_type == "Structure":
         # Organize Data from Data Hub
         DataCollector.data_collector_structure(project_number, material_type)
-        print("Analyze done for all SBM Scope Structure Materials")
+        # Do something with the input and type
+        CostAnalyzeProcessByMaterial.analyze_structure_materials(folder_path_structure, project_number, material_type)
+        print("Analyze done for Structure Materials")
         return True
 
     # Material Type Bend
@@ -68,9 +71,9 @@ def action_for_material_analyze(project_number, material_type):
     # Material Type Special Piping
     elif material_type == "Special Piping":
         # Organize Data from Data Hub
-        #DataCollector.data_collector_specialpip(project_number, "Special PIP")
+        DataCollector.data_collector_specialpip(project_number, "Special PIP")
         # Do something with the input and type
-        #CostAnalyzeByTagNumber.extract_distinct_tag_numbers_special_piping(folder_path_sp, project_number, "SPC Piping")
+        CostAnalyzeByTagNumber.extract_distinct_tag_numbers_special_piping(folder_path_sp, project_number, "SPC Piping")
         print("Analyze done for all SBM Scope Special Piping Materials")
         return True
 

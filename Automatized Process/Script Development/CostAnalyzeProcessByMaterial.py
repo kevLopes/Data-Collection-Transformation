@@ -21,13 +21,9 @@ def get_most_recent_file(folder_path, matching_files):
 
 
 def extract_distinct_product_codes_piping(folder_path, project_number, material_type):
-    excel_files = [
-        f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")
-    ]
+    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
 
-    matching_files = [
-        f for f in excel_files if str(project_number) in f and material_type in f
-    ]
+    matching_files = [f for f in excel_files if str(project_number) in f and material_type in f]
 
     if not matching_files:
         raise FileNotFoundError(
@@ -642,7 +638,55 @@ def material_currency_cost_analyze_bolt(project_number, material_codes, material
                                f"MP{project_number}_Bolt_MatCurrency_CostAnalyze_{timestamp}.xlsx")
     cost_df.to_excel(output_file, index=False)
 
+
 #                       ------------------------ Structure --------------------
 
 
+def analyze_structure_materials(folder_path, project_number, material_type):
+    # Get list of excel files
+    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+    matching_files = [f for f in excel_files if str(project_number) in f and material_type in f]
 
+    if not matching_files:
+        raise FileNotFoundError(f"No files containing the project number '{project_number}' and  material type '{material_type}' were found.")
+
+    most_recent_file = get_most_recent_file(folder_path, matching_files)
+    file_path = os.path.join(folder_path, most_recent_file)
+    df = pd.read_excel(file_path)
+
+    # Set the columns to extract
+    columns_to_extract = ["Project", "Product Code", "Thickness", "Wastage Quantity", "Required Qty", "Unit Weight",
+                          "Total QTY to commit", "Quantity UOM", "Unit Weight UOM", "Total NET weight",
+                          "Quantity Including Wastage", "Total Gross Weight", "Total Gross Weight UOM"]
+
+    # Check if all the necessary columns are present
+    for column in columns_to_extract:
+        if column not in df.columns:
+            raise ValueError(f"Column '{column}' not found in the file.")
+
+    df = df[columns_to_extract]
+
+    # Analyze data by Product Code / UOM
+    analyzed_df = df.groupby(['Product Code', 'Quantity UOM']).agg({
+        'Project': 'first',
+        'Total Gross Weight UOM': 'first',
+        'Unit Weight UOM': 'first',
+        'Total QTY to commit': 'sum',
+        'Total NET weight': 'sum',
+        'Unit Weight': 'mean',
+        'Required Qty': 'sum',
+        'Thickness': 'sum',
+        'Wastage Quantity': 'sum',
+        'Quantity Including Wastage': 'sum',
+        'Total Gross Weight': 'sum',
+    })
+
+    # Save result to Excel file
+    result_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/Structure"
+    os.makedirs(result_folder_path, exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    result_file_path = os.path.join(result_folder_path, f"MP{project_number}_Structure_Analyze_{timestamp}.xlsx")
+    analyzed_df.to_excel(result_file_path)
+
+    ExportReportsGraphics.plot_structure_material_data_analyse(analyzed_df, project_number)

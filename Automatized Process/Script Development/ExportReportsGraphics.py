@@ -31,7 +31,7 @@ def plot_piping_totals(cost_df, project_number):
         for p in ax.patches:
             ax.text(p.get_x() + p.get_width() / 2., p.get_height(),
                    '%d' % int(p.get_height()),
-                   fontsize=12, color='black', ha='center', va='bottom')
+                   fontsize=10, color='black', ha='center', va='bottom')
 
         plt.tight_layout()
 
@@ -75,7 +75,7 @@ def plot_piping_cost_per_weight_and_totals(cost_df, project_number):
     for p in ax.patches:
         ax.text(p.get_x() + p.get_width() / 2., p.get_height(),
                '%.2f' % float(p.get_height()),
-               fontsize=12, color='black', ha='center', va='bottom')
+               fontsize=10, color='black', ha='center', va='bottom')
 
     plt.tight_layout()
     # Save figure
@@ -247,7 +247,7 @@ def plot_piping_material_cost(cost_df_mt, project_number):
         barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
                      f'{bar.get_height():.2f}',
                      ha='center', va='bottom',
-                     fontsize=12, color='black')
+                     fontsize=10, color='black')
 
     # Create a legend mapping material codes to full names
     code_to_name = {v: k for k, v in name_to_code.items()}
@@ -313,7 +313,7 @@ def plot_piping_material_weight(cost_df_mw, project_number):
         barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
                      f'{bar.get_height():.2f}',
                      ha='center', va='bottom',
-                     fontsize=12, color='black')
+                     fontsize=10, color='black')
 
     # Create a legend mapping codes to full names
     handles = [plt.Rectangle((0, 0), 1, 1, color=barplot.patches[i].get_facecolor()) for i in range(len(code_to_name))]
@@ -404,7 +404,7 @@ def plot_special_piping_cost_per_po_and_supplier(cost_df, project_number):
             for p in ax.patches:
                 ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
                         '%.2f' % float(p.get_width()),
-                        fontsize=12, color='black', va='center')
+                        fontsize=10, color='black', va='center')
 
             plt.tight_layout()
 
@@ -434,7 +434,7 @@ def plot_special_piping_cost_per_po_and_supplier(cost_df, project_number):
             for p in ax.patches:
                 ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
                         '%.2f' % float(p.get_width()),
-                        fontsize=12, color='black', va='center')
+                        fontsize=10, color='black', va='center')
 
             plt.tight_layout()
 
@@ -525,7 +525,7 @@ def plot_special_piping_cost_per_po1(cost_df, project_number):
         for p in ax.patches:
             ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
                     '%.2f' % float(p.get_width()),
-                    fontsize=12, color='black', va='center')
+                    fontsize=10, color='black', va='center')
 
     plt.tight_layout()
 
@@ -550,7 +550,7 @@ def plot_special_piping_cost_per_po1(cost_df, project_number):
     for p in ax.patches:
         ax.text(p.get_width(), p.get_y() + p.get_height() / 2.,
                 '%.2f' % float(p.get_width()),
-                fontsize=12, color='black', va='center')
+                fontsize=10, color='black', va='center')
 
     plt.tight_layout()
 
@@ -590,7 +590,7 @@ def plot_special_piping_cost_per_weight_and_totals(cost_df, project_number):
     for p in axs.patches:
         axs.text(p.get_x() + p.get_width() / 2., p.get_height(),
                  '%.2f' % float(p.get_height()),
-                 fontsize=12, color='black', ha='center', va='bottom')
+                 fontsize=10, color='black', ha='center', va='bottom')
 
     plt.tight_layout()
 
@@ -612,7 +612,7 @@ def plot_special_piping_cost_per_weight_and_totals(cost_df, project_number):
     for p in axs.patches:
         axs.text(p.get_x() + p.get_width() / 2., p.get_height(),
                  '%.2f' % float(p.get_height()),
-                 fontsize=12, color='black', ha='center', va='bottom')
+                 fontsize=10, color='black', ha='center', va='bottom')
 
     plt.tight_layout()
 
@@ -671,7 +671,7 @@ def plot_valve_material_cost(cost_df_mt, project_number):
         barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
                      f'{bar.get_height():.2f}',
                      ha='center', va='bottom',
-                     fontsize=12, color='black')
+                     fontsize=10, color='black')
 
     # Create a legend mapping material codes to full names
     code_to_name = {v: k for k, v in name_to_code.items()}
@@ -732,7 +732,7 @@ def plot_valve_material_quantity_weight(cost_df_mt, project_number):
         barplot1.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
                       f'{bar.get_height():.2f}',
                       ha='center', va='bottom',
-                      fontsize=12, color='black')
+                      fontsize=10, color='black')
 
     # Create a legend for the plot
     code_to_name = {v: k for k, v in name_to_code.items()}
@@ -764,7 +764,7 @@ def plot_valve_material_quantity_weight(cost_df_mt, project_number):
         barplot2.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
                       f'{bar.get_height():.2f}',
                       ha='center', va='bottom',
-                      fontsize=12, color='black')
+                      fontsize=10, color='black')
 
     # Create a legend for the plot
     code_to_name = {v: k for k, v in name_to_code.items()}
@@ -805,7 +805,7 @@ def plot_valve_cost_quantity_per_currency(cost_df_currency, project_number):
         barplot1.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
                       f'{bar.get_height():.2f}',
                       ha='center', va='bottom',
-                      fontsize=12, color='black')
+                      fontsize=10, color='black')
 
     plt.tight_layout()
 
@@ -829,7 +829,7 @@ def plot_valve_cost_quantity_per_currency(cost_df_currency, project_number):
         barplot2.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
                       f'{bar.get_height():.2f}',
                       ha='center', va='bottom',
-                      fontsize=12, color='black')
+                      fontsize=10, color='black')
 
     plt.tight_layout()
 
@@ -873,7 +873,7 @@ def plot_bolt_material_cost(cost_df_mt, project_number):
         barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
                      f'{bar.get_height():.2f}',
                      ha='center', va='bottom',
-                     fontsize=12, color='black')
+                     fontsize=10, color='black')
 
     plt.tight_layout()
 
@@ -917,7 +917,7 @@ def plot_bolt_quantity_difference(material_info, project_number):
         barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
                      f'{bar.get_height():.2f}',
                      ha='center', va='bottom',
-                     fontsize=12, color='black')
+                     fontsize=10, color='black')
 
     plt.tight_layout()
 
@@ -927,3 +927,90 @@ def plot_bolt_quantity_difference(material_info, project_number):
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')
+
+
+#-------------------- Structure --------------------
+
+
+def plot_structure_material_data_analyse(analyzed_df, project_number):
+    # Create a dictionary mapping product codes to short names
+    code_to_short = {
+        'BLK.STR.PRI.PLT': 'PRI.PLT',
+        'BLK.STR.PRI.PRO': 'PRI.PRO',
+        'BLK.STR.PRI.TBR': 'PRI.TBR',
+        'BLK.STR.SEC.PLT': 'SEC.PLT',
+        'BLK.STR.SEC.PRO': 'SEC.PRO',
+        'BLK.STR.SEC.TBR': 'SEC.TBR',
+        'BLK.STR.SPS.PLT': 'SPS.PLT',
+        'BLK.STR.SPS.TBR': 'SPS.TBR',
+        'BLK.STR.TER.PLT': 'TER.PLT',
+        'BLK.STR.TER.PRO': 'TER.PRO',
+        'BLK.STR.TER.SNT': 'TER.SNT',
+    }
+
+    # Create a dictionary mapping short names to full names
+    short_to_full = {
+        'PRI.PLT': 'Primary Steel, Plate',
+        'PRI.PRO': 'Primary Steel, Profiles',
+        'PRI.TBR': 'Primary Steel, Tubulars',
+        'SEC.PLT': 'Secondary Steel, Plate',
+        'SEC.PRO': 'Secondary Steel, Profiles',
+        'SEC.TBR': 'Secondary Steel, Tubulars',
+        'SPS.PLT': 'Special Steel, Plate',
+        'SPS.TBR': 'Special Steel, Tubulars',
+        'TER.PLT': 'Tertiary Steel, Plate',
+        'TER.PRO': 'Tertiary Steel, Profiles',
+        'TER.SNT': 'Tertiary Steel, Subassembly & The Like',
+    }
+
+    # Create graphics directory if it doesn't exist
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Structure"
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Reset index for easier plotting
+    df = analyzed_df.reset_index()
+
+    # Replace the product codes in the DataFrame with their short codes
+    df['Product Code'] = df['Product Code'].map(code_to_short)
+
+    for column in ['Total QTY to commit', 'Total NET weight', 'Unit Weight', 'Thickness', 'Wastage Quantity',
+                   'Quantity Including Wastage', 'Total Gross Weight']:
+        # Create figure
+        fig, ax = plt.subplots(figsize=(12, 5))
+
+        # Plot the selected data
+        barplot = sns.barplot(x='Product Code', y=column, hue='Quantity UOM', data=df, ax=ax)
+
+        ax.set_title(f'{column} per Material Type and Quantity UOM')
+        ax.set_xlabel('Material Type')
+        ax.set_ylabel(column)
+
+        # Add value labels on the bars
+        for i, bar in enumerate(barplot.patches):
+            if np.isfinite(bar.get_height()):
+                barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
+                             f'{bar.get_height():.2f}',
+                             ha='center', va='bottom',
+                             fontsize=8, color='black')
+
+        # Create a legend with both short and full names for 'Quantity UOM'
+        handles_uom, labels_uom = ax.get_legend_handles_labels()
+        labels_uom = [short_to_full[label] if label in short_to_full else label for label in labels_uom]
+        legend_uom = ax.legend(handles_uom, labels_uom, title='Quantity UOM', loc='upper right')
+
+        # Move the legend outside the plot
+        ax.add_artist(legend_uom)
+
+        # Create a second legend for 'Product Code' using dummy artists
+        labels_code = df['Product Code'].unique()
+        handles_code = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='black', markersize=5) for _ in labels_code]
+        labels_code = [short_to_full[label] for label in labels_code]
+        legend_code = ax.legend(handles_code, labels_code, title='Product Code', loc='upper left', bbox_to_anchor=(1.0, 1.0))
+
+        # Save figure
+        plt.tight_layout()
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        fig_name = f"MP{project_number}_Structure_{column}_Graphic_{timestamp}.png"
+        fig_path = os.path.join(graphics_dir, fig_name)
+        plt.savefig(fig_path, bbox_inches='tight')
+        print(f'Figure saved at {fig_path}')
