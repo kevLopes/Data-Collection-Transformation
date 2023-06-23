@@ -328,6 +328,91 @@ def plot_piping_material_weight(cost_df_mw, project_number):
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')
 
+
+#Graphic with the complete analyze of the SBM Scope MTO Data
+def sbm_scope_mto_plot_piping_analyze(analyze_df, project_number):
+    # Dictionary mapping material types to short codes
+    material_to_code = {
+        'CARBON STEEL': 'CST',
+        'CHROME-MOLY': 'CRM',
+        'COPPER-NICKEL': 'CUN',
+        'DUPLEX STAINLESS STEEL': 'DSS',
+        'GALVANIZED CARBON STEEL': 'GST',
+        'GRE PIPING': 'GRE',
+        'HIGH YIELD CARBON STEEL': 'HST',
+        'LOW TEMPERATURE CARBON STEEL': 'LST',
+        'METALLIC GASKETS': 'MET',
+        'NICKEL ALLOY': 'ICO',
+        'NON- METALLIC GASKETS': 'NMT',
+        'STAINLESS STEEL': 'SST',
+        'SUPER DUPLEX STAINLESS STEEL': 'SDS'
+    }
+
+    # Dictionary mapping short codes to material types
+    code_to_material = {v: k for k, v in material_to_code.items()}
+
+    # Create graphics directory if it doesn't exist
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Piping"
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Reset index for easier plotting
+    df = analyze_df.reset_index()
+
+    # Replace the material types in the DataFrame with their short codes
+    df['Material Type'] = df['Material Type'].map(material_to_code)
+
+    for column in ['Total QTY to commit', 'Average Unit Weight', 'Total NET weight']:
+        # Create figure
+        fig, ax = plt.subplots(figsize=(12, 5))
+
+        # Plot the selected data
+        if column == 'Total QTY to commit':
+            barplot = sns.barplot(x='Material Type', y=column, hue='Quantity UOM', data=df, estimator=sum, ax=ax)
+        else:
+            barplot = sns.barplot(x='Material Type', y=column, data=df, ax=ax)
+
+        ax.set_title(f'{column} per Material Type')
+        ax.set_xlabel('Material Type')
+        ax.set_ylabel(column)
+
+        # Add value labels on the bars
+        for i, bar in enumerate(barplot.patches):
+            if np.isfinite(bar.get_height()):
+                if column in ['Total NET weight', 'Average Unit Weight']:
+                    barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
+                                 f'{bar.get_height() / 1000:.2f} TONs',
+                                 ha='center', va='bottom',
+                                 fontsize=8, color='black')
+                else:
+                    barplot.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
+                                 f'{bar.get_height():.2f}',
+                                 ha='center', va='bottom',
+                                 fontsize=8, color='black')
+
+        # Create a legend with both short codes and material types for 'Quantity UOM'
+        if column == 'Total QTY to commit':
+            handles_uom, labels_uom = ax.get_legend_handles_labels()
+            labels_uom = [label if label != 'nan' else 'SUM' for label in labels_uom]
+            legend_uom = ax.legend(handles_uom, labels_uom, title='Quantity UOM', loc='upper right')
+            ax.add_artist(legend_uom)
+
+        # Create a legend for 'Material Type' using dummy artists
+        labels_material = df['Material Type'].unique()
+        handles_material = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='black', markersize=5) for _ in
+                            labels_material]
+        labels_material = [code_to_material[label] for label in labels_material]
+        legend_material = ax.legend(handles_material, labels_material, title='Material Type', loc='upper left',
+                                    bbox_to_anchor=(1.0, 1.0))
+
+        # Save figure
+        plt.tight_layout()
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        fig_name = f"MP{project_number}_MTOPiping_{column}_Graphic_{timestamp}.png"
+        fig_path = os.path.join(graphics_dir, fig_name)
+        plt.savefig(fig_path, bbox_inches='tight')
+        print(f'Figure saved at {fig_path}')
+
+
 #-------------------- Special Piping ---------------
 
 

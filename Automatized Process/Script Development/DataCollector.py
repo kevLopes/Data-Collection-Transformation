@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime
 import logging
 import ExportGraphicsbyYard
+import ExportReportsGraphics
 logging.basicConfig(level=logging.INFO)
 
 
@@ -71,8 +72,7 @@ def data_collector_piping(project_number, material_type):
                         output_filename = os.path.join(output_dir, f"{project_number} - Piping Organized_{timestamp}.xlsx")
                         group_df.to_excel(output_filename, index=False)
 
-                        logging.info(
-                            f"Extracted data from {file} with Project Number {project_number} and saved it to {output_filename}")
+                        logging.info(f"Extracted data from {file} with Project Number {project_number} and saved it to {output_filename}")
                         return True
                 else:
                     logging.error(f"Could not find any of the specified columns in {file}")
