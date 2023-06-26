@@ -41,9 +41,9 @@ def plot_material_analyze_piping(df, project_number):
         # Save figure
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         if plot_title == "Total Average Unit Weight per Material Type":
-            fig_name = f"MP{project_number}_YARD_Unit_Weight_Material_{timestamp}.png"
+            fig_name = f"MP{project_number}_YARDPiping_Material_average_{timestamp}.png"
         else:
-            fig_name = f"MP{project_number}_YARD_Net_Weight_Material_{timestamp}.png"
+            fig_name = f"MP{project_number}_YARDPiping_Material_weight_{timestamp}.png"
         fig_path = os.path.join(graphics_dir, fig_name)
         plt.savefig(fig_path)
         print(f'Figure saved at {fig_path}')
@@ -51,7 +51,7 @@ def plot_material_analyze_piping(df, project_number):
     # Total QTY to commit per UOM by Material Type
     quantity_df = df.groupby(['Pipe Base Material', 'Quantity UOM'])['Total QTY to commit'].sum().reset_index()
     fig, ax = plt.subplots(figsize=(12, 5))
-    barplot = sns.barplot(data=quantity_df, x='Material Type', y='Total Quantity', hue='Quantity UOM', ax=ax)
+    barplot = sns.barplot(data=quantity_df, x='Pipe Base Material', y='Total QTY to commit', hue='Quantity UOM', ax=ax)
     ax.set_title('Total Quantity per UOM by Material Type')
 
     # Add value labels on the bars
@@ -64,7 +64,7 @@ def plot_material_analyze_piping(df, project_number):
     plt.tight_layout()
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_YARD_QTY_UOM_by_Material_{timestamp}.png"
+    fig_name = f"MP{project_number}_YARDPiping_Material_QTY_{timestamp}.png"
     fig_path = os.path.join(graphics_dir, fig_name)
     plt.savefig(fig_path)
     print(f'Figure saved at {fig_path}')
@@ -135,7 +135,7 @@ def plot_material_analyze_valves(df, project_number):
 
         # Save figure
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        fig_name = f"MP{project_number}_{attribute}_Material_{timestamp}.png"
+        fig_name = f"MP{project_number}_YARD{attribute}_Material_{timestamp}.png"
         plt.savefig(os.path.join(graphics_dir, fig_name))
 
         # Close the figure
@@ -184,7 +184,7 @@ def plot_material_analyze_bolts(df, project_number):
 
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_Bolt_Material_{timestamp}.png"
+    fig_name = f"MP{project_number}_YARDBolt_Material_{timestamp}.png"
     plt.savefig(os.path.join(graphics_dir, fig_name))
 
     print("The plot has been saved successfully.")
@@ -223,7 +223,7 @@ def plot_special_piping_yard(df, project_number):
 
     # Save figure
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-    fig_name = f"MP{project_number}_SpecialPIP_Analyze_{timestamp}.png"
+    fig_name = f"MP{project_number}_YARD_SPCPIP_Analyze_{timestamp}.png"
     plt.savefig(os.path.join(graphics_dir, fig_name))
 
     print("The plot has been saved successfully.")
