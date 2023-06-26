@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from datetime import datetime
 import ExportReportsGraphics
+import ExportPDFreports
 
 
 def get_most_recent_file(folder_path, matching_files):
@@ -34,7 +35,7 @@ def analyze_by_material_type_piping(folder_path, project_number, material_type):
     file_path = os.path.join(folder_path, most_recent_file)
     df = pd.read_excel(file_path)
 
-    required_columns = ["Pipe Base Material", "Total QTY to commit", "Unit Weight", "Total NET weight", "Quantity UOM"]
+    required_columns = ["Project Number", "Pipe Base Material", "Total QTY to commit", "Unit Weight", "Total NET weight", "Quantity UOM"]
     if all(col in df.columns for col in required_columns):
         materials = df["Pipe Base Material"].unique()
 
@@ -71,5 +72,33 @@ def analyze_by_material_type_piping(folder_path, project_number, material_type):
         analyze_df.to_excel(output_file, index=False)
         ExportReportsGraphics.sbm_scope_mto_plot_piping_analyze(analyze_df, project_number)
         print("SBM Scope MTO Data analysis has been saved.")
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
+
+
+#Read Data of Piping SBM Scope for PDF report
+def sbm_scope_piping_report(folder_path, project_number, material_type):
+    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+
+    matching_files = [f for f in excel_files if str(project_number) in f and material_type in f]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
+
+    most_recent_file = get_most_recent_file(folder_path, matching_files)
+    file_path = os.path.join(folder_path, most_recent_file)
+    df = pd.read_excel(file_path)
+
+    required_columns = ["Project Number", "Pipe Base Material", "Total QTY to commit", "Unit Weight", "Total NET weight", "Quantity UOM"]
+
+    if all(col in df.columns for col in required_columns):
+
+        # Filter the data based on the "SBM Scope" column
+        df = df[df['SBM scope'] == True]
+
+        # Get the project number
+        project_number = df['Project Number'].iloc[0]  # Assuming the project number is in the first row
+        ExportPDFreports.generate_report(df, project_number, "Bulk Team MTO Data")
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")

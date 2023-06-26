@@ -32,7 +32,8 @@ def action_for_material_analyze(project_number, material_type):
         # Do something with the input and type
         #CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, material_type)
         #CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, material_type)
-        AnalyzeProcessByMTO.analyze_by_material_type_piping(folder_path_piping, project_number, material_type)
+        #AnalyzeProcessByMTO.analyze_by_material_type_piping(folder_path_piping, project_number, material_type)
+        AnalyzeProcessByMTO.sbm_scope_piping_report(folder_path_piping, project_number, material_type)
         print("Analyze done for all SBM Scope Piping Materials")
         return True
 
