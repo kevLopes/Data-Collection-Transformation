@@ -99,7 +99,7 @@ def sbm_scope_piping_report(folder_path, project_number, material_type):
 
         # Get the project number
         project_number = df['Project Number'].iloc[0]
-        ExportPDFreports.generate_pdf_piping_sbm_scope(df, project_number, "Bulk Team MTO Data")
+        ExportPDFreports.generate_pdf_piping_sbm_scope(df, project_number, "Bulk Team MTO Data - SBM Scope")
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
 
@@ -122,11 +122,110 @@ def yard_scope_piping_report(folder_path, project_number, material_type):
 
     if all(col in df.columns for col in required_columns):
 
-        # Filter the data based on the "SBM Scope" column
+        # Filter the data based on the "YARD Scope" column
         df = df[df['SBM scope'] == False]
 
+        ExportPDFreports.generate_pdf_piping_yard_scope(df, project_number, "Bulk Team MTO Data - YARD Scope")
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
+
+
+#------------------------------------------------------ VALVE --------------------------------------------------------
+
+
+#Read Data of Valve SBM Scope for PDF report
+def sbm_scope_valve_report(folder_path, project_number, material_type):
+    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+
+    matching_files = [f for f in excel_files if str(project_number) in f and material_type in f]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
+
+    most_recent_file = get_most_recent_file(folder_path, matching_files)
+    file_path = os.path.join(folder_path, most_recent_file)
+    df = pd.read_excel(file_path)
+
+    required_columns = ["Project Number", "SIZE (inch)", "General Material Description", "Quantity", "Weight"]
+
+    if all(col in df.columns for col in required_columns):
         # Get the project number
-        #project_number = df['Project Number'].iloc[0]
-        ExportPDFreports.generate_pdf_piping_yard_scope(df, project_number, "Bulk Team MTO Data")
+        project_number = df['Project Number'].iloc[0]
+        ExportPDFreports.generate_pdf_valve_sbm_scope(df, project_number, "Bulk Team MTO Data - SBM Scope")
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
+
+
+#Read Data of Valve YARD Scope for PDF report
+def yard_scope_valve_report(folder_path, project_number, material_type):
+    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+
+    matching_files = [f for f in excel_files if str(project_number) in f and material_type in f]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
+
+    most_recent_file = get_most_recent_file(folder_path, matching_files)
+    file_path = os.path.join(folder_path, most_recent_file)
+    df = pd.read_excel(file_path)
+
+    required_columns = ["Project Number", "SIZE (inch)", "General Material Description", "Quantity", "Weight"]
+
+    if all(col in df.columns for col in required_columns):
+        # Get the project number
+        project_number = df['Project Number'].iloc[0]
+        ExportPDFreports.generate_pdf_valve_yard_scope(df, project_number, "Bulk Team MTO Data - YARD Scope")
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
+
+# ------------------------------------------------------ BOLT --------------------------------------------------------
+
+
+# Read Data of Bolt SBM Scope for PDF report
+def sbm_scope_bolt_report(folder_path, project_number, material_type):
+    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+
+    matching_files = [f for f in excel_files if str(project_number) in f and material_type in f]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
+
+    most_recent_file = get_most_recent_file(folder_path, matching_files)
+    file_path = os.path.join(folder_path, most_recent_file)
+    df = pd.read_excel(file_path)
+
+    required_columns = ["Project Number", "Pipe Base Material", "SBM scope", "Qty confirmed in design", "Total QTY to commit", "Quantity UOM", "SIZE"]
+
+    if all(col in df.columns for col in required_columns):
+        # Get the project number
+        project_number = df['Project Number'].iloc[0]
+        ExportPDFreports.generate_pdf_bolt_sbm_scope(df, project_number, "Bulk Team MTO Data - SBM Scope")
+    else:
+        print("Was not possible to find the necessary fields on the file to do the calculation!")
+
+
+# Read Data of Bolt YARD Scope for PDF report
+def yard_scope_bolt_report(folder_path, project_number, material_type):
+    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+
+    matching_files = [f for f in excel_files if str(project_number) in f and material_type in f]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
+
+    most_recent_file = get_most_recent_file(folder_path, matching_files)
+    file_path = os.path.join(folder_path, most_recent_file)
+    df = pd.read_excel(file_path)
+
+    required_columns = ["Project Number", "Pipe Base Material", "SBM scope", "Qty confirmed in design", "Total QTY to commit", "Quantity UOM", "SIZE"]
+
+    if all(col in df.columns for col in required_columns):
+        # Get the project number
+        project_number = df['Project Number'].iloc[0]
+        ExportPDFreports.generate_pdf_bolt_yard_scope(df, project_number, "Bulk Team MTO Data - YARD Scope")
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")

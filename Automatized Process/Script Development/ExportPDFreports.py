@@ -314,3 +314,509 @@ def generate_pdf_piping_yard_scope(data, project_number, file_name):
     # Save the PDF report
     pdf_path = os.path.join(directory_path, f"SO{project_number}_MTOPipingReport_YARDscope.pdf")
     pdf.output(pdf_path)
+
+
+#-------------------------- Valve -----------------------------
+
+#SBM Scope
+def generate_pdf_valve_sbm_scope(data, project_number, file_name):
+    # Convert Weight to TON
+    data['Weight'] = data['Weight'] / 1000
+
+    # Group the data by General Material Description
+    grouped_data = data.groupby('General Material Description')
+
+    # Initialize PDF object
+    pdf = FPDF()
+
+    # Set up the PDF
+    pdf.set_title("Valve Equipment Analysis")
+    pdf.add_page()
+
+    # Set font and font size for the title
+    pdf.set_font("Arial", "B", 16)
+
+    # Add title
+    pdf.cell(0, 10, "Valve Equipment Analysis - SBM Scope", ln=True, align="C")
+
+    # Add date of analysis
+    pdf.set_font("Arial", "I", 12)
+    pdf.cell(0, 10, f"Date of Analysis: {date.today().strftime('%d-%b-%Y')}", ln=True, align="R")
+
+    # Add summary statistics
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, f"Total Number of Records: {len(data)}", ln=True, align="L")
+    pdf.cell(0, 10, f"Total Quantity: {data['Quantity'].sum()}", ln=True, align="L")
+    pdf.cell(0, 10, f"Total Weight (TON): {data['Weight'].sum()}", ln=True, align="L")
+
+    pdf.ln(10)  # Add a new line
+
+    # Add material description breakdown
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Material Description Breakdown:", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    # Create a table for material description breakdown
+    pdf.set_font("Arial", "B", 10)
+    pdf.set_fill_color(220, 220, 220)  # Set background color for header row
+
+    # Header row
+    pdf.cell(80, 10, "Material Description", border=1, fill=True, align="C")
+    pdf.cell(40, 10, "Total Quantity", border=1, fill=True, align="C")
+    pdf.cell(40, 10, "Total Weight (TON)", border=1, fill=True, align="C")
+    pdf.ln(10)  # Add a new line
+
+    pdf.set_font("Arial", "", 10)
+    material_descriptions = []
+    total_quantities = []
+    total_weights = []
+
+    for material_desc, group in grouped_data:
+        # Calculate the required height for the cell based on the length of the material description
+        material_desc_height = 10 + (pdf.get_string_width(material_desc) // 55) * 10
+
+        # Adjust the row height if the material description exceeds the column width
+        row_height = max(material_desc_height, 10)  # Minimum row height is 10
+
+        # Draw the material description cell with adjusted height
+        pdf.cell(80, row_height, material_desc, border=1, align="L")
+        pdf.cell(40, row_height, str(group['Quantity'].sum()), border=1, align="C")
+        pdf.cell(40, row_height, str(group['Weight'].sum()), border=1, align="C")
+        pdf.ln(row_height)  # Add a new line
+
+        material_descriptions.append(material_desc)
+        total_quantities.append(group['Quantity'].sum())
+        total_weights.append(group['Weight'].sum())
+
+    pdf.add_page()  # Add a new page for Material Description Breakdown (Pie Chart)
+
+    # Add material description breakdown (Pie Chart)
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Material Description Breakdown (Pie Chart):", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    plt.figure(figsize=(13, 13))
+    plt.pie(total_weights, labels=material_descriptions, autopct='%1.1f%%')
+    plt.axis('equal')
+
+    # Save the pie chart as an image
+    chart_path = "../Data Pool/DCT Process Results/PDF Reports/Content/material_description_breakdown_valve.png"
+    plt.savefig(chart_path, bbox_inches='tight')
+    plt.close()
+
+    # Add the image to the PDF report
+    pdf.image(chart_path, x=50, y=pdf.get_y(), w=100)
+
+    pdf.ln(100)  # Add space
+
+    # Add data for each material description
+    pdf.set_font("Arial", "B", 11)
+    for material_desc, group in grouped_data:
+        pdf.set_font("Arial", "BI", 11)
+        pdf.cell(0, 10, f"Material Description: {material_desc}", ln=True, align="L")
+        pdf.set_font("Arial", "", 10)
+        pdf.cell(0, 10, f"Total Quantity: {group['Quantity'].sum()}", ln=True, align="L")
+        pdf.cell(0, 10, f"Total Weight (TON): {group['Weight'].sum()}", ln=True, align="L")
+        pdf.ln(5)  # Add a new line
+
+    # Add data source and filters information
+    pdf.add_page()
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Data Source and Filters:", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, f"Data Source: {file_name}", ln=True, align="L")
+    pdf.cell(0, 10, "Filters Applied:", ln=True, align="L")
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, "- SBM scope = True", ln=True, align="L")
+
+    pdf.ln(10)  # Add space
+
+    # Create the directory if it doesn't exist
+    directory_path = "../Data Pool/DCT Process Results/PDF Reports/Valve"
+    os.makedirs(directory_path, exist_ok=True)
+
+    # Save the PDF report
+    pdf_path = os.path.join(directory_path, f"{project_number}_MTOValveReport_SBMscope.pdf")
+    pdf.output(pdf_path)
+
+
+#YARD Scope
+def generate_pdf_valve_yard_scope(data, project_number, file_name):
+    # Convert Weight to TON
+    data['Weight'] = data['Weight'] / 1000
+
+    # Group the data by General Material Description
+    grouped_data = data.groupby('General Material Description')
+
+    # Initialize PDF object
+    pdf = FPDF()
+
+    # Set up the PDF
+    pdf.set_title("Valve Equipment Analysis - YARD Scope")
+    pdf.add_page()
+
+    # Set font and font size for the title
+    pdf.set_font("Arial", "B", 16)
+
+    # Add title
+    pdf.cell(0, 10, "Valve Equipment Analysis - YARD Scope", ln=True, align="C")
+
+    # Add date of analysis
+    pdf.set_font("Arial", "I", 12)
+    pdf.cell(0, 10, f"Date of Analysis: {date.today().strftime('%d-%b-%Y')}", ln=True, align="R")
+
+    # Add summary statistics
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, f"Total Number of Records: {len(data)}", ln=True, align="L")
+    pdf.cell(0, 10, f"Total Quantity: {data['Quantity'].sum()}", ln=True, align="L")
+    pdf.cell(0, 10, f"Total Weight (TON): {data['Weight'].sum()}", ln=True, align="L")
+
+    pdf.ln(10)  # Add a new line
+
+    # Add material description breakdown
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Material Description Breakdown:", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    # Create a table for material description breakdown
+    pdf.set_font("Arial", "B", 10)
+    pdf.set_fill_color(220, 220, 220)  # Set background color for header row
+
+    # Header row
+    pdf.cell(80, 10, "Material Description", border=1, fill=True, align="C")
+    pdf.cell(40, 10, "Total Quantity", border=1, fill=True, align="C")
+    pdf.cell(40, 10, "Total Weight (TON)", border=1, fill=True, align="C")
+    pdf.ln(10)  # Add a new line
+
+    pdf.set_font("Arial", "", 10)
+    material_descriptions = []
+    total_quantities = []
+    total_weights = []
+
+    for material_desc, group in grouped_data:
+        # Calculate the required height for the cell based on the length of the material description
+        material_desc_height = 10 + (pdf.get_string_width(material_desc) // 55) * 10
+
+        # Adjust the row height if the material description exceeds the column width
+        row_height = max(material_desc_height, 10)  # Minimum row height is 10
+
+        # Draw the material description cell with adjusted height
+        pdf.cell(80, row_height, material_desc, border=1, align="L")
+        pdf.cell(40, row_height, str(group['Quantity'].sum()), border=1, align="C")
+        pdf.cell(40, row_height, str(group['Weight'].sum()), border=1, align="C")
+        pdf.ln(row_height)  # Add a new line
+
+        material_descriptions.append(material_desc)
+        total_quantities.append(group['Quantity'].sum())
+        total_weights.append(group['Weight'].sum())
+
+    pdf.add_page()  # Add a new page for Material Description Breakdown (Pie Chart)
+
+    # Add material description breakdown (Pie Chart)
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Material Description Breakdown (Pie Chart):", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    plt.figure(figsize=(13, 13))
+    plt.pie(total_weights, labels=material_descriptions, autopct='%1.1f%%')
+    plt.axis('equal')
+
+    # Save the pie chart as an image
+    chart_path = "../Data Pool/DCT Process Results/PDF Reports/Content/material_description_breakdown_valve_yard.png"
+    plt.savefig(chart_path, bbox_inches='tight')
+    plt.close()
+
+    # Add the image to the PDF report
+    pdf.image(chart_path, x=50, y=pdf.get_y(), w=100)
+
+    pdf.ln(100)  # Add space
+
+    # Add data for each material description
+    pdf.set_font("Arial", "B", 11)
+    for material_desc, group in grouped_data:
+        pdf.set_font("Arial", "BI", 11)
+        pdf.cell(0, 10, f"Material Description: {material_desc}", ln=True, align="L")
+        pdf.set_font("Arial", "", 10)
+        pdf.cell(0, 10, f"Total Quantity: {group['Quantity'].sum()}", ln=True, align="L")
+        pdf.cell(0, 10, f"Total Weight (TON): {group['Weight'].sum()}", ln=True, align="L")
+        pdf.ln(5)  # Add a new line
+
+    # Add data source and filters information
+    pdf.add_page()
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Data Source and Filters:", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, f"Data Source: {file_name}", ln=True, align="L")
+    pdf.cell(0, 10, "Filters Applied:", ln=True, align="L")
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, " - YARD scope = True", ln=True, align="L")
+
+    pdf.ln(10)  # Add space
+
+    # Create the directory if it doesn't exist
+    directory_path = "../Data Pool/DCT Process Results/PDF Reports/Valve"
+    os.makedirs(directory_path, exist_ok=True)
+
+    # Save the PDF report
+    pdf_path = os.path.join(directory_path, f"{project_number}_MTOValveReport_YARDscope.pdf")
+    pdf.output(pdf_path)
+
+
+#------------------------------------------- Bolt --------------------------------------------------
+
+#SBM Scope
+def generate_pdf_bolt_sbm_scope(data, project_number, file_name):
+    # Group the data by Pipe Base Material
+    grouped_data = data.groupby('Pipe Base Material')
+
+    # Initialize PDF object
+    pdf = FPDF()
+
+    # Set up the PDF
+    pdf.set_title("Bolt Equipment Analysis")
+    pdf.add_page()
+
+    # Set font and font size for the title
+    pdf.set_font("Arial", "B", 16)
+
+    # Add title
+    pdf.cell(0, 10, "Bolt Equipment Analysis - SBM Scope", ln=True, align="C")
+
+    # Add date of analysis
+    pdf.set_font("Arial", "I", 12)
+    pdf.cell(0, 10, f"Date of Analysis: {date.today().strftime('%d-%b-%Y')}", ln=True, align="R")
+
+    # Add summary statistics
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, f"Total Number of Records: {len(data)}", ln=True, align="L")
+    pdf.cell(0, 10, f"Total Quantity Committed: {data['Total QTY to commit'].sum()}", ln=True, align="L")
+
+    pdf.ln(10)  # Add a new line
+
+    # Add base material breakdown (Page 1)
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Base Material Breakdown:", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    # Create a table for base material breakdown
+    pdf.set_font("Arial", "B", 10)
+    pdf.set_fill_color(220, 220, 220)  # Set background color for header row
+
+    # Header row
+    pdf.cell(70, 10, "Base Material", border=1, fill=True, align="C")
+    pdf.cell(30, 10, "Total Quantity", border=1, fill=True, align="C")
+    pdf.ln(10)  # Add a new line
+
+    pdf.set_font("Arial", "", 10)
+    base_materials = []
+    total_quantities = []
+
+    for base_material, group in grouped_data:
+        # Calculate the required height for the cell based on the length of the base material
+        base_material_height = 10 + (pdf.get_string_width(base_material) // 55) * 10
+
+        # Adjust the row height if the base material exceeds the column width
+        row_height = max(base_material_height, 10)  # Minimum row height is 10
+
+        # Draw the base material cell with adjusted height
+        pdf.cell(70, row_height, base_material, border=1, align="L")
+        pdf.cell(30, row_height, str(group['Total QTY to commit'].sum()), border=1, align="C")
+        pdf.ln(row_height)  # Add a new line
+
+        base_materials.append(base_material)
+        total_quantities.append(group['Total QTY to commit'].sum())
+
+    pdf.add_page()  # Add a new page for Base Material Breakdown (Pie Chart)
+
+    # Add base material breakdown (Pie Chart)
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Base Material Breakdown (Pie Chart):", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    plt.figure(figsize=(13, 13))
+    plt.pie(total_quantities, labels=base_materials, autopct='%1.1f%%')
+    plt.axis('equal')
+
+    # Save the pie chart as an image
+    chart_path = "../Data Pool/DCT Process Results/PDF Reports/Content/base_material_breakdown_bolt.png"
+    plt.savefig(chart_path, bbox_inches='tight')
+    plt.close()
+
+    # Add the image to the PDF report
+    pdf.image(chart_path, x=50, y=pdf.get_y(), w=100)
+
+    # Add data source and filters information
+    pdf.add_page()
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Data Source and Filters:", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, f"Data Source: {file_name}", ln=True, align="L")
+    pdf.cell(0, 10, "Filters Applied:", ln=True, align="L")
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, "- SBM scope = True", ln=True, align="L")
+    pdf.ln(10)  # Add space
+
+    # Add data for each base material
+    pdf.set_font("Arial", "B", 11)
+    for base_material, group in grouped_data:
+        pdf.set_font("Arial", "BI", 11)
+        pdf.cell(0, 10, f"Base Material: {base_material}", ln=True, align="L")
+        pdf.set_font("Arial", "", 10)
+        pdf.cell(0, 10, f"Total Quantity Committed: {group['Total QTY to commit'].sum()}", ln=True, align="L")
+
+        # Compare quantity confirmed and quantity committed
+        qty_confirmed = group['Qty confirmed in design'].sum()
+        qty_committed = group['Total QTY to commit'].sum()
+        qty_difference = qty_confirmed - qty_committed
+
+        pdf.cell(0, 10, f"Quantity Confirmed in Design: {qty_confirmed}", ln=True, align="L")
+        pdf.cell(0, 10, f"Quantity Difference: {qty_difference}", ln=True, align="L")
+
+        pdf.ln(5)  # Add a new line
+
+    # Add Quantity UOM information
+    pdf.set_font("Arial", "B", 11)
+    pdf.cell(0, 10, "Quantity UOM:", ln=True, align="L")
+    pdf.set_font("Arial", "", 10)
+    pdf.cell(0, 10, "All quantities are in PCE (Pieces)", ln=True, align="L")
+
+    # Create the directory if it doesn't exist
+    directory_path = "../Data Pool/DCT Process Results/PDF Reports/Bolt"
+    os.makedirs(directory_path, exist_ok=True)
+
+    # Save the PDF report
+    pdf_path = os.path.join(directory_path, f"{project_number}_MTOBoltReport_SBMscope.pdf")
+    pdf.output(pdf_path)
+
+
+#YARD Scope
+def generate_pdf_bolt_yard_scope(data, project_number, file_name):
+    # Group the data by Pipe Base Material
+    grouped_data = data.groupby('Pipe Base Material')
+
+    # Initialize PDF object
+    pdf = FPDF()
+
+    # Set up the PDF
+    pdf.set_title("Bolt Equipment Analysis")
+    pdf.add_page()
+
+    # Set font and font size for the title
+    pdf.set_font("Arial", "B", 16)
+
+    # Add title
+    pdf.cell(0, 10, "Bolt Equipment Analysis - YARD Scope", ln=True, align="C")
+
+    # Add date of analysis
+    pdf.set_font("Arial", "I", 12)
+    pdf.cell(0, 10, f"Date of Analysis: {date.today().strftime('%d-%b-%Y')}", ln=True, align="R")
+
+    # Add summary statistics
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, f"Total Number of Records: {len(data)}", ln=True, align="L")
+    pdf.cell(0, 10, f"Total Quantity Committed: {data['Total QTY to commit'].sum()}", ln=True, align="L")
+
+    pdf.ln(10)  # Add a new line
+
+    # Add base material breakdown (Page 1)
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Base Material Breakdown:", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    # Create a table for base material breakdown
+    pdf.set_font("Arial", "B", 10)
+    pdf.set_fill_color(220, 220, 220)  # Set background color for header row
+
+    # Header row
+    pdf.cell(70, 10, "Base Material", border=1, fill=True, align="C")
+    pdf.cell(30, 10, "Total Quantity", border=1, fill=True, align="C")
+    pdf.ln(10)  # Add a new line
+
+    pdf.set_font("Arial", "", 10)
+    base_materials = []
+    total_quantities = []
+
+    for base_material, group in grouped_data:
+        # Calculate the required height for the cell based on the length of the base material
+        base_material_height = 10 + (pdf.get_string_width(base_material) // 55) * 10
+
+        # Adjust the row height if the base material exceeds the column width
+        row_height = max(base_material_height, 10)  # Minimum row height is 10
+
+        # Draw the base material cell with adjusted height
+        pdf.cell(70, row_height, base_material, border=1, align="L")
+        pdf.cell(30, row_height, str(group['Total QTY to commit'].sum()), border=1, align="C")
+        pdf.ln(row_height)  # Add a new line
+
+        base_materials.append(base_material)
+        total_quantities.append(group['Total QTY to commit'].sum())
+
+    pdf.add_page()  # Add a new page for Base Material Breakdown (Pie Chart)
+
+    # Add base material breakdown (Pie Chart)
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Base Material Breakdown (Pie Chart):", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    plt.figure(figsize=(13, 13))
+    plt.pie(total_quantities, labels=base_materials, autopct='%1.1f%%')
+    plt.axis('equal')
+
+    # Save the pie chart as an image
+    chart_path = "../Data Pool/DCT Process Results/PDF Reports/Content/base_material_breakdown_bolt_yard.png"
+    plt.savefig(chart_path, bbox_inches='tight')
+    plt.close()
+
+    # Add the image to the PDF report
+    pdf.image(chart_path, x=50, y=pdf.get_y(), w=100)
+
+    # Add data source and filters information
+    pdf.add_page()
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Data Source and Filters:", ln=True, align="L")
+    pdf.ln(5)  # Add space
+
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, f"Data Source: {file_name}", ln=True, align="L")
+    pdf.cell(0, 10, "Filters Applied:", ln=True, align="L")
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, "- YARD scope = True", ln=True, align="L")
+    pdf.ln(10)  # Add space
+
+    # Add data for each base material
+    pdf.set_font("Arial", "B", 11)
+    for base_material, group in grouped_data:
+        pdf.set_font("Arial", "BI", 11)
+        pdf.cell(0, 10, f"Base Material: {base_material}", ln=True, align="L")
+        pdf.set_font("Arial", "", 10)
+        pdf.cell(0, 10, f"Total Quantity Committed: {group['Total QTY to commit'].sum()}", ln=True, align="L")
+
+        # Compare quantity confirmed and quantity committed
+        qty_confirmed = group['Qty confirmed in design'].sum()
+        qty_committed = group['Total QTY to commit'].sum()
+        qty_difference = qty_confirmed - qty_committed
+
+        pdf.cell(0, 10, f"Quantity Confirmed in Design: {qty_confirmed}", ln=True, align="L")
+        pdf.cell(0, 10, f"Quantity Difference: {qty_difference}", ln=True, align="L")
+
+        pdf.ln(5)  # Add a new line
+
+    # Add Quantity UOM information
+    pdf.set_font("Arial", "B", 11)
+    pdf.cell(0, 10, "Quantity UOM:", ln=True, align="L")
+    pdf.set_font("Arial", "", 10)
+    pdf.cell(0, 10, "All quantities are in PCE (Pieces)", ln=True, align="L")
+
+    # Create the directory if it doesn't exist
+    directory_path = "../Data Pool/DCT Process Results/PDF Reports/Bolt"
+    os.makedirs(directory_path, exist_ok=True)
+
+    # Save the PDF report
+    pdf_path = os.path.join(directory_path, f"{project_number}_MTOBoltReport_YARDscope.pdf")
+    pdf.output(pdf_path)

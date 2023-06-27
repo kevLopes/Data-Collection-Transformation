@@ -42,15 +42,17 @@ def action_for_material_analyze(project_number, material_type):
         DataCollector.data_collector_valve(project_number, material_type)
         # Do something with the input and type
         CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path_valve, project_number, material_type)
+        AnalyzeProcessByMTO.sbm_scope_valve_report(folder_path_valve, project_number, material_type)
         print("Analyze done for all SBM Scope Valve Materials")
         return True
 
     # Material Type Bolt
     elif material_type == "Bolt":
         # Organize Data from Data Hub
-        DataCollector.data_collector_bolt(project_number, material_type)
+        #DataCollector.data_collector_bolt(project_number, material_type)
         # Do something with the input and type
-        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number, material_type)
+        #CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number, material_type)
+        #AnalyzeProcessByMTO.sbm_scope_bolt_report(folder_path_bolt, project_number, material_type)
         print("Analyze done for all SBM Scope Bolt Materials")
         return True
 
@@ -112,7 +114,8 @@ def action_for_material_analyze_by_yard(project_number, material_type):
         # Organize Data from Data Hub
         DataCollector.data_collector_valve_yard(project_number, material_type)
         # Do something with the input and type
-        AnalyzeProcessByYard.yard_valve_material_type_analyze(folder_path_valve, project_number, material_type)
+        #AnalyzeProcessByYard.yard_valve_material_type_analyze(folder_path_valve, project_number, material_type)
+        AnalyzeProcessByMTO.yard_scope_valve_report(folder_path_valve, project_number, material_type)
         return True
 
     # Material Type Bolt
@@ -121,6 +124,7 @@ def action_for_material_analyze_by_yard(project_number, material_type):
         DataCollector.data_collector_bolt_yard(project_number, material_type)
         # Do something with the input and type
         AnalyzeProcessByYard.yard_bolt_material_type_analyze(folder_path_bolt, project_number, material_type)
+        AnalyzeProcessByMTO.yard_scope_bolt_report(folder_path_bolt, project_number, material_type)
         return True
 
     # Material Type Structure
