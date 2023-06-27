@@ -54,7 +54,6 @@ def extract_distinct_product_codes_piping(folder_path, project_number, material_
 
             material_codes[material] = product_codes
 
-            total_qty_to_commit = material_rows["Total QTY to commit"].sum()
             qty_and_uom = material_rows.groupby("Quantity UOM")["Total QTY to commit"].sum().to_dict()
             unit_weight = material_rows["Unit Weight"].mean()
             total_net_weight = material_rows["Total NET weight"].sum()

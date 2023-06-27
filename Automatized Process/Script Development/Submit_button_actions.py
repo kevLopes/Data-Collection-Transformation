@@ -49,10 +49,10 @@ def action_for_material_analyze(project_number, material_type):
     # Material Type Bolt
     elif material_type == "Bolt":
         # Organize Data from Data Hub
-        #DataCollector.data_collector_bolt(project_number, material_type)
+        DataCollector.data_collector_bolt(project_number, material_type)
         # Do something with the input and type
-        #CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number, material_type)
-        #AnalyzeProcessByMTO.sbm_scope_bolt_report(folder_path_bolt, project_number, material_type)
+        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number, material_type)
+        AnalyzeProcessByMTO.sbm_scope_bolt_report(folder_path_bolt, project_number, material_type)
         print("Analyze done for all SBM Scope Bolt Materials")
         return True
 
