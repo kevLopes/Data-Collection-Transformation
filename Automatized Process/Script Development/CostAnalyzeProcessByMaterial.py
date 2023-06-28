@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from datetime import datetime
 import ExportReportsGraphics
+import ExportPDFreports
 
 
 def get_most_recent_file(folder_path, matching_files):
@@ -688,4 +689,5 @@ def analyze_structure_materials(folder_path, project_number, material_type):
     result_file_path = os.path.join(result_folder_path, f"MP{project_number}_Structure_Analyze_{timestamp}.xlsx")
     analyzed_df.to_excel(result_file_path)
 
-    ExportReportsGraphics.plot_structure_material_data_analyse(analyzed_df, project_number)
+    #ExportReportsGraphics.plot_structure_material_data_analyse(analyzed_df, project_number)
+    ExportPDFreports.generate_pdf_structure_sbm_scope(df, project_number, "Bulk Team Structure MTO")

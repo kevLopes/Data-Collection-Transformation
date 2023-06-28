@@ -6,12 +6,14 @@ import AnalyzeProcessByYard
 import AnalyzeProcessByMTO
 
 
+#Ecosys API data
 def action_for_ecosys_api(project_number):
     print("Analyze on going. Data are being refreshed from Ecosys")
     # Ecosys PO Lines
     EcosysData_API.ecosys_po_lines_data_api("keven.deOliveiralope", "My-SBM#code23", project_number)
-    # PO Header and SUN transactions API
+    # Ecosys PO Header
     EcosysData_API.ecosys_poheader_data_api("keven.deOliveiralope", "My-SBM#code23", project_number)
+    #Ecosys SUN transactions
     EcosysData_API.ecosys_sun_lines_data_api("keven.deOliveiralope", "My-SBM#code23", project_number)
 
 
@@ -27,11 +29,11 @@ def action_for_material_analyze(project_number, material_type):
     # Material Type Piping
     if material_type == "Piping":
         # Organize Data from Data Hub
-        DataCollector.data_collector_piping(project_number, material_type)
+        #DataCollector.data_collector_piping(project_number, material_type)
         # Do something with the input and type
-        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, material_type)
-        CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, material_type)
-        AnalyzeProcessByMTO.analyze_by_material_type_piping(folder_path_piping, project_number, material_type)
+        #CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, material_type)
+        #CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, material_type)
+        #AnalyzeProcessByMTO.analyze_by_material_type_piping(folder_path_piping, project_number, material_type)
         AnalyzeProcessByMTO.sbm_scope_piping_report(folder_path_piping, project_number, material_type)
         print("Analyze done for all SBM Scope Piping Materials")
         return True
@@ -114,7 +116,7 @@ def action_for_material_analyze_by_yard(project_number, material_type):
         # Organize Data from Data Hub
         DataCollector.data_collector_valve_yard(project_number, material_type)
         # Do something with the input and type
-        #AnalyzeProcessByYard.yard_valve_material_type_analyze(folder_path_valve, project_number, material_type)
+        AnalyzeProcessByYard.yard_valve_material_type_analyze(folder_path_valve, project_number, material_type)
         AnalyzeProcessByMTO.yard_scope_valve_report(folder_path_valve, project_number, material_type)
         return True
 
