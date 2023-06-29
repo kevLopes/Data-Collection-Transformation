@@ -690,4 +690,4 @@ def analyze_structure_materials(folder_path, project_number, material_type):
     analyzed_df.to_excel(result_file_path)
 
     #ExportReportsGraphics.plot_structure_material_data_analyse(analyzed_df, project_number)
-    ExportPDFreports.generate_pdf_structure_sbm_scope(df, project_number, "Bulk Team Structure MTO")
+    ExportPDFreports.generate_pdf_structure_sbm_scope(df, project_number)
