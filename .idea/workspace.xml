@@ -5,69 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work">
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping/MP17033_SBM_MTO_Analyze_2023-06-28 15-57-21.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping/MP17033_SBM_MTO_Analyze_2023-06-28 16-50-57.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping/Piping_NotMatched_TagNumber_2023-06-28 15-53-32.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping/Piping_NotMatched_TagNumber_2023-06-28 16-44-54.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 10-23-31.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 10-24-37.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 10-25-20.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 10-27-00.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 10-39-20.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 10-40-54.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 11-55-53.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 12-00-07.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 12-02-54.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 12-05-42.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 14-08-26.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 14-13-34.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 14-36-41.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 14-38-46.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 14-41-18.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 14-50-08.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 14-52-59.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 14-54-23.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 14-56-22.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 15-27-52.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-06-29 15-29-03.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Yard/MP17033 - Yard PipingMaterial_2023-06-28 16-51-29.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_MTOPiping_Average Unit Weight_Graphic_2023-06-28 15-57-22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_MTOPiping_Average Unit Weight_Graphic_2023-06-28 16-50-59.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_MTOPiping_Total NET weight_Graphic_2023-06-28 15-57-23.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_MTOPiping_Total NET weight_Graphic_2023-06-28 16-50-59.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_MTOPiping_Total QTY to commit_Graphic_2023-06-28 15-57-22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_MTOPiping_Total QTY to commit_Graphic_2023-06-28 16-50-58.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_PipingTotal_Cost_Material_2023-06-28 15-49-25.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_PipingTotal_Cost_Material_2023-06-28 16-40-29.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_PipingTotal_Net_Weight_Per_Material_2023-06-28 15-49-26.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_PipingTotal_Net_Weight_Per_Material_2023-06-28 16-40-29.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_CostPerPO_Graphic_2023-06-28 15-53-33.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_CostPerPO_Graphic_2023-06-28 16-44-55.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_CostPerSupplier_Graphic_2023-06-28 15-53-33.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_CostPerSupplier_Graphic_2023-06-28 16-44-55.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Cost_Weight_Graphic_2023-06-28 15-57-16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Cost_Weight_Graphic_2023-06-28 16-50-49.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Graphics_0_2023-06-28 15-57-15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Graphics_0_2023-06-28 16-50-48.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Graphics_1_2023-06-28 15-57-15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Graphics_1_2023-06-28 16-50-49.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Graphics_2_2023-06-28 15-57-15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Graphics_2_2023-06-28 16-50-49.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Yard/MP17033_YARDPiping_Material_QTY_2023-06-28 16-51-30.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Yard/MP17033_YARDPiping_Material_average_2023-06-28 16-51-30.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Yard/MP17033_YARDPiping_Material_weight_2023-06-28 16-51-30.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Content/total_gross_weight_breakdown.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Piping/SO17033 - Piping Organized_2023-06-28 15-49-05.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Piping/SO17033 - Piping Organized_2023-06-28 16-40-08.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Piping/Yard/SO17033 - Yard Piping Organized_2023-06-28 16-51-29.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Content/material_type_breakdown.png" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Content/material_type_breakdown.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Piping/SO17033_MTOPipingReport_SBMscope.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Piping/SO17033_MTOPipingReport_SBMscope.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Piping/SO17033_MTOPipingReport_YARDscope.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Piping/SO17033_MTOPipingReport_YARDscope.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Structure/17033_MTOStructureReport_SBMscope.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Structure/17033_MTOStructureReport_SBMscope.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Structure/17033_StructureDataReport.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/CostAnalyzeProcessByMaterial.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/CostAnalyzeProcessByMaterial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/ExportPDFreports.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/ExportPDFreports.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -278,13 +218,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679215832537</updated>
-    </task>
-    <task id="LOCAL-00034" summary="Analyze done by material">
-      <created>1680876688191</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1680876688191</updated>
     </task>
     <task id="LOCAL-00035" summary="All Script Dev done at work">
       <created>1681714811662</created>
@@ -622,7 +555,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687953690016</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="All Script Dev done at work">
+      <created>1688054988913</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1688054988921</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

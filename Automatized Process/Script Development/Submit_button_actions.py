@@ -4,6 +4,7 @@ import CostAnalyzeProcessByMaterial
 import DataCollector
 import AnalyzeProcessByYard
 import AnalyzeProcessByMTO
+import Complete_MTO_Process
 
 
 #Ecosys API data
@@ -61,7 +62,7 @@ def action_for_material_analyze(project_number, material_type):
     # Material Type Structure
     elif material_type == "Structure":
         # Organize Data from Data Hub
-        #DataCollector.data_collector_structure(project_number, material_type)
+        DataCollector.data_collector_structure(project_number, material_type)
         # Do something with the input and type
         CostAnalyzeProcessByMaterial.analyze_structure_materials(folder_path_structure, project_number, material_type)
         print("Analyze done for Structure Materials")
@@ -85,11 +86,12 @@ def action_for_material_analyze(project_number, material_type):
 
     # All Materials
     elif material_type == "All Materials":
-        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, "Piping")
-        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path_valve, project_number, "Valve")
-        CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number, "Bolt")
-        CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, "Piping")
-        CostAnalyzeByTagNumber.extract_distinct_tag_numbers_special_piping(folder_path_sp, project_number, "SPC Piping")
+        #CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, "Piping")
+        #CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path_valve, project_number, "Valve")
+        #CostAnalyzeProcessByMaterial.extract_distinct_product_codes_bolt(folder_path_bolt, project_number, "Bolt")
+        #CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, "Piping")
+        #CostAnalyzeByTagNumber.extract_distinct_tag_numbers_special_piping(folder_path_sp, project_number, "SPC Piping")
+        Complete_MTO_Process.complete_mto_data_analyze(project_number)
         print("Cost Analyze done based on all distinct Material types")
         return True
 
@@ -143,10 +145,6 @@ def action_for_material_analyze_by_yard(project_number, material_type):
     elif material_type == "Special Piping":
         # Organize Data from Data Hub and Graphic Design
         DataCollector.data_collector_specialpip_yard(project_number, "Special PIP")
-        return True
-
-    # All Materials
-    elif material_type == "All Materials":
         return True
 
     return False
