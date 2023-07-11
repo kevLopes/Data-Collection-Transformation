@@ -242,18 +242,12 @@ def material_cost_analyze_piping_by_tag(project_number, tag_numbers, material_in
 def material_currency_cost_analyze_piping_by_tag(project_number, tag_numbers, material_info):
     folder_path = "../Data Pool/Ecosys API Data/PO Lines"
 
-    excel_files = [
-        f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")
-    ]
+    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
 
-    matching_files = [
-        f for f in excel_files if str(project_number) in f
-    ]
+    matching_files = [f for f in excel_files if str(project_number) in f]
 
     if not matching_files:
-        raise FileNotFoundError(
-            f"No files containing the project number '{project_number}' were found."
-        )
+        raise FileNotFoundError(f"No files containing the project number '{project_number}' were found.")
 
     most_recent_file = get_most_recent_file(folder_path, matching_files)
     file_path = os.path.join(folder_path, most_recent_file)
