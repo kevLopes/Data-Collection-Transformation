@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import pandas as pd
 from datetime import datetime
 
@@ -8,7 +9,7 @@ folder_path = "../Data Pool/Data Hub Materials"
 #Complete analyze of those different MTO files - Material type, Weight, Quantities
 def complete_mto_data_analyze(project_number):
 
-    # Call each function and collect their data
+    #Call each function and collect their data
     #piping_data = get_piping_mto_data(project_number)
     #valve_data = get_valve_mto_data(project_number)
     #bolt_data = get_bolt_mto_data(project_number)
@@ -16,8 +17,13 @@ def complete_mto_data_analyze(project_number):
     #specialpip_data = get_specialpip_mto_data(project_number)
 
     #Piping Extra Data details
-    get_piping_extra_details(project_number, "Piping")
-
+    #matched_tags, unmatched_tags, surplus_tags, total_weight, quantity_by_uom, total_cost, cost_by_material, unique_cost_object_ids, total_surplus_cost, unique_surplus_cost_object_ids = get_piping_extra_details(project_number, "Piping")
+    #Valve Extra Data details
+    #total_quantity, overall_cost, cost_by_general_description = get_valve_extra_details(project_number, "Valve")
+    #Bolt Extra Data details
+    #po_quantity, overall_cost, cost_by_pipe_base_material, missing_product_codes = get_bolt_extra_details(project_number, "Bolt")
+    #Special Piping Extra details
+    total_matched_tags, total_unmatched_tags, total_quantity_by_uom, total_cost, po_list = get_spc_piping_extra_details(project_number, "Piping")
 
     # Combine the data into a data frame
     data_frame = pd.DataFrame({
@@ -365,7 +371,8 @@ def get_piping_extra_details(project_number, material_type):
 
     if not matching_second_files:
         raise FileNotFoundError(
-            f"No files containing the project number '{project_number}' were found in the PO Lines folder.")
+            f"No files containing the project number '{project_number}' were found in the PO Lines folder."
+        )
 
     second_most_recent_file = get_most_recent_file(second_file_folder, matching_second_files)
     second_file_path = os.path.join(second_file_folder, second_most_recent_file)
@@ -374,15 +381,25 @@ def get_piping_extra_details(project_number, material_type):
     cost_data = []
 
     for tag_number, material_info in tag_numbers.items():
-        tag_rows = second_df[second_df["Tag Number"] == tag_number]
+        regular_rows = second_df[second_df["Tag Number"] == tag_number]
 
-        if not tag_rows.empty:
-            # Calculate the variables for each tag
+        if not regular_rows.empty:
+            surplus_rows = second_df[
+                second_df["Tag Number"].str.startswith(tag_number) &
+                (second_df["Tag Number"].str.endswith("-SURPLUS") | second_df["Tag Number"].str.endswith("-SURPLUS+"))
+                ]
+
+            combined_rows = pd.concat([regular_rows, surplus_rows])
+
+            if combined_rows.empty:
+                continue
+
+            # Perform calculations and logic based on combined_rows
             calc_weight = 0.0
             po_quantity_by_uom = {}
             total_cost = 0.0
 
-            for _, row in tag_rows.iterrows():
+            for _, row in combined_rows.iterrows():
                 uom = row["UOM"]
                 quantity = row["Quantity"]
 
@@ -392,7 +409,7 @@ def get_piping_extra_details(project_number, material_type):
                 po_quantity_by_uom[uom] += quantity
                 calc_weight += quantity * material_info["Unit Weight"]
 
-                total_cost += row["Cost Transaction Currency"]
+                total_cost += row["Cost Project Currency"]
 
             # Store the calculated values
             cost_data.append({
@@ -418,15 +435,303 @@ def get_piping_extra_details(project_number, material_type):
 
     total_cost = sum(entry["Total Cost"] for entry in cost_data)
 
-    # Return the calculated data
+    # Calculate total cost by material
+    total_cost_by_material = {}
+    overall_cost = total_cost
+
+    for entry in cost_data:
+        material = entry["Pipe Base Material"]
+        total_cost = entry["Total Cost"]
+
+        if material not in total_cost_by_material:
+            total_cost_by_material[material] = 0.0
+        total_cost_by_material[material] += total_cost
+
+    # Extract unique Cost Object IDs from the second file for matched tag numbers
+    matched_tag_numbers = [entry["Tag Number"] for entry in cost_data]
+    unique_cost_object_ids = second_df.loc[
+        second_df["Tag Number"].isin(matched_tag_numbers), "Cost Object ID"
+    ].unique().tolist()
+
+    # Calculate the total cost for SURPLUS tag numbers
+    total_surplus_cost = second_df.loc[
+        second_df["Tag Number"].str.endswith("-SURPLUS") | second_df["Tag Number"].str.endswith("-SURPLUS+"),
+        "Cost Project Currency"
+    ].sum()
+
+    # Extract unique Cost Object IDs from the second file for SURPLUS tag numbers
+    surplus_tag_numbers = second_df.loc[
+        second_df["Tag Number"].str.endswith("-SURPLUS") | second_df["Tag Number"].str.endswith("-SURPLUS+"),
+        "Tag Number"
+    ].unique().tolist()
+    unique_surplus_cost_object_ids = second_df.loc[
+        second_df["Tag Number"].isin(surplus_tag_numbers), "Cost Object ID"
+    ].unique().tolist()
+
+    # Return the calculated data along with the unique Cost Object IDs, total surplus cost, and unique surplus Cost Object IDs
     return (
         total_matched_tags,
         total_unmatched_tags,
         total_surplus_tags,
         total_weight,
         total_quantity_by_uom,
-        total_cost
+        overall_cost,
+        total_cost_by_material,
+        unique_cost_object_ids,
+        total_surplus_cost,
+        unique_surplus_cost_object_ids
     )
+
+
+#function to read more information from Special Piping
+def get_spc_piping_extra_details(project_number, material_type):
+    first_folder_path = "../Data Pool/Material Data Organized/Special Piping"
+    excel_files = [f for f in os.listdir(first_folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+
+    matching_files = [f for f in excel_files if str(project_number) in f and material_type in f]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' and material type '{material_type}' were found."
+        )
+
+    most_recent_file = get_most_recent_file(first_folder_path, matching_files)
+    file_path = os.path.join(first_folder_path, most_recent_file)
+    first_df = pd.read_excel(file_path)
+
+    # Collect tag numbers from the first file
+    first_tag_numbers = first_df["TagNumber"].unique()
+
+    # Search for the tag numbers in the second file
+    second_file_folder = "../Data Pool/Ecosys API Data/PO Lines"
+    second_excel_files = [f for f in os.listdir(second_file_folder) if f.endswith(".xlsx") or f.endswith(".xls")]
+    matching_second_files = [f for f in second_excel_files if str(project_number) in f]
+
+    if not matching_second_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' were found in the PO Lines folder.")
+
+    second_most_recent_file = get_most_recent_file(second_file_folder, matching_second_files)
+    second_file_path = os.path.join(second_file_folder, second_most_recent_file)
+    second_df = pd.read_excel(second_file_path)
+
+    # Iterate over the tag numbers
+    cost_data = []
+    for tag_number in np.nditer(first_tag_numbers, flags=['refs_ok']):
+        regular_rows = second_df[second_df["Tag Number"] == tag_number]
+
+        if not regular_rows.empty:
+            # Perform calculations and logic based on regular_rows
+            quantity = 0.0
+            total_cost = 0.0
+
+            for _, row in regular_rows.iterrows():
+                quantity += row["Quantity"]
+                total_cost += row["Cost Project Currency"]
+                po = row["Cost Object ID"]
+
+            # Store the calculated values
+            cost_data.append({
+                "Tag Number": tag_number,
+                "PO Quantity": quantity,
+                "Total Cost": total_cost,
+                "PO Number": po
+            })
+
+    # Calculate totals
+    total_matched_tags = len(cost_data)
+    total_unmatched_tags = len(first_tag_numbers) - len(cost_data)
+    total_quantity_by_uom = sum(entry["PO Quantity"] for entry in cost_data)
+    total_cost = sum(entry["Total Cost"] for entry in cost_data)
+
+    # Get distinct PO Numbers
+    po_list = list(set(entry["PO Number"] for entry in cost_data))
+
+    # Return the calculated data along with the unique Cost Object IDs, total surplus cost, and unique surplus Cost Object IDs
+    return (
+        total_matched_tags,
+        total_unmatched_tags,
+        total_quantity_by_uom,
+        total_cost,
+        po_list
+    )
+
+
+#function to read more information from Valve
+def get_valve_extra_details(project_number, material_type):
+    first_folder_path = "../Data Pool/Material Data Organized/Valve"
+    excel_files = [
+        f for f in os.listdir(first_folder_path) if f.endswith(".xlsx") or f.endswith(".xls")
+    ]
+
+    matching_files = [
+        f for f in excel_files if str(project_number) in f and material_type in f
+    ]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' and material type '{material_type}' were found."
+        )
+
+    most_recent_file = get_most_recent_file(first_folder_path, matching_files)
+    file_path = os.path.join(first_folder_path, most_recent_file)
+    first_df = pd.read_excel(file_path)
+
+    tag_numbers = {}
+
+    for _, row in first_df.iterrows():
+        tag_number = row["Product Code"]
+        general_description = row["General Material Description"]
+        weight = row["Weight"]
+
+        tag_numbers[tag_number] = {
+            "General Material Description": general_description,
+            "Weight": weight
+        }
+
+    second_file_folder = "../Data Pool/Ecosys API Data/PO Lines"
+    second_excel_files = [
+        f for f in os.listdir(second_file_folder) if f.endswith(".xlsx") or f.endswith(".xls")
+    ]
+    matching_second_files = [f for f in second_excel_files if str(project_number) in f]
+
+    if not matching_second_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' were found in the PO Lines folder.")
+
+    second_most_recent_file = get_most_recent_file(second_file_folder, matching_second_files)
+    second_file_path = os.path.join(second_file_folder, second_most_recent_file)
+    second_df = pd.read_excel(second_file_path)
+
+    cost_data = []
+
+    for _, row in second_df.iterrows():
+        tag_number = row["Product Code"]
+
+        if tag_number in tag_numbers:
+            uom = row["UOM"]
+            quantity = row["Quantity"]
+            weight = tag_numbers[tag_number]["Weight"]
+
+            calc_weight = quantity * weight
+
+            total_cost = row["Cost Project Currency"]
+
+            cost_data.append({
+                "Product Code": tag_number,
+                "General Material Description": tag_numbers[tag_number]["General Material Description"],
+                "PO Quantity": quantity,
+                "PO Weight": calc_weight,
+                "Total Cost": total_cost
+            })
+
+    total_weight = sum(entry["PO Weight"] for entry in cost_data)
+    total_cost = sum(entry["Total Cost"] for entry in cost_data)
+    total_quantity = sum(entry["PO Quantity"] for entry in cost_data)
+
+    overall_cost = total_cost
+
+    # Calculate cost per General Description type
+    cost_by_general_description = {}
+
+    for entry in cost_data:
+        general_description = entry["General Material Description"]
+        total_cost = entry["Total Cost"]
+
+        if general_description not in cost_by_general_description:
+            cost_by_general_description[general_description] = 0.0
+        cost_by_general_description[general_description] += total_cost
+
+    return (
+        total_quantity,
+        overall_cost,
+        cost_by_general_description
+    )
+
+
+#function to read more information from Bolt
+def get_bolt_extra_details(project_number, material_type):
+    first_folder_path = "../Data Pool/Material Data Organized/Bolt"
+    excel_files = [f for f in os.listdir(first_folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+
+    matching_files = [f for f in excel_files if str(project_number) in f and material_type in f]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' and material type '{material_type}' were found."
+        )
+
+    most_recent_file = get_most_recent_file(first_folder_path, matching_files)
+    file_path = os.path.join(first_folder_path, most_recent_file)
+    first_df = pd.read_excel(file_path)
+
+    # Collect product codes from the first file
+    first_product_codes = first_df["Product Code"].unique()
+
+    product_codes = {}
+
+    # Iterate over first_product_codes and store product codes and their details
+    for code in first_product_codes:
+        product_codes[code] = {
+            "Pipe Base Material": first_df[first_df["Product Code"] == code]["Pipe Base Material"].iloc[0],
+            "Total QTY to commit": first_df[first_df["Product Code"] == code]["Total QTY to commit"].iloc[0]
+        }
+
+    second_file_folder = "../Data Pool/Ecosys API Data/PO Lines"
+    second_excel_files = [f for f in os.listdir(second_file_folder) if f.endswith(".xlsx") or f.endswith(".xls")]
+    matching_second_files = [f for f in second_excel_files if str(project_number) in f]
+
+    if not matching_second_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' were found in the PO Lines folder."
+        )
+
+    second_most_recent_file = get_most_recent_file(second_file_folder, matching_second_files)
+    second_file_path = os.path.join(second_file_folder, second_most_recent_file)
+    second_df = pd.read_excel(second_file_path)
+
+    cost_data = []
+
+    for _, row in second_df.iterrows():
+        code = row["Product Code"]
+
+        if code in product_codes:
+            quantity = row["Quantity"]
+            total_cost = row["Cost Project Currency"]
+
+            cost_data.append({
+                "Product Code": code,
+                "Pipe Base Material": product_codes[code]["Pipe Base Material"],
+                "PO Quantity": quantity,
+                "Total Cost": total_cost
+            })
+
+    total_cost = sum(entry["Total Cost"] for entry in cost_data)
+    total_po_quantity = sum(entry["PO Quantity"] for entry in cost_data)
+
+    overall_cost = total_cost
+
+    # Calculate cost per Pipe Base Material
+    cost_by_pipe_base_material = {}
+
+    for entry in cost_data:
+        pipe_base_material = entry["Pipe Base Material"]
+        total_cost = entry["Total Cost"]
+
+        if pipe_base_material not in cost_by_pipe_base_material:
+            cost_by_pipe_base_material[pipe_base_material] = 0.0
+        cost_by_pipe_base_material[pipe_base_material] += total_cost
+
+    # Get the Product Codes from the first file that were not found in the second file
+    missing_product_codes = set(product_codes.keys()) - set(entry["Product Code"] for entry in cost_data)
+
+    return (
+        total_po_quantity,
+        overall_cost,
+        cost_by_pipe_base_material,
+        missing_product_codes
+    )
+
 
 
 def export_complete_mto_excel(data_frame):
