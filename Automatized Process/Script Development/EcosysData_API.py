@@ -6,7 +6,7 @@ import os
 
 
 def ecosys_poheader_data_api(username, password, project_number):
-    api = f"https://ecosys-stg.sbmoffshore.com/ecosys/api"f"/restjson/EcosysPOHeadersData_DCTAPI_KOL"f"/?RootCostObject=MP{project_number}"
+    api = f"https://ecosys.sbmoffshore.com/ecosys/api"f"/restjson/EcosysPOHeadersData_DCTAPI_KOL"f"/?RootCostObject=MP{project_number}"
 
     try:
         # Make API request and get JSON response
@@ -87,7 +87,7 @@ def log_error(error_msg, timestamp):
 
 
 def ecosys_sun_lines_data_api(username, password, project_number):
-    api = f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson"f"/EcosysSUNData_DCTAPI_KOL"f"/?RootCostObject=MP{project_number}"
+    api = f"https://ecosys.sbmoffshore.com/ecosys/api/restjson"f"/EcosysSUNData_DCTAPI_KOL"f"/?RootCostObject=MP{project_number}"
 
     try:
         # Make API request and get JSON response
@@ -140,7 +140,7 @@ def ecosys_sun_lines_data_api(username, password, project_number):
 
 
 def ecosys_po_lines_data_api(username, password, project_number):
-    api = f"https://ecosys-stg.sbmoffshore.com/ecosys/api/restjson/EcosysPOLinesData_DCTAPI_KOL"f"/?RootCostObject=MP{project_number}"
+    api = f"https://ecosys.sbmoffshore.com/ecosys/api/restjson/EcosysPOLinesData_DCTAPI_KOL"f"/?RootCostObject=MP{project_number}"
 
     try:
         # Make API request and get JSON response

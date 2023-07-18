@@ -10,36 +10,34 @@ folder_path = "../Data Pool/Data Hub Materials"
 def complete_mto_data_analyze(project_number):
 
     #Call each function and collect their data
-    #piping_data = get_piping_mto_data(project_number)
-    #valve_data = get_valve_mto_data(project_number)
-    #bolt_data = get_bolt_mto_data(project_number)
-    #structure_data = get_structure_mto_data(project_number)
-    #specialpip_data = get_specialpip_mto_data(project_number)
+    piping_data = get_piping_mto_data(project_number)
+    valve_data = get_valve_mto_data(project_number)
+    bolt_data = get_bolt_mto_data(project_number)
+    structure_data = get_structure_mto_data(project_number)
+    specialpip_data = get_specialpip_mto_data(project_number)
 
     #Piping Extra Data details
-    #matched_tags, unmatched_tags, surplus_tags, total_weight, quantity_by_uom, total_cost, cost_by_material, unique_cost_object_ids, total_surplus_cost, unique_surplus_cost_object_ids = get_piping_extra_details(project_number, "Piping")
+    piping_extra_detail_data = get_piping_extra_details(project_number, "Piping")
     #Valve Extra Data details
-    #total_quantity, overall_cost, cost_by_general_description = get_valve_extra_details(project_number, "Valve")
+    valve_extra_detail_data = get_valve_extra_details(project_number, "Valve")
     #Bolt Extra Data details
-    #po_quantity, overall_cost, cost_by_pipe_base_material, missing_product_codes = get_bolt_extra_details(project_number, "Bolt")
+    bolt_extra_detail_data = get_bolt_extra_details(project_number, "Bolt")
     #Special Piping Extra details
-    total_matched_tags, total_unmatched_tags, total_quantity_by_uom, total_cost, po_list = get_spc_piping_extra_details(project_number, "Piping")
+    spc_piping_extra_detail_data = get_spc_piping_extra_details(project_number, "Piping")
 
     # Combine the data into a data frame
     data_frame = pd.DataFrame({
-        #"Piping Data": piping_data,
-        #"Valve Data": valve_data,
-        #"Bolt Data": bolt_data,
-        #"Bent Data": bent_data,
-        #"Structure Data": structure_data,
-        #"Special Piping Data": specialpip_data
+        "Piping Data": piping_data,
+        "Valve Data": valve_data,
+        "Bolt Data": bolt_data,
+        "Structure Data": structure_data,
+        "Special Piping Data": specialpip_data
     })
 
     # Pass the data frame to export functions
-    export_complete_mto_excel(data_frame)
-    export_complete_mto_graphics(data_frame)
-    export_complete_mto_pdf(data_frame)
-
+    export_complete_mto_excel()
+    export_complete_mto_graphics()
+    export_complete_mto_pdf()
 
 
 def get_most_recent_file(folder_path, matching_files):
@@ -734,14 +732,16 @@ def get_bolt_extra_details(project_number, material_type):
 
 
 
-def export_complete_mto_excel(data_frame):
+def export_complete_mto_excel():
     # TODO: Implement this function
     pass
 
-def export_complete_mto_graphics(data_frame):
+
+def export_complete_mto_graphics():
     # TODO: Implement this function
     pass
 
-def export_complete_mto_pdf(data_frame):
+
+def export_complete_mto_pdf():
     # TODO: Implement this function
     pass
