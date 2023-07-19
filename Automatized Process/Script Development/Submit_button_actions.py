@@ -93,7 +93,7 @@ def action_for_material_analyze(project_number, material_type):
     # All Materials
     elif material_type == "All Materials":
         # Execute functions for each material type in sequence
-        try:
+        '''try:
             DataCollector.data_collector_piping(project_number, "Piping")
             CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, "Piping")
             CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, "Piping")
@@ -131,7 +131,7 @@ def action_for_material_analyze(project_number, material_type):
             DataCollector.data_collector_specialpip(project_number, "Special PIP")
             CostAnalyzeByTagNumber.extract_distinct_tag_numbers_special_piping(folder_path_sp, project_number, "SPC Piping")
         except Exception as e:
-            print(f"Error occurred during Special Piping analysis: {str(e)}")
+            print(f"Error occurred during Special Piping analysis: {str(e)}")'''
 
         try:
             # Run Complete MTO Process

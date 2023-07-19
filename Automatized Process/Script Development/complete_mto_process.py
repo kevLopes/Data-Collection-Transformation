@@ -202,18 +202,15 @@ def get_bolt_mto_data(project_number):
         extract_df_yard = filtered_df[(filtered_df['SBM scope'] == False) & (filtered_df['SBM scope'].notnull())]
 
         bolt_data = filtered_df.groupby(["Pipe Base Material"]).agg({
-            "Total QTY to commit": "sum",
-            "Quantity UOM": "PCE"
+            "Total QTY to commit": "sum"
         }).reset_index()
 
         bolt_sbm_data = extract_df_sbm.groupby(["Pipe Base Material"]).agg({
-            "Total QTY to commit": "sum",
-            "Quantity UOM": "PCE"
+            "Total QTY to commit": "sum"
         }).reset_index()
 
         bolt_data_yard = extract_df_yard.groupby(["Pipe Base Material"]).agg({
-            "Total QTY to commit": "sum",
-            "Quantity UOM": "PCE"
+            "Total QTY to commit": "sum"
         }).reset_index()
 
         return bolt_data, bolt_sbm_data, bolt_data_yard

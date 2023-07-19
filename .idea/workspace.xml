@@ -5,21 +5,59 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work">
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Error Logs/Error_Logs_2023-07-18 17-25-06.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Error Logs/Error_Logs_2023-07-18 17-25-07.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Bolt/Bolt_NotMatched_ProductCode_2023-07-19 14-11-53.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Bolt/MP17033_Bolt_MatCurrency_CostAnalyze_2023-07-19 14-12-02.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping/MP17033_SBM_MTO_Analyze_2023-07-19 14-10-42.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Piping/Piping_NotMatched_TagNumber_2023-07-19 14-04-51.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/SPC Piping/MP17033_SPCPiping_TagBased_Cost_2023-07-19 14-12-38.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Structure/MP17033_Structure_Analyze_2023-07-19 14-12-10.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Valve/Valve_NotMatched_ProductCode_2023-07-19 14-11-15.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Bolt/MP17033_BoltQuantity_Graphic_2023-07-19 14-11-45.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Bolt/MP17033_BoltTotal_Cost_Graphic_2023-07-19 14-11-54.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_MTOPiping_Average Unit Weight_Graphic_2023-07-19 14-10-43.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_MTOPiping_Total NET weight_Graphic_2023-07-19 14-10-44.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_MTOPiping_Total QTY to commit_Graphic_2023-07-19 14-10-42.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_PipingTotal_Cost_Material_2023-07-19 13-59-37.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_PipingTotal_Net_Weight_Per_Material_2023-07-19 13-59-37.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_CostPerPO_Graphic_2023-07-19 14-04-52.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_CostPerSupplier_Graphic_2023-07-19 14-04-52.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Cost_Weight_Graphic_2023-07-19 14-10-34.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Graphics_0_2023-07-19 14-10-33.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Graphics_1_2023-07-19 14-10-33.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Piping/MP17033_Piping_Graphics_2_2023-07-19 14-10-33.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/SPC Piping/MP17033_SPiping_Cost_Currency_2023-07-19 14-12-54.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/SPC Piping/MP17033_SPiping_Cost_Weight_2023-07-19 14-12-54.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/SPC Piping/MP17033_SpecialPiping_Cost_PerPO_2023-07-19 14-12-39.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/SPC Piping/MP17033_SpecialPiping_Cost_PerSupplier_2023-07-19 14-12-39.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/SPC Piping/MP17033_SpecialPiping_MTO Weight_PerPO_2023-07-19 14-12-41.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/SPC Piping/MP17033_SpecialPiping_MTO Weight_PerSupplier_2023-07-19 14-12-41.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/SPC Piping/MP17033_SpecialPiping_Quantity in PO_PerPO_2023-07-19 14-12-40.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Structure/MP17033_Structure_Thickness_Graphic_2023-07-19 14-12-12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Structure/MP17033_Structure_Total Gross Weight_Graphic_2023-07-19 14-12-14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Structure/MP17033_Structure_Total NET weight_Graphic_2023-07-19 14-12-11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Structure/MP17033_Structure_Total QTY to commit_Graphic_2023-07-19 14-12-10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Structure/MP17033_Structure_Unit Weight_Graphic_2023-07-19 14-12-12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Structure/MP17033_Structure_Wastage Quantity_Graphic_2023-07-19 14-12-13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Valve/MP17033_ValveQuantity_Graphic_2023-07-19 14-11-16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Valve/MP17033_ValveTotal_Cost_Graphic_2023-07-19 14-11-16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Valve/MP17033_ValveWeight_Graphic_2023-07-19 14-11-17.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Valve/MP17033_Valve_Cost_Graphic_2023-07-19 14-11-25.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Valve/MP17033_Valve_Quantity_Graphic_2023-07-19 14-11-25.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Headers/MP17033_Ecosys POHeaders_2023-07-19 13-58-41.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17033_Ecosys PO Lines_2023-07-19 13-58-18.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/SUN Transactions/MP17033_Ecosys SUN Transactions_2023-07-19 13-58-46.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Bend/SO17033 - Bend Organized_2023-07-19 14-12-25.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Bolt/SO17033 - Bolt Organized_2023-07-19 14-11-37.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Piping/SO17033 - Piping Organized_2023-07-19 13-59-09.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Special Piping/SO17033 - SPC Piping Organized_2023-07-19 14-12-25.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Structure/SO17033 Liza 2 - Structure Organized_2023-07-19 14-12-09.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Valve/SO17033 - Valve Organized_2023-07-19 14-11-04.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Headers/MP17033_Ecosys POHeaders_2023-04-25 10-55-34.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Headers/MP17033_Ecosys POHeaders_2023-04-25 14-21-09.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Headers/MP17033_Ecosys POHeaders_2023-04-25 14-22-45.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Headers/MP17033_Ecosys POHeaders_2023-05-05 14-27-23.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17033_Ecosys PO Lines_2023-04-17 15-33-54.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17033_Ecosys PO Lines_2023-04-25 10-19-00 Copy.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17033_Ecosys PO Lines_2023-04-25 10-19-00.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17033_Ecosys PO Lines_2023-04-25 10-55-33.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/SUN Transactions/MP17033_Ecosys SUN Transactions_2023-06-09 09-47-38.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/SUN Transactions/MP17033_Ecosys SUN Transactions_2023-06-09 09-51-54.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Bolt/SO17033_MTOBoltReport_SBMscope.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Bolt/SO17033_MTOBoltReport_SBMscope.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Piping/SO17033_MTOPipingReport_SBMscope.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Piping/SO17033_MTOPipingReport_SBMscope.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Structure/17033_MTOStructureReport_SBMscope.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Structure/17033_MTOStructureReport_SBMscope.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Valve/SO17033_MTOValveReport_SBMscope.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Valve/SO17033_MTOValveReport_SBMscope.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,13 +267,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679215832537</updated>
-    </task>
-    <task id="LOCAL-00038" summary="All Script Dev done at work">
-      <created>1681718397681</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1681718397681</updated>
     </task>
     <task id="LOCAL-00039" summary="All Script Dev done at work">
       <created>1681718537430</created>
@@ -573,7 +604,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689606673810</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="All Script Dev done at work">
+      <created>1689695206621</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1689695206621</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -609,6 +647,50 @@
     <option name="LAST_COMMIT_MESSAGE" value="All Script Dev done at work" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>37</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>19</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>16</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>21</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>23</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>25</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>15</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>211</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="tag" />
