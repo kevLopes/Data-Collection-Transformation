@@ -199,3 +199,54 @@ def ecosys_po_lines_data_api(username, password, project_number):
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         print(error_msg)
         log_error(error_msg, timestamp)
+
+
+# --------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------
+
+
+def ecosys_etreg_data_api(username, password, project_number):
+    api = f"https://ecosys.sbmoffshore.com/ecosys/api/restjson/EcosyseTREGData_DCTAPI_KOL"f"/?RootCostObject=MP{project_number}"
+
+    try:
+        # Make API request and get JSON response
+        response = requests.get(api, auth=(username, password), verify=False)
+        response.raise_for_status()
+        json_data = json.loads(response.content)
+
+        # Convert JSON data to Pandas DataFrame and select desired columns
+        df = pd.DataFrame(json_data['WorkingForecastTransactionList'])
+
+        # select desired columns
+        df = df[['CostObjectExternalKey', 'TransactionExternalKey', 'CostCodeID', 'CostBreakdownStructureHierarchyPathID',
+                 'UOM', 'Quantity', 'Amount', 'eTREGRate', 'GenericResourceCode',
+                 'GenericResourceCodeName', 'TransactionDate', 'HistoricalFlagID', 'eTREGClosingPeriodMonth', 'ExecutionCenterID',
+                 'ExecutionCenterName', 'AccountingDepartmentCode']]
+
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+
+        # create an Excel writer object
+        writer = pd.ExcelWriter(
+            f'..\\Data Pool\\Ecosys API Data\\eTREG Lines\\MP{project_number}_Ecosys eTREG lines_'f'{timestamp}.xlsx')
+
+        # write the DataFrame to the Excel file
+        df.to_excel(writer, index=False)
+
+        # save the Excel file
+        writer.save()
+        print('eTREG Transactions file extracted from Ecosys successfully!')
+
+    except requests.exceptions.RequestException as re:
+        error_msg = f"RequestException: {re}"
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        print(error_msg)
+        log_error(error_msg, timestamp)
+
+    except Exception as e:
+        error_msg = f"Error: {e}"
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        print(error_msg)
+        log_error(error_msg, timestamp)

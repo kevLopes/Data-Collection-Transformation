@@ -17,6 +17,8 @@ def action_for_ecosys_api(project_number):
         EcosysData_API.ecosys_poheader_data_api("keven.deOliveiralope", "My-SBM@Codigo23", project_number)
         # Ecosys SUN transactions
         EcosysData_API.ecosys_sun_lines_data_api("keven.deOliveiralope", "My-SBM@Codigo23", project_number)
+        # Ecosys etreg transactions
+        EcosysData_API.ecosys_etreg_data_api("keven.deOliveiralope", "My-SBM@Codigo23", project_number)
         print("Analyze done for Ecosys API data")
         return True
     except Exception as e:
@@ -26,7 +28,7 @@ def action_for_ecosys_api(project_number):
 
 #SBM Scope Analyze
 def action_for_material_analyze(project_number, material_type):
-    print("Analyze on going without collecting data from Ecosys")
+    print("Analyze on going!!! Collecting and Transforming the Data")
     folder_path_valve = "../Data Pool/Material Data Organized/Valve"
     folder_path_piping = "../Data Pool/Material Data Organized/Piping"
     folder_path_bolt = "../Data Pool/Material Data Organized/Bolt"
@@ -91,9 +93,9 @@ def action_for_material_analyze(project_number, material_type):
         return True
 
     # All Materials
-    elif material_type == "All Materials":
+    elif material_type == "All Equipment":
         # Execute functions for each material type in sequence
-        '''try:
+        try:
             DataCollector.data_collector_piping(project_number, "Piping")
             CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, "Piping")
             CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, "Piping")
@@ -131,7 +133,7 @@ def action_for_material_analyze(project_number, material_type):
             DataCollector.data_collector_specialpip(project_number, "Special PIP")
             CostAnalyzeByTagNumber.extract_distinct_tag_numbers_special_piping(folder_path_sp, project_number, "SPC Piping")
         except Exception as e:
-            print(f"Error occurred during Special Piping analysis: {str(e)}")'''
+            print(f"Error occurred during Special Piping analysis: {str(e)}")
 
         try:
             # Run Complete MTO Process
@@ -178,20 +180,41 @@ def action_for_material_analyze_by_yard(project_number, material_type):
         AnalyzeProcessByMTO.yard_scope_bolt_report(folder_path_bolt, project_number, material_type)
         return True
 
-    # Material Type Structure
-    elif material_type == "Structure":
-        # Organize Data from Data Hub
-        return True
-
-    # Material Type Bend
-    elif material_type == "Bend":
-        # Organize Data from Data Hub
-        return True
-
     # Material Type Special Piping
     elif material_type == "Special Piping":
         # Organize Data from Data Hub and Graphic Design
         DataCollector.data_collector_specialpip_yard(project_number, "Special PIP")
+        return True
+
+    # All Equipment Type
+    elif material_type == "All Equipment":
+        # Execute functions for each material type in sequence
+        try:
+            DataCollector.data_collector_piping_yard(project_number, "Piping")
+            AnalyzeProcessByYard.yard_piping_material_type_analyze(folder_path_piping, project_number, "Piping")
+            AnalyzeProcessByMTO.yard_scope_piping_report(folder_path_piping, project_number, "Piping")
+        except Exception as e:
+            print(f"Error occurred during YARD Piping analysis: {str(e)}")
+
+        try:
+            DataCollector.data_collector_valve_yard(project_number, "Valve")
+            AnalyzeProcessByYard.yard_valve_material_type_analyze(folder_path_valve, project_number, "Valve")
+            AnalyzeProcessByMTO.yard_scope_valve_report(folder_path_valve, project_number, "Valve")
+        except Exception as e:
+            print(f"Error occurred during YARD Valve analysis: {str(e)}")
+
+        try:
+            DataCollector.data_collector_bolt_yard(project_number, "Bolt")
+            AnalyzeProcessByYard.yard_bolt_material_type_analyze(folder_path_bolt, project_number, "Bolt")
+            AnalyzeProcessByMTO.yard_scope_bolt_report(folder_path_bolt, project_number, "Bolt")
+        except Exception as e:
+            print(f"Error occurred during YARD Bolt analysis: {str(e)}")
+
+        try:
+            DataCollector.data_collector_specialpip_yard(project_number, "Special PIP")
+        except Exception as e:
+            print(f"Error occurred during Special Piping analysis: {str(e)}")
+
         return True
 
     return False

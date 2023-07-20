@@ -27,12 +27,12 @@ class MyWindow:
         self.input_field.grid(row=0, column=1, padx=5, pady=5)
 
         # Create a label for the dropdown list
-        self.type_label = tk.Label(self.frame, text="Material Type:")
+        self.type_label = tk.Label(self.frame, text="Equipment Type:")
         self.type_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
 
         # Create a dropdown list for selecting project type
         self.type_var = tk.StringVar(value="Choose Type")
-        self.type_dropdown = ttk.OptionMenu(self.frame, self.type_var, "Choose Type", "All Materials", "Piping",
+        self.type_dropdown = ttk.OptionMenu(self.frame, self.type_var, "Choose Type", "All Equipment", "Piping",
                                             "Valve", "Bolt",
                                             "Special Piping", "Structure", "Bend")
         self.type_dropdown.config(width=16)

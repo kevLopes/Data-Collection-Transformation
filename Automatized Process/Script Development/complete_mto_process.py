@@ -1,7 +1,8 @@
 import os
 import numpy as np
 import pandas as pd
-from datetime import datetime
+import ExportPDFreports
+
 
 folder_path = "../Data Pool/Data Hub Materials"
 
@@ -25,19 +26,12 @@ def complete_mto_data_analyze(project_number):
     #Special Piping Extra details
     spc_piping_extra_detail_data = get_spc_piping_extra_details(project_number, "Piping")
 
-    # Combine the data into a data frame
-    data_frame = pd.DataFrame({
-        "Piping Data": piping_data,
-        "Valve Data": valve_data,
-        "Bolt Data": bolt_data,
-        "Structure Data": structure_data,
-        "Special Piping Data": specialpip_data
-    })
+    #Get PO Header overall amount
+    project_total_cost_and_hours = get_project_total_cost_hours(project_number)
 
     # Pass the data frame to export functions
-    export_complete_mto_excel()
-    export_complete_mto_graphics()
-    export_complete_mto_pdf()
+    ExportPDFreports.generate_complete_analyze_process_pdf()
+
 
 
 def get_most_recent_file(folder_path, matching_files):
@@ -726,6 +720,40 @@ def get_bolt_extra_details(project_number, material_type):
         cost_by_pipe_base_material,
         missing_product_codes
     )
+
+
+def get_project_total_cost_hours(project_number):
+    folder_path_po = "../Data Pool/Ecosys API Data/PO Headers"
+
+    excel_files = [f for f in os.listdir(folder_path_po) if f.endswith(".xlsx") or f.endswith(".xls")]
+
+    matching_files = [f for f in excel_files if str(project_number) in f]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' were found in the folder.")
+
+    most_recent_file = get_most_recent_file(folder_path_po, matching_files)
+    file_path = os.path.join(folder_path_po, most_recent_file)
+    po_df = pd.read_excel(file_path)
+
+    etreg_file_folder = "../Data Pool/Ecosys API Data/eTREG Lines"
+    etreg_excel_files = [f for f in os.listdir(etreg_file_folder) if f.endswith(".xlsx") or f.endswith(".xls")]
+    matching_second_files = [f for f in etreg_excel_files if str(project_number) in f]
+
+    if not matching_second_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' were found in the folder."
+        )
+
+    second_most_recent_file = get_most_recent_file(etreg_file_folder, matching_second_files)
+    second_file_path = os.path.join(etreg_file_folder, second_most_recent_file)
+    etreg_df = pd.read_excel(second_file_path)
+
+    total_project_cost = po_df["PO Cost"].sum()
+    total_hours = etreg_df["Quantity"].sum()
+
+    return total_project_cost, total_hours
 
 
 

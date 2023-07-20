@@ -7,7 +7,7 @@ import seaborn as sns
 
 
 #-------------------------- Piping -----------------------------
-
+#SBM Scope
 def generate_pdf_piping_sbm_scope(data, project_number, file_name):
     # Convert Total NET weight to TON
     data['Total NET weight'] = data['Total NET weight'] / 1000
@@ -770,7 +770,7 @@ def generate_pdf_valve_yard_scope(data, project_number, file_name):
     pdf.output(pdf_path)
 
 
-#------------------------------------------- Bolt --------------------------------------------------
+#--------------------------- Bolt --------------------------------
 
 #SBM Scope
 def generate_pdf_bolt_sbm_scope(data, project_number, file_name):
@@ -1026,7 +1026,7 @@ def generate_pdf_bolt_yard_scope(data, project_number, file_name):
     pdf.output(pdf_path)
 
 
-#----------------------------------- STRUCTURE -------------------------------------------
+#----------------------- STRUCTURE ------------------------------
 
 
 def generate_pdf_structure_sbm_scope1(data, project_number, file_name):
@@ -1403,3 +1403,13 @@ def generate_pdf_structure_sbm_scope(dataframe, project_number):
     # Save the PDF report
     pdf_path = os.path.join(directory_path, f"{project_number}_MTOStructureReport_SBMscope.pdf")
     pdf.output(pdf_path)
+
+
+#----------------------- MTO Analyze ------------------------------
+
+
+#Complete MTO PDF file analyze
+def generate_complete_analyze_process_pdf():
+
+
+    return
