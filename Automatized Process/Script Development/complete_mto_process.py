@@ -11,26 +11,29 @@ folder_path = "../Data Pool/Data Hub Materials"
 def complete_mto_data_analyze(project_number):
 
     #Call each function and collect their data
-    piping_data = get_piping_mto_data(project_number)
-    valve_data = get_valve_mto_data(project_number)
-    bolt_data = get_bolt_mto_data(project_number)
-    structure_data = get_structure_mto_data(project_number)
-    specialpip_data = get_specialpip_mto_data(project_number)
+    piping_data, piping_sbm_data, piping_data_yard = get_piping_mto_data(project_number)
+    valve_data, valve_sbm_data, valve_data_yard = get_valve_mto_data(project_number)
+    bolt_data, bolt_sbm_data, bolt_data_yard = get_bolt_mto_data(project_number)
+    structure_totals_m2, structure_totals_m, structure_totals_pcs = get_structure_mto_data(project_number)
+    spcpip_data, spcpip_data_yard, spcpip_sbm_data = get_specialpip_mto_data(project_number)
 
     #Piping Extra Data details
-    piping_extra_detail_data = get_piping_extra_details(project_number, "Piping")
+    total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip = get_piping_extra_details(project_number, "Piping")
     #Valve Extra Data details
-    valve_extra_detail_data = get_valve_extra_details(project_number, "Valve")
+    total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv = get_valve_extra_details(project_number, "Valve")
     #Bolt Extra Data details
-    bolt_extra_detail_data = get_bolt_extra_details(project_number, "Bolt")
+    total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt = get_bolt_extra_details(project_number, "Bolt")
     #Special Piping Extra details
-    spc_piping_extra_detail_data = get_spc_piping_extra_details(project_number, "Piping")
+    total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc = get_spc_piping_extra_details(project_number, "Piping")
 
     #Get PO Header overall amount
     project_total_cost_and_hours = get_project_total_cost_hours(project_number)
 
     # Pass the data frame to export functions
-    ExportPDFreports.generate_complete_analyze_process_pdf()
+    ExportPDFreports.generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard,valve_data, valve_sbm_data, valve_data_yard, bolt_data, bolt_sbm_data, bolt_data_yard, structure_totals_m2, structure_totals_m, structure_totals_pcs, spcpip_data, spcpip_data_yard, spcpip_sbm_data,
+                                                           total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip,
+                                                           total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv, total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt,
+                                                           total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc, project_total_cost_and_hours)
 
 
 
@@ -528,21 +531,21 @@ def get_spc_piping_extra_details(project_number, material_type):
             })
 
     # Calculate totals
-    total_matched_tags = len(cost_data)
-    total_unmatched_tags = len(first_tag_numbers) - len(cost_data)
-    total_quantity_by_uom = sum(entry["PO Quantity"] for entry in cost_data)
-    total_cost = sum(entry["Total Cost"] for entry in cost_data)
+    total_matched_tags_spc = len(cost_data)
+    total_unmatched_tags_spc = len(first_tag_numbers) - len(cost_data)
+    total_quantity_by_uom_spc = sum(entry["PO Quantity"] for entry in cost_data)
+    total_cost_spc = sum(entry["Total Cost"] for entry in cost_data)
 
     # Get distinct PO Numbers
-    po_list = list(set(entry["PO Number"] for entry in cost_data))
+    po_list_spc = list(set(entry["PO Number"] for entry in cost_data))
 
     # Return the calculated data along with the unique Cost Object IDs, total surplus cost, and unique surplus Cost Object IDs
     return (
-        total_matched_tags,
-        total_unmatched_tags,
-        total_quantity_by_uom,
-        total_cost,
-        po_list
+        total_matched_tags_spc,
+        total_unmatched_tags_spc,
+        total_quantity_by_uom_spc,
+        total_cost_spc,
+        po_list_spc
     )
 
 
@@ -698,7 +701,7 @@ def get_bolt_extra_details(project_number, material_type):
     total_cost = sum(entry["Total Cost"] for entry in cost_data)
     total_po_quantity = sum(entry["PO Quantity"] for entry in cost_data)
 
-    overall_cost = total_cost
+    overall_cost_bolt = total_cost
 
     # Calculate cost per Pipe Base Material
     cost_by_pipe_base_material = {}
@@ -716,7 +719,7 @@ def get_bolt_extra_details(project_number, material_type):
 
     return (
         total_po_quantity,
-        overall_cost,
+        overall_cost_bolt,
         cost_by_pipe_base_material,
         missing_product_codes
     )
@@ -763,10 +766,5 @@ def export_complete_mto_excel():
 
 
 def export_complete_mto_graphics():
-    # TODO: Implement this function
-    pass
-
-
-def export_complete_mto_pdf():
     # TODO: Implement this function
     pass

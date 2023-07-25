@@ -1409,7 +1409,239 @@ def generate_pdf_structure_sbm_scope(dataframe, project_number):
 
 
 #Complete MTO PDF file analyze
-def generate_complete_analyze_process_pdf():
+def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard,valve_data, valve_sbm_data, valve_data_yard, bolt_data, bolt_sbm_data, bolt_data_yard, structure_totals_m2, structure_totals_m, structure_totals_pcs, spcpip_data, spcpip_data_yard, spcpip_sbm_data,
+                                        total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip,
+                                        total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv, total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt,
+                                        total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc, project_total_cost_and_hours):
 
+    # Piping section
+    def add_section_title(title):
+        pdf.set_font("Arial", "B", 12)
+        pdf.cell(0, 10, title, ln=True)
+        pdf.set_font("Arial", "", 10)
+        pdf.ln(5)
+
+    def add_table(header, data):
+        pdf.set_font("Arial", "B", 10)
+        for item in header:
+            pdf.cell(40, 10, item, border=1, align="C")
+        pdf.ln()
+        pdf.set_font("Arial", "", 10)
+        for row in data:
+            for item in row:
+                pdf.cell(40, 10, str(item), border=1, align="C")
+            pdf.ln()
+
+    #convert weight to TON
+    # Function to convert weight to tons
+    def convert_to_tons(weight_kg):
+        return weight_kg / 1000
+
+    # Function to convert cost to thousands
+    def convert_to_thousands(cost):
+        return cost / 1000
+
+    #convert Cost to Thousands
+    total_weight_pip_tons = convert_to_tons(total_weight_pip)
+    total_cost_spc_thousands = convert_to_thousands(total_cost_spc)
+
+    project_total_cost = convert_to_thousands(project_total_cost_and_hours[0])
+
+    overall_cost_pip_thousands = convert_to_thousands(overall_cost_pip)
+    overall_cost_blt_thousands = convert_to_thousands(overall_cost_blt)
+    overall_cost_vlv_thousands = convert_to_thousands(overall_cost_vlv)
+
+
+    # Initialize PDF object
+    pdf = FPDF()
+
+    # Set up the PDF
+    pdf.set_title("MP17033 - UNITY MTO Material and Cost Analyze")
+    pdf.add_page()
+
+    # Set font and font size for the title
+    pdf.set_font("Arial", "B", 17)
+
+    # Add logo
+    logo_path = "../Data Pool/DCT Process Results/PDF Reports/Content/SBM.png"
+    pdf.image(logo_path, x=10, y=10, w=30)
+
+    # Add title
+    pdf.ln(20)
+    pdf.cell(0, 10, "MP17033 Unity - Data Collection and Transformation Report", ln=True, align="C")
+
+    # Add date of analysis
+    pdf.ln(1)
+    pdf.set_font("Arial", "I", 6)
+    pdf.cell(0, 10, f"Date of Analysis: {date.today().strftime('%d-%b-%Y')}", ln=True, align="R")
+
+    pdf.ln(3)
+
+    image_path = "../Data Pool/DCT Process Results/PDF Reports/Content/LizaUnity1.jpg"
+    # Get the original image dimensions
+    img_w = 1178
+    img_h = 400
+
+    # Determine the desired width for the image in the PDF
+    desired_width = 175
+
+    # Calculate the proportional height based on the desired width
+    proportional_height = img_h * desired_width / img_w
+
+    # Add the image with the desired dimensions
+    pdf.image(image_path, x=18, y=55, w=desired_width, h=proportional_height)
+
+    #Write report here
+    pdf.ln(66)
+    # Introduction
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(0, 10, "Introduction", ln=True)
+    pdf.set_font("Arial", "", 10)
+    pdf.multi_cell(0, 8, "This report provides a comprehensive analysis of the cost associated with different Equipment in the Unity FPSO Project. The analysis focuses on Piping, Special Piping, Structure, Valves and Bolts scopes within the SBM Scope and YARD Scope. "
+                          "The report includes an overview of all scopes and materials, followed by detailed insights for each material type. Additionally, information on suppliers will be incorporated into the analysis. "
+                          "The report will also present the total cost, cost breakdown for each equipment, cost per kilogram, and cost per supplier.", align="L")
+
+    pdf.ln(3)
+
+    # Overview of Scopes and Materials
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(0, 10, "Overview of Scopes and Materials", ln=True)
+    pdf.set_font("Arial", "", 10)
+    pdf.cell(0, 10, "This analise of the Unity Project consists of various scopes, including:", ln=True)
+    # SBM Scope
+    pdf.cell(8)
+    pdf.cell(0, 10, "a. SBM Scope", ln=True)
+    pdf.cell(20)
+    pdf.cell(0, 7, "- Piping", ln=True)
+    pdf.cell(20)
+    pdf.cell(0, 7, "- Special Piping", ln=True)
+    pdf.cell(20)
+    pdf.cell(0, 7, "- Valve", ln=True)
+    pdf.cell(20)
+    pdf.cell(0, 7, "- Bolt", ln=True)
+
+    # YARD Scope
+    pdf.cell(8)
+    pdf.cell(0, 10, "b. YARD Scope", ln=True)
+    pdf.cell(20)
+    pdf.cell(0, 7, "- Piping", ln=True)
+    pdf.cell(20)
+    pdf.cell(0, 7, "- Special Piping", ln=True)
+    pdf.cell(20)
+    pdf.cell(0, 7, "- Structure", ln=True)
+    pdf.cell(20)
+    pdf.cell(0, 7, "- Valve", ln=True)
+    pdf.cell(20)
+    pdf.cell(0, 7, "- Bolt", ln=True)
+
+    pdf.ln(10)
+
+    # Convert weight to tons and cost to thousands
+    '''piping_data["Weight_Tons"] = piping_data["Total NET weight"].apply(convert_to_tons)
+    piping_data["Cost_Thousands"] = piping_data["Cost"].apply(convert_to_thousands)
+
+    valve_data["Weight_Tons"] = valve_data["Weight"].apply(convert_to_tons)
+    valve_data["Cost_Thousands"] = valve_data["Cost"].apply(convert_to_thousands)
+
+    bolt_data["Weight_Tons"] = bolt_data["Total Net weight"].apply(convert_to_tons)
+    bolt_data["Cost_Thousands"] = bolt_data["Cost"].apply(convert_to_thousands)
+
+    spcpip_data["Weight_Tons"] = spcpip_data["Weight"].apply(convert_to_tons)
+    spcpip_data["Cost_Thousands"] = spcpip_data["Cost"].apply(convert_to_thousands)
+
+    # Piping section
+    add_section_title("Piping Analysis")
+    piping_header = ["Pipe Base Material", "Quantity UOM", "Total Quantity", "Total NET weight (Tons)", "Unit Weight"]
+    piping_data_table = piping_data[
+        ["Pipe Base Material", "Quantity UOM", "Total QTY to commit", "Total NET Weight", "Unit Weight"]].values.tolist()
+    add_table(piping_header, piping_data_table)
+
+    # Valve section
+    add_section_title("Valve Analysis")
+    valve_header = ["General Material Description", "Quantity", "Total NET weight (Tons)", "Unit Weight"]
+    valve_data_table = valve_data[["General Material Description", "Quantity", "Weight", "Weight"]].values.tolist()
+    add_table(valve_header, valve_data_table)
+
+    # Bolt section
+    add_section_title("Bolt Analysis")
+    bolt_header = ["Pipe Base Material", "Total QTY to commit"]
+    bolt_data_table = bolt_data[["Pipe Base Material", "Total QTY to commit"]].values.tolist()
+    add_table(bolt_header, bolt_data_table)
+
+    # Structure section
+    add_section_title("Structure Analysis")
+    structure_header = ["Quantity UOM", "Total Quantity", "Total NET weight (Tons)", "Unit Weight"]
+    structure_data_table = structure_data[
+        ["Quantity UOM", "Total QTY to commit", "Weight_Tons", "Weight"]].values.tolist()
+    add_table(structure_header, structure_data_table)
+
+    # Special Piping section
+    add_section_title("Special Piping Analysis")
+    specialpip_header = ["index", "Value"]
+    specialpip_data_table = spcpip_data.values.tolist()
+    add_table(specialpip_header, specialpip_data_table)
+
+    # SBM Data section
+    add_section_title("SBM Data Analysis")
+    sbm_header = ["Category", "Total Quantity", "Total NET weight (Tons)", "Unit Weight"]
+    sbm_data = [
+        ("Piping", piping_sbm_data["Total QTY to commit"].sum(), piping_sbm_data["Total NET weight"].sum(),
+         piping_sbm_data["Unit Weight"].mean()),
+        ("Valve", valve_sbm_data["Quantity"].sum(), valve_sbm_data["Weight"].sum(), valve_sbm_data["Unit Weight"].mean()),
+        ("Bolt", bolt_sbm_data["Total QTY to commit"].sum(), "Weight", "Weight"),
+        ("Special Piping", spcpip_sbm_data["Weight"].sum(), "Weight", "Weight")
+    ]
+    add_table(sbm_header, sbm_data)
+
+    # YARD Data section
+    add_section_title("YARD Data Analysis")
+    yard_header = ["Category", "Total Quantity", "Total NET weight (Tons)", "Unit Weight"]
+    yard_data = [
+        ("Piping", piping_data_yard["Total QTY to commit"].sum(), piping_data_yard["Total NET weight"].sum(),
+         piping_data_yard["Unit Weight"].mean()),
+        ("Valve", valve_data_yard["Quantity"].sum(), valve_data_yard["Weight"].sum(), valve_data_yard["Unit Weight"].mean()),
+        ("Bolt", bolt_data_yard["Total QTY to commit"].sum(), "Weight", "Weight"),
+        ("Special Piping", spcpip_data_yard["Weight"].sum(), "Weight", "Weight")
+    ]
+    add_table(yard_header, yard_data)
+
+    # Extra Detail Data section
+    add_section_title("Extra Detail Data Analysis")
+    extra_detail_header = ["Description", "Value"]
+    extra_detail_data = [
+        ("Piping", piping_extra_detail_data),
+        ("Valve", valve_extra_detail_data),
+        ("Bolt", bolt_extra_detail_data),
+        ("Special Piping", spc_piping_extra_detail_data)
+    ]
+    for item, data in extra_detail_data:
+        pdf.cell(0, 10, item, ln=True, align="L")
+        for key, value in data.items():
+            pdf.cell(40, 10, key, border=1, align="C")
+            pdf.cell(40, 10, str(value), border=1, align="C")
+            pdf.ln()'''
+
+    # Project Total Cost and Hours
+    add_section_title("Project Total Cost and Hours")
+    pdf.cell(0, 10, "Total Cost: $ " + str(project_total_cost), ln=True, align="L")
+    pdf.cell(0, 10, "Total Hours: " + str(project_total_cost_and_hours[1]), ln=True, align="L")
+
+    # Conclusion
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(0, 10, "Conclusion", ln=True)
+    pdf.set_font("Arial", "", 10)
+    pdf.multi_cell(0, 10,
+                   "In conclusion, the cost analysis of materials in the Unity Project FPSO has been conducted, focusing on piping, special piping, structure, valve, bolt, and bend scopes within the SBM Scope and YARD Scope. "
+                   "The analysis provides valuable insights into the total cost, cost breakdown for each equipment, cost per kilogram, and cost per supplier. "
+                   "This information will be crucial for project planning, budgeting, and supplier management, aiding in the successful execution of the Unity Project FPSO.", align="L")
+
+    # Create the directory if it doesn't exist
+    directory_path = "../Data Pool/DCT Process Results/PDF Reports/Complete MTO Analyze"
+    os.makedirs(directory_path, exist_ok=True)
+
+    # Save the PDF report
+    pdf_path = os.path.join(directory_path, f"MP17033 DCT Report file.pdf")
+    pdf.output(pdf_path)
 
     return
+

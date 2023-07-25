@@ -219,9 +219,8 @@ def ecosys_etreg_data_api(username, password, project_number):
 
         # select desired columns
         df = df[['CostObjectExternalKey', 'TransactionExternalKey', 'CostCodeID', 'CostBreakdownStructureHierarchyPathID',
-                 'UOM', 'Quantity', 'Amount', 'eTREGRate', 'GenericResourceCode',
-                 'GenericResourceCodeName', 'TransactionDate', 'HistoricalFlagID', 'eTREGClosingPeriodMonth', 'ExecutionCenterID',
-                 'ExecutionCenterName', 'AccountingDepartmentCode']]
+                 'UOM', 'Quantity', 'Amount', 'eTREGRate', 'GenericResourceCode', 'GenericResourceCodeName', 'TransactionDate',
+                 'HistoricalFlagID', 'eTREGClosingPeriodMonth', 'ExecutionCenterID', 'ExecutionCenterName', 'AccountingDepartmentCode']]
 
         # Get the current timestamp
         timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
