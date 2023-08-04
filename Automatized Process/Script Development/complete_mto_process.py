@@ -11,14 +11,14 @@ folder_path = "../Data Pool/Data Hub Materials"
 def complete_mto_data_analyze(project_number):
 
     #Call each function and collect their data
-    piping_data, piping_sbm_data, piping_data_yard = get_piping_mto_data(project_number)
-    valve_data, valve_sbm_data, valve_data_yard = get_valve_mto_data(project_number)
-    bolt_data, bolt_sbm_data, bolt_data_yard = get_bolt_mto_data(project_number)
-    structure_totals_m2, structure_totals_m, structure_totals_pcs = get_structure_mto_data(project_number)
-    spcpip_data, spcpip_data_yard, spcpip_sbm_data = get_specialpip_mto_data(project_number)
+    piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard = get_piping_mto_data(project_number)
+    valve_data, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight = get_valve_mto_data(project_number)
+    bolt_data, bolt_sbm_data, bolt_data_yard, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_yard_data_total_qty_commit = get_bolt_mto_data(project_number)
+    structure_totals_m2, structure_totals_m, structure_totals_pcs, structure_total_gross_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_qty_m2, structure_total_qty_m = get_structure_mto_data(project_number)
+    total_spcpip_data_qty, total_spcpip_data_weight, total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight = get_specialpip_mto_data(project_number)
 
     #Piping Extra Data details
-    total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip = get_piping_extra_details(project_number, "Piping")
+    total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter = get_piping_extra_details(project_number, "Piping")
     #Valve Extra Data details
     total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv = get_valve_extra_details(project_number, "Valve")
     #Bolt Extra Data details
@@ -30,11 +30,9 @@ def complete_mto_data_analyze(project_number):
     project_total_cost_and_hours = get_project_total_cost_hours(project_number)
 
     # Pass the data frame to export functions
-    ExportPDFreports.generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard,valve_data, valve_sbm_data, valve_data_yard, bolt_data, bolt_sbm_data, bolt_data_yard, structure_totals_m2, structure_totals_m, structure_totals_pcs, spcpip_data, spcpip_data_yard, spcpip_sbm_data,
-                                                           total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip,
-                                                           total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv, total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt,
-                                                           total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc, project_total_cost_and_hours)
-
+    ExportPDFreports.generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight, bolt_data, bolt_sbm_data, bolt_data_yard, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_yard_data_total_qty_commit, structure_totals_m2, structure_totals_m, structure_totals_pcs,
+                                                           total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip, total_spcpip_data_weight, total_spcpip_data_qty, total_spcpip_sbm_data_weight, total_spcpip_sbm_data_qty, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight,
+                                                           total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv, total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt, structure_total_gross_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_qty_m2, structure_total_qty_m, total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc, project_total_cost_and_hours, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter)
 
 
 def get_most_recent_file(folder_path, matching_files):
@@ -51,7 +49,6 @@ def get_most_recent_file(folder_path, matching_files):
     return latest_file
 
 
-#PIPING MTO DATA
 def get_piping_mto_data(project_number):
     material_type = "Piping"
 
@@ -67,22 +64,12 @@ def get_piping_mto_data(project_number):
     file_path = os.path.join(folder_path, most_recent_file)
     df = pd.read_excel(file_path)
 
-    # Set the columns to extract
     columns_to_extract = ["Project Number", "Pipe Base Material", "SBM scope", "Total QTY to commit", "Quantity UOM",
                           "Unit Weight", "Unit Weight UOM", "Total NET weight"]
 
-    # Check if the project number matches the specified one
     if df["Project Number"].astype(str).str.contains(str(project_number)).any():
-        # Find the specified columns
-        extract_columns = []
-        for column in df.columns:
-            if any(col in str(column) for col in columns_to_extract):
-                extract_columns.append(column)
-
-        # Filter the DataFrame and extract the desired data
+        extract_columns = [column for column in df.columns if any(col in str(column) for col in columns_to_extract)]
         filtered_df = df[extract_columns]
-
-        # Filter based on SBM scope and notnull values
         extract_df_sbm = filtered_df[(filtered_df['SBM scope'] == True) & (filtered_df['SBM scope'].notnull())]
         extract_df_yard = filtered_df[(filtered_df['SBM scope'] == False) & (filtered_df['SBM scope'].notnull())]
 
@@ -104,13 +91,23 @@ def get_piping_mto_data(project_number):
             "Unit Weight": "mean"
         }).reset_index()
 
-        return piping_data, piping_sbm_data, piping_data_yard
+        total_qty_commit_pieces = piping_data[piping_data['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
+        total_qty_commit_m = piping_data[piping_data['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
+        total_qty_commit_pieces_sbm = piping_sbm_data[piping_sbm_data['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
+        total_qty_commit_pieces_yard = piping_data_yard[piping_data_yard['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
+        total_qty_commit_m_sbm = piping_sbm_data[piping_sbm_data['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
+        total_qty_commit_m_yard = piping_data_yard[piping_data_yard['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
+        total_piping_net_weight = piping_data['Total NET weight'].sum()
+        total_piping_sbm_net_weight = piping_sbm_data['Total NET weight'].sum()
+        total_piping_yard_net_weight = piping_data_yard['Total NET weight'].sum()
+
+        return piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard
 
     else:
         raise ValueError(f"No data found for project number '{project_number}'.")
 
 
-#VALVE MTO DATA
+
 def get_valve_mto_data(project_number):
     material_type = "Valve"
 
@@ -159,7 +156,12 @@ def get_valve_mto_data(project_number):
             "Weight": "sum"
         }).reset_index()
 
-        return valve_data, valve_data_sbm, valve_data_yard
+        # Calculate the sum of the total valve weight for all three categories
+        total_valve_weight = valve_data['Weight'].sum()
+        total_sbm_valve_weight = valve_data_sbm['Weight'].sum()
+        total_yard_valve_weight = valve_data_yard['Weight'].sum()
+
+        return valve_data, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight
     else:
         raise ValueError(f"No data found for project number '{project_number}'.")
 
@@ -180,21 +182,11 @@ def get_bolt_mto_data(project_number):
     file_path = os.path.join(folder_path, most_recent_file)
     df = pd.read_excel(file_path)
 
-    # Set the columns to extract
     columns_to_extract = ["Project Number", "Pipe Base Material", "SBM scope", "Total QTY to commit", "Quantity UOM"]
 
-    # Check if the project number matches the specified one
     if df["Project Number"].astype(str).str.contains(str(project_number)).any():
-        # Find the specified columns
-        extract_columns = []
-        for column in df.columns:
-            if any(col in str(column) for col in columns_to_extract):
-                extract_columns.append(column)
-
-        # Filter the DataFrame and extract the desired data
+        extract_columns = [column for column in df.columns if any(col in str(column) for col in columns_to_extract)]
         filtered_df = df[extract_columns]
-
-        # Filter based on SBM scope and notnull values
         extract_df_sbm = filtered_df[(filtered_df['SBM scope'] == True) & (filtered_df['SBM scope'].notnull())]
         extract_df_yard = filtered_df[(filtered_df['SBM scope'] == False) & (filtered_df['SBM scope'].notnull())]
 
@@ -210,13 +202,17 @@ def get_bolt_mto_data(project_number):
             "Total QTY to commit": "sum"
         }).reset_index()
 
-        return bolt_data, bolt_sbm_data, bolt_data_yard
+        bolt_data_total_qty_commit = bolt_data['Total QTY to commit'].sum()
+        bolt_sbm_data_total_qty_commit = bolt_sbm_data['Total QTY to commit'].sum()
+        bolt_yard_data_total_qty_commit = bolt_data_yard['Total QTY to commit'].sum()
+
+        return bolt_data, bolt_sbm_data, bolt_data_yard, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_yard_data_total_qty_commit
 
     else:
         raise ValueError(f"No data found for project number '{project_number}'.")
 
 
-#STRUCTURE MTO DATA
+
 def get_structure_mto_data(project_number):
     material_type = "Structure"
     folder_path_strct = "../Data Pool/DCT Process Results/Exported Result Files/Structure"
@@ -264,10 +260,16 @@ def get_structure_mto_data(project_number):
         'Quantity Including Wastage': 'sum',
         'Total Gross Weight': 'sum', }).reset_index()
 
-    return structure_totals_m2, structure_totals_m, structure_totals_pcs
+    # Calculate the total values for each group
+    structure_total_qty_pcs = structure_totals_pcs['Total QTY to commit'].sum()
+    structure_total_qty_m2 = structure_totals_m2['Total QTY to commit'].sum()
+    structure_total_qty_m = structure_totals_m['Total QTY to commit'].sum()
+    structure_total_gross_weight = structure_totals_pcs['Total Gross Weight'].sum() + structure_totals_m2['Total Gross Weight'].sum() + structure_totals_m['Total Gross Weight'].sum()
+    structure_total_wastage = structure_totals_pcs['Wastage Quantity'].sum() + structure_totals_m2['Wastage Quantity'].sum() + structure_totals_m['Wastage Quantity'].sum()
+
+    return structure_totals_m2, structure_totals_m, structure_totals_pcs, structure_total_gross_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_qty_m2, structure_total_qty_m
 
 
-#SPECIAL PIPING MTO DATA
 def get_specialpip_mto_data(project_number):
     material_type = "Special PIP"
 
@@ -293,7 +295,7 @@ def get_specialpip_mto_data(project_number):
             extract_columns.append(column)
 
     # Filter the DataFrame and extract the desired data
-    filtered_df = df.loc[:, extract_columns].copy()  # Use .loc with [:] to select all rows and create a copy
+    filtered_df = df.loc[:, extract_columns].copy()
 
     # Convert Qty and Weight columns to numeric type
     filtered_df.loc[:, "Qty"] = pd.to_numeric(filtered_df["Qty"], errors="coerce")
@@ -303,22 +305,15 @@ def get_specialpip_mto_data(project_number):
     extract_df_sbm = filtered_df[(filtered_df['PO Number'] != "BY YARD") & (filtered_df['PO Number'].notnull())]
     extract_df_yard = filtered_df[(filtered_df['PO Number'] == "BY YARD") & (filtered_df['PO Number'].notnull())]
 
-    spcpip_data = filtered_df.agg({
-        "Qty": "sum",
-        "Weight": "sum"
-    }).reset_index()
+    # Calculate the total quantities and total weights for each category
+    total_spcpip_data_qty = filtered_df["Qty"].sum()
+    total_spcpip_data_weight = filtered_df["Weight"].sum()
+    total_spcpip_sbm_data_qty = extract_df_sbm["Qty"].sum()
+    total_spcpip_sbm_data_weight = extract_df_sbm["Weight"].sum()
+    total_spcpip_yard_data_qty = extract_df_yard["Qty"].sum()
+    total_spcpip_yard_data_weight = extract_df_yard["Weight"].sum()
 
-    spcpip_sbm_data = extract_df_sbm.agg({
-        "Qty": "sum",
-        "Weight": "sum"
-    }).reset_index()
-
-    spcpip_data_yard = extract_df_yard.agg({
-        "Qty": "sum",
-        "Weight": "sum"
-    }).reset_index()
-
-    return spcpip_data, spcpip_data_yard, spcpip_sbm_data
+    return total_spcpip_data_qty, total_spcpip_data_weight, total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight
 
 
 #function to read more information from Piping
@@ -415,7 +410,8 @@ def get_piping_extra_details(project_number, material_type):
     # Calculate totals
     total_matched_tags = len(cost_data)
     total_unmatched_tags = len(tag_numbers) - len(cost_data)
-    total_surplus_tags = second_df["Tag Number"].str.contains("-SURPLUS|SURPLUS+S", na=False).sum()
+    total_surplus_tags = second_df["Tag Number"].str.contains("-SURPLUS", na=False).sum()
+    total_surplus_plus_tags = second_df["Tag Number"].str.contains("SURPLUS+S", na=False).sum()
     total_weight = sum(entry["PO Weight"] for entry in cost_data)
     total_quantity_by_uom = {}
 
@@ -427,9 +423,15 @@ def get_piping_extra_details(project_number, material_type):
 
     total_cost = sum(entry["Total Cost"] for entry in cost_data)
 
+    # Calculate the sum of 'EA', 'PCE', and 'PCS'
+    total_po_quantity_piece = total_quantity_by_uom.get('EA', 0) + total_quantity_by_uom.get('PCE', 0) + total_quantity_by_uom.get('PCS', 0)
+
+    # Calculate the sum of 'METER' and 'm'
+    total_po_quantity_meter = total_quantity_by_uom.get('METER', 0) + total_quantity_by_uom.get('m', 0)
+
     # Calculate total cost by material
     total_cost_by_material = {}
-    overall_cost = total_cost
+    overall_cost_pip = total_cost
 
     for entry in cost_data:
         material = entry["Pipe Base Material"]
@@ -456,6 +458,7 @@ def get_piping_extra_details(project_number, material_type):
         second_df["Tag Number"].str.endswith("-SURPLUS") | second_df["Tag Number"].str.endswith("-SURPLUS+"),
         "Tag Number"
     ].unique().tolist()
+
     unique_surplus_cost_object_ids = second_df.loc[
         second_df["Tag Number"].isin(surplus_tag_numbers), "Cost Object ID"
     ].unique().tolist()
@@ -467,11 +470,14 @@ def get_piping_extra_details(project_number, material_type):
         total_surplus_tags,
         total_weight,
         total_quantity_by_uom,
-        overall_cost,
+        overall_cost_pip,
         total_cost_by_material,
         unique_cost_object_ids,
         total_surplus_cost,
-        unique_surplus_cost_object_ids
+        unique_surplus_cost_object_ids,
+        total_surplus_plus_tags,
+        total_po_quantity_piece,
+        total_po_quantity_meter
     )
 
 
@@ -725,6 +731,7 @@ def get_bolt_extra_details(project_number, material_type):
     )
 
 
+#function to get the total booked hours and cost
 def get_project_total_cost_hours(project_number):
     folder_path_po = "../Data Pool/Ecosys API Data/PO Headers"
 
