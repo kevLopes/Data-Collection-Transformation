@@ -1459,12 +1459,17 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
                                           total_quantity_by_uom_spc, total_cost_spc, po_list_spc,
                                           project_total_cost_and_hours, total_surplus_plus_tags,
                                           total_po_quantity_piece, total_po_quantity_meter):
-    # Piping section
+
+    # Title and sub title functions
     def add_section_title(title):
-        pdf.set_font("Arial", "B", 12)
+        pdf.set_font("Arial", "B", 14)
         pdf.cell(0, 10, title, ln=True)
         pdf.set_font("Arial", "", 10)
 
+    def add_section_sub_title(subtitle):
+        pdf.set_font("Arial", "B", 12)
+        pdf.cell(0, 10, subtitle, ln=True)
+        pdf.set_font("Arial", "", 10)
 
     def add_table(header, data):
         pdf.set_font("Arial", "B", 10)
@@ -1477,7 +1482,47 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
                 pdf.cell(40, 10, str(item), border=1, align="C")
             pdf.ln()
 
-    # convert weight to TON
+    # Function to add an image with a title below it
+    def add_image_with_legend(pdf, folder_path, image_name_start, legend, x=20, y=None, w=0, h=0):
+        # Searching for image in the folder
+        matching_images = [img for img in os.listdir(folder_path) if img.startswith(image_name_start)]
+        if not matching_images:
+            print(f"No images found that start with '{image_name_start}' in '{folder_path}'")
+            return
+        image_path = os.path.join(folder_path, matching_images[0])
+
+        # If y is not provided, set it to the current Y position of the pdf
+        if y is None:
+            y = pdf.get_y()
+
+        # Add the image first
+        pdf.image(image_path, x=x, y=y, w=w, h=h)
+
+        # If h is not provided, calculate the height of the image based on its aspect ratio
+        if not h:
+            # Get image dimensions (in pixels)
+            from PIL import Image
+            with Image.open(image_path) as img:
+                width_px, height_px = img.size
+
+            # Calculate the aspect ratio of the image
+            aspect_ratio = height_px / width_px
+
+            # Calculate the height in the PDF based on the provided width w and the image's aspect ratio
+            h = w * aspect_ratio
+            gap = h
+        else:
+            gap = h
+
+        # Set position for the legend, centered below the image
+        # Adjust the position for the legend, slightly to the left of center
+        offset = w * 0.2  # 20% offset to the left from the center
+        pdf.set_xy(x + w / 2 - pdf.get_string_width(legend) / 2 - offset, y + gap + 1)
+
+        # Set font for the legend and print it
+        pdf.set_font('Arial', '', 8)
+        pdf.cell(0, 10, legend, ln=True, align="C")
+
     # Function to convert weight to tons
     def convert_to_tons(weight_kg):
         return weight_kg / 1000
@@ -1533,7 +1578,7 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
                    "This report provides a comprehensive analysis of the cost associated with different Equipment in the Unity FPSO Project. The analysis focuses on Piping, Special Piping, Structure, Valves and Bolts scopes within the SBM Scope and YARD Scope. "
                    "The report includes an overview of all scopes and materials, followed by detailed insights for each material type. Additionally, information on suppliers will be incorporated into the analysis. "
                    "The report will also present the total cost, cost breakdown for each equipment, cost per kilogram, and cost per supplier.",
-                   align="L")
+                   align="")
 
     pdf.ln(3)
 
@@ -1575,12 +1620,12 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
     total_project_cost = convert_to_thousands(project_total_cost_and_hours[0])
     total_project_hours = project_total_cost_and_hours[1]
     total_dct_pieces = bolt_data_total_qty_commit + total_qty_commit_pieces + total_spcpip_data_qty + total_quantity_vlv + structure_total_qty_pcs  # piping_data.loc[piping_data['Quantity UOM'] == 'PCE', 'Total QTY to commit'].sum()
-    total_dct_meters = total_qty_commit_m + structure_total_qty_m2 + structure_total_qty_m
-    total_dct_sbm_pieces = total_spcpip_sbm_data_qty + bolt_sbm_data_total_qty_commit + total_qty_commit_pieces_sbm
+    total_dct_meters_yard = structure_total_qty_m2 + structure_total_qty_m
+    total_dct_sbm_pieces = total_spcpip_sbm_data_qty + bolt_sbm_data_total_qty_commit + total_qty_commit_pieces_sbm + total_quantity_vlv
     total_dct_yard_pieces = total_qty_commit_pieces_yard + total_spcpip_yard_data_qty + bolt_yard_data_total_qty_commit + structure_total_qty_pcs
     total_dct_sbm_weight = convert_to_tons(total_piping_sbm_net_weight + total_sbm_valve_weight + total_spcpip_sbm_data_weight)
     total_dct_yard_weight = convert_to_tons(total_yard_valve_weight + total_piping_yard_net_weight + structure_total_gross_weight + total_spcpip_yard_data_weight)
-    total_dct_meters = structure_total_qty_m2 + structure_total_qty_m + total_qty_commit_m_sbm + total_qty_commit_m_yard
+    total_dct_meters = structure_total_qty_m2 + structure_total_qty_m + total_qty_commit_m
     total_dct_piping_surplus = total_surplus_tags_pip
     total_dct_piping_surplus_plus = total_surplus_plus_tags
 
@@ -1593,47 +1638,148 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
     total_dct_po_quantity_piece = total_po_quantity_piece + total_quantity_by_uom_spc + total_po_quantity_blt
     total_dct_po_quantity_meter = total_po_quantity_meter
 
-    # Introduction
-    add_section_title("Data Collection and Transformation - Analyze Summary")
-    add_section_title("Overall Summary:")
-    pdf.cell(0, 10, f"The total weight of all materials analyzed is approximately {total_dct_weight:.3f} metric tons.", ln=True)
-    pdf.cell(0, 10, f"The Material Take Off (MTO) total cost for all analyzed equipment is ${total_dct_mto_cost:.3f}.", ln=True)
-    pdf.cell(0, 10, f"The total cost of the entire Unity Project FPSO is ${total_project_cost:.3f}.", ln=True)
-    pdf.cell(0, 10, f"The total project hours required for material installation is {total_project_hours:.3f} hours.", ln=True)
-    pdf.cell(0, 10, f"The overall total pieces of materials are {total_dct_pieces}.", ln=True)
-    pdf.cell(0, 10, f"The overall total meters of materials required for the FPSO is approximately {total_dct_meters:.3f}.", ln=True)
+    pdf.ln(5)
+    add_section_title("Data Collection and Transformation: Enhanced Project Analysis Report")
+    pdf.ln(5)
+    add_section_sub_title("Overall Summary")
+    pdf.ln(3)
+    pdf.multi_cell(0, 8,
+                   "The Unity Project FPSO stands as a key project for our organization. It signifies deep operational and financial implications."
+                   f"Our in-depth analysis provides insights into the project's scope and complexities. Upon examining, the total material weight for the project is {total_dct_weight:.3f} metric tons."
+                   f"This includes various components from small fittings to major structural parts. The Material Take Off (MTO) shows an equipment cost of ${total_dct_mto_cost:.3f}."
+                   f"Including all aspects of the Unity Project FPSO, the total financial implication is about ${total_project_cost:.3f}."
+                   f"Manpower and time are crucial. We foresee a need for {total_project_hours:.3f} hours just for material installation."
+                   f"Proper resource allocation ensures project completion on time. The project demands {total_dct_pieces} individual material pieces, highlighting its intricacy."
+                   f"About {total_dct_meters:.3f} meters of material is needed, with {total_dct_meters_yard:.3f} meters sourced from the YARD.", align="")
+
+    pdf.ln(7)
 
     # Scopes Breakdown
-    add_section_title("Scopes Breakdown")
-    pdf.cell(0, 10, f"The total number of pieces within the SBM scope is {total_dct_sbm_pieces}, while the YARD scope consists of {total_dct_yard_pieces} pieces.",ln=True, align="L")
-    pdf.cell(0, 10, f"The total weight for SBM scope materials is {total_dct_sbm_weight:.3f} tons, while the YARD scope materials weigh {total_dct_yard_weight:.3f} tons.", ln=True, align="L")
+    add_section_sub_title("Detailed Scope Analysis")
+    pdf.ln(3)
+    pdf.multi_cell(0, 10, f"In our assessment, we've distinguished between two primary scopes: SBM and YARD."
+                          f"Under the SBM scope, there's a total of {total_dct_sbm_pieces} pieces, markedly higher when compared to the YARD scope, which totals {total_dct_yard_pieces} pieces."
+                          f"When considering weight, materials in the SBM scope amass to {total_dct_sbm_weight:.3f} tons. On the other hand, YARD scope materials have a cumulative weight of {total_dct_yard_weight:.3f} tons."
+                          f"These figures underline the material distribution and weight disparities between the two pivotal project sectors.", align="")
+
+    pdf.ln(7)
 
     # Material Types Breakdown
-    add_section_title("Material Types Breakdown")
-    pdf.cell(0, 10, f"Piping accounts for the largest weight, with a total of approximately {total_dct_piping_weight:.3f} tons.", ln=True, align="L")
-    pdf.cell(0, 10, f"Valves weigh {total_dct_valve_weight:.3f} tons, making them the second heaviest material type.", ln=True, align="L")
-    pdf.cell(0, 10, f"Structures have a total weight of {total_dct_structure_weight:.3f} tons.", ln=True, align="L")
-    pdf.cell(0, 10, f"Special piping materials account for {total_dct_scp_piping_weight:.3f} tons.", ln=True, align="L")
+    add_section_sub_title("Material Types Breakdown")
+    pdf.ln(3)
+    pdf.multi_cell(0, 10, "The weight distribution across various material types reveals key insights into the project's construction.", align="L")
+
+    pdf.multi_cell(0, 10, f"Piping emerges as the dominant material, accounting for a notable {total_dct_piping_weight:.3f} tons. Following closely are the valves, which contribute {total_dct_valve_weight:.3f} tons, making them the second most weighty category in the project.", align="L")
+
+    pdf.multi_cell(0, 10, f"Structural elements, pivotal to the project, register a total weight of {total_dct_structure_weight:.3f} tons. Not to be overlooked, special piping materials, a distinct category in our inventory, weigh {total_dct_scp_piping_weight:.3f} tons.", align="L")
+
+    pdf.multi_cell(0, 10, "Such a breakdown accentuates the emphasis of particular material types, echoing the project's functional requirements and design choices.", align="L")
+
+    pdf.add_page()
 
     # Surplus and Wastage
-    add_section_title("Surplus and Wastage")
-    pdf.cell(0, 10, f"The total piping surplus is {total_dct_piping_surplus} pieces, which have an associated cost of ${total_dct_piping_surplus_cost}.", ln=True, align="L")
-    pdf.cell(0, 10, f"Approximately {total_structure_wastage:.1f} tons of structure wastage have been identified.", ln=True, align="L")
+    pdf.ln(5)
+    add_section_sub_title("Understanding Surplus and Wastage")
+    pdf.ln(3)
+    pdf.multi_cell(0, 10, f"In the evaluation of the project's material management, we identify two essential components: surplus and wastage. The surplus primarily manifests in piping, where an additional {total_dct_piping_surplus} pieces are noted. These surplus materials represent an associated cost of ${total_dct_piping_surplus_cost}, highlighting the need for efficient utilization.", align="L")
+
+    pdf.multi_cell(0, 10, f"Concurrently, we have identified wastage within structural materials. Approximately {total_structure_wastage:.1f} tons of structural wastage have been observed. This insight emphasizes the significance of meticulous material planning and allocation to minimize waste and align with budgetary constraints.", align="L")
+
+    pdf.ln(5)
 
     # Purchase Order (PO) Metrics
-    add_section_title("Purchase Order (PO) Metrics")
-    pdf.cell(0, 10, f"The overall total PO pieces are {total_dct_po_quantity_piece}, and the total PO meters are {total_dct_po_quantity_meter}.", ln=True, align="L")
+    add_section_sub_title("Purchase Order (PO) Metrics")
+    pdf.ln(3)
+    pdf.multi_cell(0, 10, f"The overall total pieces of piping, special piping and bolt analyzed from the PO placed are {total_dct_po_quantity_piece}, and the total meters mainly from piping are {total_dct_po_quantity_meter}.", align="")
+
+    pdf.add_page()
+    pdf.ln(5)
+    #Equipment Details
+    add_section_title("SBM SCOPE - Breakdown")
+    pdf.ln(2)
+    add_section_sub_title("Piping Details")
+    pdf.cell(0, 7, f"Total Piping Weight {convert_to_tons(total_piping_sbm_net_weight):.2f} TONs with a cost of {convert_to_thousands(overall_cost_pip):.2f} Thousands USD.", ln=True)
+    pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
+
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_PipingTotal_Net_Weight_Per_Material_", "a. Total Piping Weight per different Materials.", x=30, w=150)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_Piping_Cost_Weight_Graphic_", "a. Piping cost and weight relation.", x=30, w=150)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_PipingTotal_Cost_Material_", "a. Total Piping Cost by the Material Type.", x=30, w=150)
+
+    pdf.add_page()
+    pdf.ln(5)
+
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_Piping_CostPerSupplier_Graphic_", "a. Total Piping Cost represented by different suppliers.", x=30, w=150)
+
+    pdf.ln(5)
+
+    add_section_sub_title("Bolt Details - SBM Scope")
+    pdf.cell(0, 7, f"Bolt Total Pieces {bolt_sbm_data_total_qty_commit:.2f}", ln=True)
+    pdf.cell(0, 7, f"Bolt Total Cost is approximately {convert_to_thousands(overall_cost_blt):.2f} thousands of dollars.", ln=True)
+    pdf.ln(5)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Bolt", "MP17033_BoltQuantity_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
+
+    add_section_sub_title("Valve Details - SBM Scope")
+    pdf.cell(0, 7, f"Valve Total Weight {convert_to_tons(total_sbm_valve_weight):.2f} TONs", ln=True)
+    pdf.cell(0, 7, f"The overall Valve quantity comes to {total_quantity_vlv:.2f}", ln=True)
+
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveWeight_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveQuantity_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveTotal_Cost_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
+
+    add_section_sub_title("Special Piping Details - SBM Scope")
+    pdf.cell(0, 7, f"For the Special Piping we have a total Weight of {convert_to_tons(total_spcpip_sbm_data_weight):.2f} TON's", ln=True)
+    pdf.cell(0, 7, f"Special Piping total pieces are {total_spcpip_sbm_data_qty:.2f} with an approximately cost of {convert_to_thousands(total_cost_spc):.2f} Thousands of dollars", ln=True)
+
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/SPC Piping", "MP17033_SPiping_Cost_Weight_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/SPC Piping", "MP17033_SpecialPiping_Cost_PerSupplier_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
+
+    pdf.add_page()
+    pdf.ln(5)
+    add_section_title("YARD SCOPE - Breakdown")
+    pdf.ln(3)
+    add_section_sub_title("Piping Details")
+    pdf.cell(0, 7, f"Total Piping Weight {total_piping_sbm_net_weight:.2f}", ln=True)
+    pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
+
+    add_section_sub_title("Valve Details - YARD Scope")
+    pdf.cell(0, 7, f"Total Piping Weight {total_piping_sbm_net_weight:.2f}", ln=True)
+    pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
+
+    add_section_sub_title("Bolt Details - YARD Scope")
+    pdf.cell(0, 7, f"Total Piping Weight {total_piping_sbm_net_weight:.2f}", ln=True)
+    pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
+
+    add_section_sub_title("Special Piping Details - YARD Scope")
+    pdf.cell(0, 7, f"Total Piping Weight {total_piping_sbm_net_weight:.2f}", ln=True)
+    pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
+
+    add_section_sub_title("Structure Details - YARD Scope")
+    pdf.cell(0, 7, f"Total Piping Weight {total_piping_sbm_net_weight:.2f}", ln=True)
+    pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
+
+    pdf.add_page()
 
     # Conclusion
+    pdf.ln(5)
     add_section_title("Conclusion")
-    pdf.multi_cell(0, 10,
-                   "In conclusion, the cost analysis of materials in the Unity Project FPSO has been conducted, focusing on piping, special piping, structure, valve, bolt, and bend scopes within the SBM Scope and YARD Scope. "
-                   "The analysis provides valuable insights into the total cost, cost breakdown for each equipment, cost per kilogram, and cost per supplier. "
-                   "This information will be crucial for project planning, budgeting, and supplier management, aiding in the successful execution of the Unity Project FPSO.",
-                   align="L")
+    pdf.ln(5)
+    add_section_sub_title("In-Depth Reflection on Unity Project FPSO Materials Analysis")
+    pdf.ln(2)
+    text_1 = ("The thorough examination of materials for the Unity Project FPSO has illuminated critical details "
+              "about equipment quantity, weight, and associated financial implications. Such insights underscore "
+              "the paramountcy of adept supplier management and the proactive steps needed to fine-tune materials "
+              "optimization. This ensures minimized wastage and surplus, key considerations for any major project.")
 
+    text_2 = ("By leveraging this data-driven analysis, teams can sculpt strategies for adept project planning, "
+              "astute budgeting, and judicious resource allocation. As we move forward, it becomes increasingly clear "
+              "that the bedrock of a successful Unity Project FPSO lies not just in its physical construction, but in "
+              "the sagacious strategies that reduce costs and bolster efficiency. Embracing these findings is our "
+              "stepping stone towards an economically sound and smoothly executed project outcome.")
 
-    pdf.ln(10)
+    pdf.multi_cell(0, 10, text_1, align="")
+    pdf.multi_cell(0, 10, text_2, align="")
+
+    pdf.ln(15)
 
     pdf.multi_cell(0, 10,
                    "The cost analysis of materials in the Unity Project FPSO provides valuable insights into the quantity, weight, and costs associated with various equipment. "
@@ -1651,4 +1797,3 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
     pdf.output(pdf_path)
 
     return
-
