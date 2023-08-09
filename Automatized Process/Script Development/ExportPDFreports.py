@@ -1720,42 +1720,54 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
 
     add_section_sub_title("Valve Details - SBM Scope")
     pdf.cell(0, 7, f"Valve Total Weight {convert_to_tons(total_sbm_valve_weight):.2f} TONs", ln=True)
-    pdf.cell(0, 7, f"The overall Valve quantity comes to {total_quantity_vlv:.2f}", ln=True)
+    pdf.cell(0, 7, f"The overall Valve quantity comes to {total_quantity_vlv:.1f} pieces", ln=True)
 
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveWeight_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveQuantity_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveTotal_Cost_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveWeight_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=145)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveQuantity_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=145)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveTotal_Cost_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=145)
 
     add_section_sub_title("Special Piping Details - SBM Scope")
     pdf.cell(0, 7, f"For the Special Piping we have a total Weight of {convert_to_tons(total_spcpip_sbm_data_weight):.2f} TON's", ln=True)
     pdf.cell(0, 7, f"Special Piping total pieces are {total_spcpip_sbm_data_qty:.2f} with an approximately cost of {convert_to_thousands(total_cost_spc):.2f} Thousands of dollars", ln=True)
-
+    pdf.ln(5)
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/SPC Piping", "MP17033_SPiping_Cost_Weight_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
+    pdf.ln(7)
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/SPC Piping", "MP17033_SpecialPiping_Cost_PerSupplier_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
 
     pdf.add_page()
-    pdf.ln(5)
-    add_section_title("YARD SCOPE - Breakdown")
     pdf.ln(3)
+    add_section_title("YARD SCOPE - Breakdown")
+    pdf.ln(2)
     add_section_sub_title("Piping Details")
-    pdf.cell(0, 7, f"Total Piping Weight {total_piping_sbm_net_weight:.2f}", ln=True)
-    pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
+    pdf.multi_cell(0, 7, f"The piping under the YARD SCOPE accounts for a total weight of {total_piping_yard_net_weight:.2f} tons, "
+                         f"comprising {total_qty_commit_pieces_yard:.1f} individual pieces and spanning {total_qty_commit_m_yard:.2f} meters in materials.", align="J")
 
-    add_section_sub_title("Valve Details - YARD Scope")
-    pdf.cell(0, 7, f"Total Piping Weight {total_piping_sbm_net_weight:.2f}", ln=True)
-    pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
-
-    add_section_sub_title("Bolt Details - YARD Scope")
-    pdf.cell(0, 7, f"Total Piping Weight {total_piping_sbm_net_weight:.2f}", ln=True)
-    pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARDPiping_Material_weight_", "1. Bolt quantity in design versus quantity committed.", x=30, w=140)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARDPiping_Material_average_", "1. Bolt quantity in design versus quantity committed.", x=30, w=140)
 
     add_section_sub_title("Special Piping Details - YARD Scope")
-    pdf.cell(0, 7, f"Total Piping Weight {total_piping_sbm_net_weight:.2f}", ln=True)
-    pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
+    pdf.multi_cell(0, 7, f"Within the YARD scope, special piping has a total weight of {total_spcpip_yard_data_weight:.2f} tons and consists of {total_spcpip_yard_data_qty:.2f} individual pieces.", align="J")
+
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARD_SPCPIP_Analyze_", "1. Bolt quantity as per material type.", x=40, w=121)
+
+    add_section_sub_title("Valve Details - YARD Scope")
+    pdf.cell(0, 7, f"Total Valve Weight {total_yard_valve_weight:.2f}", ln=True)
+
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/PDF Reports/Content", "material_description_breakdown_valve_yard", "1. Bolt quantity in design versus quantity committed.", x=45, w=123)
+
+    add_section_sub_title("Bolt Details - YARD Scope")
+    pdf.cell(0, 7, f"For the Bolt equipment we have a total of {bolt_yard_data_total_qty_commit:.2f} pieces", ln=True)
+
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/PDF Reports/Content", "base_material_breakdown_bolt_yard", "1. Bolt quantity as per material type.", x=50, w=105)
 
     add_section_sub_title("Structure Details - YARD Scope")
-    pdf.cell(0, 7, f"Total Piping Weight {total_piping_sbm_net_weight:.2f}", ln=True)
-    pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
+    pdf.cell(0, 7, f"For the Structure we have a total Weight of {structure_total_gross_weight:.2f}", ln=True)
+    pdf.cell(0, 7, f"With a total pieces of {structure_total_qty_pcs:.2f} and {structure_total_qty_m:.2f} meters and {structure_total_qty_m2:.2f} of square meters", ln=True)
+
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Total Gross Weight_Graphic_", "1. Bolt quantity as per material type.", x=30, w=145)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Wastage Quantity_Graphic_", "1. Bolt quantity as per material type.", x=30, w=145)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Total QTY to commit_Graphic_", "1. Bolt quantity as per material type.", x=30, w=145)
+    #add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Total NET weight_Graphic", "1. Bolt quantity as per material type.", x=30, w=145)
 
     pdf.add_page()
 

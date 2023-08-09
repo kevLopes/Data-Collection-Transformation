@@ -123,7 +123,7 @@ class MyWindow:
 
             flag = Submit_button_actions.action_for_material_analyze(project_number, material_type)
 
-            if self.yard_scope_var.get():
+            if self.yard_scope_var.get() and material_type != "All Equipment":
                 Submit_button_actions.action_for_material_analyze_by_yard(project_number, material_type)
 
             if not flag:
