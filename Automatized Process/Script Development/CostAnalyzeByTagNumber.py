@@ -408,9 +408,7 @@ def material_cost_analyze_special_piping_by_tag(project_number, tag_numbers, tag
         f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")
     ]
 
-    matching_files = [
-        f for f in excel_files if str(project_number) in f
-    ]
+    matching_files = [f for f in excel_files if str(project_number) in f ]
 
     if not matching_files:
         raise FileNotFoundError(
