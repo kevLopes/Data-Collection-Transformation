@@ -1546,7 +1546,7 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
     pdf.image(logo_path, x=10, y=10, w=30)
 
     # Add title
-    pdf.ln(20)
+    pdf.ln(19)
     pdf.cell(0, 10, "MP17033 Unity - Data Collection and Transformation Report", ln=True, align="C")
 
     # Add date of analysis
@@ -1554,7 +1554,7 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
     pdf.set_font("Arial", "I", 6)
     pdf.cell(0, 10, f"Date of Analysis: {date.today().strftime('%d-%b-%Y')}", ln=True, align="R")
 
-    pdf.ln(3)
+    pdf.ln(1)
 
     image_path = "../Data Pool/DCT Process Results/PDF Reports/Content/LizaUnity1.jpg"
     # Get the original image dimensions
@@ -1576,7 +1576,7 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
     add_section_title("Introduction")
     pdf.multi_cell(0, 8,
                    "This report provides a comprehensive analysis of the cost associated with different Equipment in the Unity FPSO Project. The analysis focuses on Piping, Special Piping, Structure, Valves and Bolts within the realms of SBM Scope and YARD Scope. "
-                   "The report includes an overview of all scopes and equipment involved, followed by detailed insights for each equipment. It also integrates supplier information into the evaluation. "
+                   "The report includes an overview of all scopes and equipment involved, followed by detailed insights for each equipment. "
                    "The report elucidates the total expenditure, alongside detailed cost breakdowns for each equipment category, metrics on cost per kilogram, and cost per supplier.",
                    align="")
 
@@ -1584,31 +1584,31 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
 
     # Overview of Scopes and Materials
     add_section_title("Overview of Scopes and Materials")
-    pdf.cell(0, 10, "This analysis of the Unity Project consists of various scopes, including:", ln=True)
+    pdf.cell(0, 9, "This analysis of the Unity Project consists of two different scopes, including:", ln=True)
     # SBM Scope
     pdf.cell(8)
     pdf.cell(0, 10, "a. SBM Scope", ln=True)
-    pdf.cell(20)
+    pdf.cell(18)
     pdf.cell(0, 7, "- Piping", ln=True)
-    pdf.cell(20)
+    pdf.cell(18)
     pdf.cell(0, 7, "- Special Piping", ln=True)
-    pdf.cell(20)
+    pdf.cell(18)
     pdf.cell(0, 7, "- Valve", ln=True)
-    pdf.cell(20)
+    pdf.cell(18)
     pdf.cell(0, 7, "- Bolt", ln=True)
 
     # YARD Scope
     pdf.cell(8)
     pdf.cell(0, 10, "b. YARD Scope", ln=True)
-    pdf.cell(20)
+    pdf.cell(18)
     pdf.cell(0, 7, "- Piping", ln=True)
-    pdf.cell(20)
+    pdf.cell(18)
     pdf.cell(0, 7, "- Special Piping", ln=True)
-    pdf.cell(20)
+    pdf.cell(18)
     pdf.cell(0, 7, "- Structure", ln=True)
-    pdf.cell(20)
+    pdf.cell(18)
     pdf.cell(0, 7, "- Valve", ln=True)
-    pdf.cell(20)
+    pdf.cell(18)
     pdf.cell(0, 7, "- Bolt", ln=True)
 
     pdf.add_page()
@@ -1657,7 +1657,7 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
     # Scopes Breakdown
     add_section_sub_title("Detailed Scope Analysis")
     pdf.ln(3)
-    pdf.multi_cell(0, 10, f"In our assessment, we've distinguished between two primary scopes: SBM and YARD Scope."
+    pdf.multi_cell(0, 10, f"As mentioned above, in our assessment, we've distinguished between two primary scopes: SBM and YARD Scope."
                           f" Under the SBM scope, there's a total of {total_dct_sbm_pieces:.0f} pieces, markedly higher when compared to the YARD scope, which totals {total_dct_yard_pieces:.0f} pieces."
                           f" When considering weight, materials in the SBM scope amass to {total_dct_sbm_weight:.3f} tons. On the other hand, YARD scope materials have a cumulative weight of {total_dct_yard_weight:.3f} tons."
                           f" These figures underline the material distribution and weight disparities between the two pivotal project sectors.", align="")
@@ -1686,7 +1686,7 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
     # Purchase Order (PO) Metrics
     add_section_sub_title("Purchase Order Metrics")
     pdf.ln(3)
-    pdf.multi_cell(0, 10, f"The overall total pieces of piping, special piping and bolt equipments analyzed from the PO's placed in NADIA are {total_dct_po_quantity_piece:.of}, and the total meters mainly from piping are {total_dct_po_quantity_meter:.0f}.", align="")
+    pdf.multi_cell(0, 10, f"The overall total pieces of piping, special piping and bolt equipments analyzed from the PO's placed in NADIA are {total_dct_po_quantity_piece:.0f}, and the total meters mainly from piping are {total_dct_po_quantity_meter:.0f}.", align="")
 
     pdf.add_page()
     pdf.ln(5)
@@ -1698,13 +1698,13 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
     pdf.cell(0, 7, f"Total Piping pieces {total_qty_commit_pieces_sbm:.2f} and meters of materials {total_qty_commit_m_sbm:.2f}", ln=True)
 
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_PipingTotal_Net_Weight_Per_Material_", "a. Total Piping Weight per different Materials.", x=30, w=150)
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_Piping_Cost_Weight_Graphic_", "a. Piping cost and weight relation.", x=30, w=150)
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_PipingTotal_Cost_Material_", "a. Total Piping Cost by the Material Type.", x=30, w=150)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_Piping_Cost_Weight_Graphic_", "2. Piping overall Cost and Weight relation.", x=30, w=150)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_PipingTotal_Cost_Material_", "3. Piping Total Cost representation per each material type.", x=30, w=150)
 
     pdf.add_page()
     pdf.ln(5)
 
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_Piping_CostPerSupplier_Graphic_", "a. Total Piping Cost represented by different suppliers.", x=30, w=150)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_Piping_CostPerSupplier_Graphic_", "4. Graphic representation of the Piping cost by different suppliers.", x=30, w=150)
 
     pdf.ln(5)
 
@@ -1718,17 +1718,17 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
     pdf.cell(0, 7, f"Valve Total Weight {convert_to_tons(total_sbm_valve_weight):.2f} TONs", ln=True)
     pdf.cell(0, 7, f"The overall Valve quantity comes to {total_quantity_vlv:.1f} pieces", ln=True)
 
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveWeight_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=145)
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveQuantity_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=145)
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveTotal_Cost_Graphic_", "1. Bolt quantity in design versus quantity committed.", x=30, w=145)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveWeight_Graphic_", "1. Valve Weight distribution by the material type.", x=30, w=145)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveQuantity_Graphic_", "2. Valve total pieces quantity per each material types.", x=30, w=145)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveTotal_Cost_Graphic_", "3. Valve overall cost per each material types.", x=30, w=145)
 
     add_section_sub_title("Special Piping Details - SBM Scope")
     pdf.cell(0, 7, f"For the Special Piping we have a total Weight of {convert_to_tons(total_spcpip_sbm_data_weight):.2f} TON's", ln=True)
     pdf.cell(0, 7, f"Special Piping total pieces are {total_spcpip_sbm_data_qty:.2f} with an approximately cost of {convert_to_thousands(total_cost_spc):.2f} Thousands of dollars", ln=True)
     pdf.ln(5)
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/SPC Piping", "MP17033_SPiping_Cost_Weight_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/SPC Piping", "MP17033_SPiping_Cost_Weight_", "1. Cost and Weight relation of the Special Piping equipments.", x=30, w=150)
     pdf.ln(7)
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/SPC Piping", "MP17033_SpecialPiping_Cost_PerSupplier_", "1. Bolt quantity in design versus quantity committed.", x=30, w=150)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/SPC Piping", "MP17033_SpecialPiping_Cost_PerSupplier_", "2. Overall Special Piping cost per different suppliers.", x=30, w=150)
 
     pdf.add_page()
     pdf.ln(3)
@@ -1738,32 +1738,31 @@ def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_d
     pdf.multi_cell(0, 7, f"The piping under the YARD SCOPE accounts for a total weight of {total_piping_yard_net_weight:.2f} tons, "
                          f"comprising {total_qty_commit_pieces_yard:.1f} individual pieces and spanning {total_qty_commit_m_yard:.2f} meters in materials.", align="J")
 
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARDPiping_Material_weight_", "1. Bolt quantity in design versus quantity committed.", x=30, w=140)
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARDPiping_Material_average_", "1. Bolt quantity in design versus quantity committed.", x=30, w=140)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARDPiping_Material_weight_", "1. YARD Piping total weight by different material types.", x=30, w=140)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARDPiping_Material_average_", "2. YARD Piping average weight per material types.", x=30, w=140)
 
     add_section_sub_title("Special Piping Details - YARD Scope")
     pdf.multi_cell(0, 7, f"Within the YARD scope, special piping has a total weight of {total_spcpip_yard_data_weight:.2f} tons and consists of {total_spcpip_yard_data_qty:.2f} individual pieces.", align="J")
 
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARD_SPCPIP_Analyze_", "1. Bolt quantity as per material type.", x=40, w=121)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARD_SPCPIP_Analyze_", "1. YARD Special Piping total Pieces and Weight.", x=40, w=121)
 
     add_section_sub_title("Valve Details - YARD Scope")
     pdf.cell(0, 7, f"Total Valve Weight {total_yard_valve_weight:.2f}", ln=True)
 
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/PDF Reports/Content", "material_description_breakdown_valve_yard", "1. Bolt quantity in design versus quantity committed.", x=45, w=123)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/PDF Reports/Content", "material_description_breakdown_valve_yard", "1. YARD Valve weight distribution per material types.", x=45, w=123)
 
     add_section_sub_title("Bolt Details - YARD Scope")
-    pdf.cell(0, 7, f"For the Bolt equipment we have a total of {bolt_yard_data_total_qty_commit:.2f} pieces", ln=True)
+    pdf.cell(0, 7, f"For the Bolt equipment we have a total of {bolt_yard_data_total_qty_commit:.0f} pieces", ln=True)
 
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/PDF Reports/Content", "base_material_breakdown_bolt_yard", "1. Bolt quantity as per material type.", x=50, w=105)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/PDF Reports/Content", "base_material_breakdown_bolt_yard", "1. YARD Bolt pieces quantity by material type.", x=50, w=105)
 
     add_section_sub_title("Structure Details - YARD Scope")
     pdf.cell(0, 7, f"For the Structure we have a total Weight of {structure_total_gross_weight:.2f}", ln=True)
     pdf.cell(0, 7, f"With a total pieces of {structure_total_qty_pcs:.2f} and {structure_total_qty_m:.2f} meters and {structure_total_qty_m2:.2f} of square meters", ln=True)
 
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Total Gross Weight_Graphic_", "1. Bolt quantity as per material type.", x=30, w=145)
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Wastage Quantity_Graphic_", "1. Bolt quantity as per material type.", x=30, w=145)
-    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Total QTY to commit_Graphic_", "1. Bolt quantity as per material type.", x=30, w=145)
-    #add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Total NET weight_Graphic", "1. Bolt quantity as per material type.", x=30, w=145)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Total Gross Weight_Graphic_", "1. YARD Structural Gross Weight graphic representation.", x=30, w=145)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Wastage Quantity_Graphic_", "2. Structural Wastage quantity graphic representation.", x=30, w=145)
+    add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Total QTY to commit_Graphic_", "3. Total YARD Structural quantity committed per material types.", x=30, w=145)
 
     pdf.add_page()
 
