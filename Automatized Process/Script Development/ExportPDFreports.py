@@ -1435,7 +1435,7 @@ def generate_pdf_structure_sbm_scope(dataframe, project_number):
 
 
 # Complete MTO PDF file analyze
-def generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces,
+def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces,
                                           total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight,
                                           total_piping_yard_net_weight, total_qty_commit_pieces_sbm,
                                           total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard,

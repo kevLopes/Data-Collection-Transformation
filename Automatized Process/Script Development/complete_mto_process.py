@@ -4,35 +4,41 @@ import pandas as pd
 import ExportPDFreports
 
 
-folder_path = "../Data Pool/Data Hub Materials"
+folder_path_unity = "../Data Pool/Data Hub Materials/MP17033 UNITY"
+folder_path_prosperity = "../Data Pool/Data Hub Materials/MP17043 PROSPERITY"
 
 
 #Complete analyze of those different MTO files - Material type, Weight, Quantities
 def complete_mto_data_analyze(project_number):
 
-    #Call each function and collect their data
-    piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard = get_piping_mto_data(project_number)
-    valve_data, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight = get_valve_mto_data(project_number)
-    bolt_data, bolt_sbm_data, bolt_data_yard, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_yard_data_total_qty_commit = get_bolt_mto_data(project_number)
-    structure_totals_m2, structure_totals_m, structure_totals_pcs, structure_total_gross_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_qty_m2, structure_total_qty_m = get_structure_mto_data(project_number)
-    total_spcpip_data_qty, total_spcpip_data_weight, total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight = get_specialpip_mto_data(project_number)
+    if project_number == "17033":
+        print("Unity Complete MTO analyze on going!")
+        #Call each function and collect their data
+        piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard = get_piping_mto_data(project_number)
+        valve_data, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight = get_valve_mto_data(project_number)
+        bolt_data, bolt_sbm_data, bolt_data_yard, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_yard_data_total_qty_commit = get_bolt_mto_data(project_number)
+        structure_totals_m2, structure_totals_m, structure_totals_pcs, structure_total_gross_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_qty_m2, structure_total_qty_m = get_structure_mto_data(project_number)
+        total_spcpip_data_qty, total_spcpip_data_weight, total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight = get_specialpip_mto_data(project_number)
 
-    #Piping Extra Data details
-    total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter = get_piping_extra_details(project_number, "Piping")
-    #Valve Extra Data details
-    total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv = get_valve_extra_details(project_number, "Valve")
-    #Bolt Extra Data details
-    total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt = get_bolt_extra_details(project_number, "Bolt")
-    #Special Piping Extra details
-    total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc = get_spc_piping_extra_details(project_number, "Piping")
+        #Piping Extra Data details
+        total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter = get_piping_extra_details(project_number, "Piping")
+        #Valve Extra Data details
+        total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv = get_valve_extra_details(project_number, "Valve")
+        #Bolt Extra Data details
+        total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt = get_bolt_extra_details(project_number, "Bolt")
+        #Special Piping Extra details
+        total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc = get_spc_piping_extra_details(project_number, "Piping")
 
-    #Get PO Header overall amount
-    project_total_cost_and_hours = get_project_total_cost_hours(project_number)
+        #Get PO Header overall amount
+        project_total_cost_and_hours = get_project_total_cost_hours(project_number)
 
-    # Pass the data frame to export functions
-    ExportPDFreports.generate_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight, bolt_data, bolt_sbm_data, bolt_data_yard, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_yard_data_total_qty_commit, structure_totals_m2, structure_totals_m, structure_totals_pcs,
-                                                           total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip, total_spcpip_data_weight, total_spcpip_data_qty, total_spcpip_sbm_data_weight, total_spcpip_sbm_data_qty, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight,
-                                                           total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv, total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt, structure_total_gross_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_qty_m2, structure_total_qty_m, total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc, project_total_cost_and_hours, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter)
+        # Pass the data frame to export functions
+        ExportPDFreports.generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight, bolt_data, bolt_sbm_data, bolt_data_yard, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_yard_data_total_qty_commit, structure_totals_m2, structure_totals_m, structure_totals_pcs,
+                                                               total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip, total_spcpip_data_weight, total_spcpip_data_qty, total_spcpip_sbm_data_weight, total_spcpip_sbm_data_qty, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight,
+                                                               total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv, total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt, structure_total_gross_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_qty_m2, structure_total_qty_m, total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc, project_total_cost_and_hours, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter)
+    elif project_number == "17043":
+        print("Prosperity Complete MTO analyze on going!")
+        piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard = get_piping_mto_data(project_number)
 
 
 def get_most_recent_file(folder_path, matching_files):
@@ -52,125 +58,234 @@ def get_most_recent_file(folder_path, matching_files):
 def get_piping_mto_data(project_number):
     material_type = "Piping"
 
-    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+    #Unity
+    if project_number == "17033":
+        excel_files = [f for f in os.listdir(folder_path_unity) if f.endswith(".xlsx") or f.endswith(".xls")]
+        matching_files = [f for f in excel_files if material_type in f]
 
-    matching_files = [f for f in excel_files if material_type in f]
+        if not matching_files:
+            raise FileNotFoundError(
+                f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
 
-    if not matching_files:
-        raise FileNotFoundError(
-            f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
+        most_recent_file = get_most_recent_file(folder_path_unity, matching_files)
+        file_path = os.path.join(folder_path_unity, most_recent_file)
+        df = pd.read_excel(file_path)
 
-    most_recent_file = get_most_recent_file(folder_path, matching_files)
-    file_path = os.path.join(folder_path, most_recent_file)
-    df = pd.read_excel(file_path)
+        columns_to_extract = ["Project Number", "Pipe Base Material", "SBM scope", "Total QTY to commit", "Quantity UOM",
+                              "Unit Weight", "Unit Weight UOM", "Total NET weight"]
 
-    columns_to_extract = ["Project Number", "Pipe Base Material", "SBM scope", "Total QTY to commit", "Quantity UOM",
-                          "Unit Weight", "Unit Weight UOM", "Total NET weight"]
+        if df["Project Number"].astype(str).str.contains(str(project_number)).any():
+            extract_columns = [column for column in df.columns if any(col in str(column) for col in columns_to_extract)]
+            filtered_df = df[extract_columns]
+            extract_df_sbm = filtered_df[(filtered_df['SBM scope'] == True) & (filtered_df['SBM scope'].notnull())]
+            extract_df_yard = filtered_df[(filtered_df['SBM scope'] == False) & (filtered_df['SBM scope'].notnull())]
 
-    if df["Project Number"].astype(str).str.contains(str(project_number)).any():
-        extract_columns = [column for column in df.columns if any(col in str(column) for col in columns_to_extract)]
-        filtered_df = df[extract_columns]
-        extract_df_sbm = filtered_df[(filtered_df['SBM scope'] == True) & (filtered_df['SBM scope'].notnull())]
-        extract_df_yard = filtered_df[(filtered_df['SBM scope'] == False) & (filtered_df['SBM scope'].notnull())]
+            piping_data = filtered_df.groupby(["Pipe Base Material", "Quantity UOM"]).agg({
+                "Total QTY to commit": "sum",
+                "Total NET weight": "sum",
+                "Unit Weight": "mean"
+            }).reset_index()
 
-        piping_data = filtered_df.groupby(["Pipe Base Material", "Quantity UOM"]).agg({
-            "Total QTY to commit": "sum",
-            "Total NET weight": "sum",
-            "Unit Weight": "mean"
-        }).reset_index()
+            piping_sbm_data = extract_df_sbm.groupby(["Pipe Base Material", "Quantity UOM"]).agg({
+                "Total QTY to commit": "sum",
+                "Total NET weight": "sum",
+                "Unit Weight": "mean"
+            }).reset_index()
 
-        piping_sbm_data = extract_df_sbm.groupby(["Pipe Base Material", "Quantity UOM"]).agg({
-            "Total QTY to commit": "sum",
-            "Total NET weight": "sum",
-            "Unit Weight": "mean"
-        }).reset_index()
+            piping_data_yard = extract_df_yard.groupby(["Pipe Base Material", "Quantity UOM"]).agg({
+                "Total QTY to commit": "sum",
+                "Total NET weight": "sum",
+                "Unit Weight": "mean"
+            }).reset_index()
 
-        piping_data_yard = extract_df_yard.groupby(["Pipe Base Material", "Quantity UOM"]).agg({
-            "Total QTY to commit": "sum",
-            "Total NET weight": "sum",
-            "Unit Weight": "mean"
-        }).reset_index()
+            total_qty_commit_pieces = piping_data[piping_data['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
+            total_qty_commit_m = piping_data[piping_data['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
+            total_qty_commit_pieces_sbm = piping_sbm_data[piping_sbm_data['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
+            total_qty_commit_pieces_yard = piping_data_yard[piping_data_yard['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
+            total_qty_commit_m_sbm = piping_sbm_data[piping_sbm_data['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
+            total_qty_commit_m_yard = piping_data_yard[piping_data_yard['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
+            total_piping_net_weight = piping_data['Total NET weight'].sum()
+            total_piping_sbm_net_weight = piping_sbm_data['Total NET weight'].sum()
+            total_piping_yard_net_weight = piping_data_yard['Total NET weight'].sum()
 
-        total_qty_commit_pieces = piping_data[piping_data['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
-        total_qty_commit_m = piping_data[piping_data['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
-        total_qty_commit_pieces_sbm = piping_sbm_data[piping_sbm_data['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
-        total_qty_commit_pieces_yard = piping_data_yard[piping_data_yard['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
-        total_qty_commit_m_sbm = piping_sbm_data[piping_sbm_data['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
-        total_qty_commit_m_yard = piping_data_yard[piping_data_yard['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
-        total_piping_net_weight = piping_data['Total NET weight'].sum()
-        total_piping_sbm_net_weight = piping_sbm_data['Total NET weight'].sum()
-        total_piping_yard_net_weight = piping_data_yard['Total NET weight'].sum()
+            return piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard
 
-        return piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard
+        else:
+            raise ValueError(f"No data found for project number '{project_number}'.")
+    #PROSPERITY
+    elif project_number == "17043":
+        excel_files = [f for f in os.listdir(folder_path_prosperity) if f.endswith(".xlsx") or f.endswith(".xls")]
+        matching_files = [f for f in excel_files if material_type in f]
 
-    else:
-        raise ValueError(f"No data found for project number '{project_number}'.")
+        if not matching_files:
+            raise FileNotFoundError(
+                f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
 
+        most_recent_file = get_most_recent_file(folder_path_prosperity, matching_files)
+        file_path = os.path.join(folder_path_prosperity, most_recent_file)
+        df = pd.read_excel(file_path)
+
+        columns_to_extract = ["Project Number", "Pipe Base Material", "SBM scope", "Total QTY to commit",
+                              "Quantity UOM", "Unit Weight", "Total NET weight"]
+
+        if df["Project Number"].astype(str).str.contains(str(project_number)).any():
+            extract_columns = [column for column in df.columns if any(col in str(column) for col in columns_to_extract)]
+            filtered_df = df[extract_columns]
+            extract_df_sbm = filtered_df[(filtered_df['SBM scope'] == "1") & (filtered_df['SBM scope'].notnull())]
+            extract_df_yard = filtered_df[(filtered_df['SBM scope'] == "0") & (filtered_df['SBM scope'].notnull())]
+
+            piping_data = filtered_df.groupby(["Pipe Base Material", "Quantity UOM"]).agg({
+                "Total QTY to commit": "sum",
+                "Total NET weight": "sum",
+                "Unit Weight": "mean"
+            }).reset_index()
+
+            piping_sbm_data = extract_df_sbm.groupby(["Pipe Base Material", "Quantity UOM"]).agg({
+                "Total QTY to commit": "sum",
+                "Total NET weight": "sum",
+                "Unit Weight": "mean"
+            }).reset_index()
+
+            piping_data_yard = extract_df_yard.groupby(["Pipe Base Material", "Quantity UOM"]).agg({
+                "Total QTY to commit": "sum",
+                "Total NET weight": "sum",
+                "Unit Weight": "mean"
+            }).reset_index()
+
+            total_qty_commit_pieces = piping_data[piping_data['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
+            total_qty_commit_m = piping_data[piping_data['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
+            total_qty_commit_pieces_sbm = piping_sbm_data[piping_sbm_data['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
+            total_qty_commit_pieces_yard = piping_data_yard[piping_data_yard['Quantity UOM'] == "PCE"]['Total QTY to commit'].sum()
+            total_qty_commit_m_sbm = piping_sbm_data[piping_sbm_data['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
+            total_qty_commit_m_yard = piping_data_yard[piping_data_yard['Quantity UOM'] == "METER"]['Total QTY to commit'].sum()
+            total_piping_net_weight = piping_data['Total NET weight'].sum()
+            total_piping_sbm_net_weight = piping_sbm_data['Total NET weight'].sum()
+            total_piping_yard_net_weight = piping_data_yard['Total NET weight'].sum()
+
+            return piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard
+
+        else:
+            raise ValueError(f"No data found for project number '{project_number}'.")
 
 
 def get_valve_mto_data(project_number):
     material_type = "Valve"
 
-    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+    #UNITY
+    if project_number == "17033":
+        excel_files = [f for f in os.listdir(folder_path_unity) if f.endswith(".xlsx") or f.endswith(".xls")]
+        matching_files = [f for f in excel_files if material_type in f]
 
-    matching_files = [f for f in excel_files if material_type in f]
+        if not matching_files:
+            raise FileNotFoundError(
+                f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
 
-    if not matching_files:
-        raise FileNotFoundError(
-            f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
+        most_recent_file = get_most_recent_file(folder_path_unity, matching_files)
+        file_path = os.path.join(folder_path_unity, most_recent_file)
+        df = pd.read_excel(file_path)
 
-    most_recent_file = get_most_recent_file(folder_path, matching_files)
-    file_path = os.path.join(folder_path, most_recent_file)
-    df = pd.read_excel(file_path)
+        # Set the columns to extract
+        columns_to_extract = ["Status", "Project Number", "General Material Description", "Quantity", "Weight", "Remarks"]
 
-    # Set the columns to extract
-    columns_to_extract = ["Status", "Project Number", "General Material Description", "Quantity", "Weight", "Remarks"]
+        # Check if the project number matches the specified one
+        if df["Project Number"].astype(str).str.contains(str(project_number)).any():
+            # Find the specified columns
+            extract_columns = []
+            for column in df.columns:
+                if any(col in str(column) for col in columns_to_extract):
+                    extract_columns.append(column)
 
-    # Check if the project number matches the specified one
-    if df["Project Number"].astype(str).str.contains(str(project_number)).any():
-        # Find the specified columns
-        extract_columns = []
-        for column in df.columns:
-            if any(col in str(column) for col in columns_to_extract):
-                extract_columns.append(column)
+            # Filter the DataFrame and extract the desired data
+            filtered_df = df[extract_columns]
 
-        # Filter the DataFrame and extract the desired data
-        filtered_df = df[extract_columns]
+            # Filter based on SBM scope and notnull values
+            extract_df_yard = filtered_df[(filtered_df['Status'] == "OUT OF SCOPE") | (filtered_df['Remarks'].str.contains("Yard", na=False))]
+            extract_df_sbm = filtered_df[(filtered_df['Status'] == "CONFIRMED") & (~filtered_df['Remarks'].str.contains("Yard", na=False))]
 
-        # Filter based on SBM scope and notnull values
-        extract_df_yard = filtered_df[(filtered_df['Status'] == "OUT OF SCOPE") | (filtered_df['Remarks'].str.contains("Yard", na=False))]
-        extract_df_sbm = filtered_df[(filtered_df['Status'] == "CONFIRMED") & (~filtered_df['Remarks'].str.contains("Yard", na=False))]
+            valve_data = filtered_df.groupby(["General Material Description"]).agg({
+                "Quantity": "sum",
+                "Weight": "sum"
+            }).reset_index()
+            valve_data_sbm = extract_df_sbm.groupby(["General Material Description"]).agg({
+                "Quantity": "sum",
+                "Weight": "sum"
+            }).reset_index()
+            valve_data_yard = extract_df_yard.groupby(["General Material Description"]).agg({
+                "Quantity": "sum",
+                "Weight": "sum"
+            }).reset_index()
 
-        valve_data = filtered_df.groupby(["General Material Description"]).agg({
-            "Quantity": "sum",
-            "Weight": "sum"
-        }).reset_index()
+            # Calculate the sum of the total valve weight for all three categories
+            total_valve_weight = valve_data['Weight'].sum()
+            total_sbm_valve_weight = valve_data_sbm['Weight'].sum()
+            total_yard_valve_weight = valve_data_yard['Weight'].sum()
 
-        valve_data_sbm = extract_df_sbm.groupby(["General Material Description"]).agg({
-            "Quantity": "sum",
-            "Weight": "sum"
-        }).reset_index()
+            return valve_data, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight
+        else:
+            raise ValueError(f"No data found for project number '{project_number}'.")
+    #PROSPERITY
+    elif project_number == "17043":
+        excel_files = [f for f in os.listdir(folder_path_prosperity) if f.endswith(".xlsx") or f.endswith(".xls")]
 
-        valve_data_yard = extract_df_yard.groupby(["General Material Description"]).agg({
-            "Quantity": "sum",
-            "Weight": "sum"
-        }).reset_index()
+        matching_files = [f for f in excel_files if material_type in f]
 
-        # Calculate the sum of the total valve weight for all three categories
-        total_valve_weight = valve_data['Weight'].sum()
-        total_sbm_valve_weight = valve_data_sbm['Weight'].sum()
-        total_yard_valve_weight = valve_data_yard['Weight'].sum()
+        if not matching_files:
+            raise FileNotFoundError(
+                f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
 
-        return valve_data, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight
-    else:
-        raise ValueError(f"No data found for project number '{project_number}'.")
+        most_recent_file = get_most_recent_file(folder_path_prosperity, matching_files)
+        file_path = os.path.join(folder_path_prosperity, most_recent_file)
+        df = pd.read_excel(file_path)
+
+        # Set the columns to extract
+        columns_to_extract = ["Tag Status", "Project Number", "General Material Description", "Quantity", "Dry Weight [kg]",
+                              "Remarks", "Valve Size", "Scope Of Supply"]
+
+        # Check if the project number matches the specified one
+        if df["Project Number"].astype(str).str.contains(str(project_number)).any():
+            # Find the specified columns
+            extract_columns = []
+            for column in df.columns:
+                if any(col in str(column) for col in columns_to_extract):
+                    extract_columns.append(column)
+
+            # Filter the DataFrame and extract the desired data
+            filtered_df = df[extract_columns]
+
+            # Filter based on SBM scope and notnull values
+            extract_df_sbm = filtered_df[(filtered_df['Tag Status'] == "New") | (filtered_df['Scope Of Supply'] == "SBM")]
+            extract_df_yard = filtered_df[(filtered_df['Tag Status'] == "New") | (filtered_df['Scope Of Supply'] == "YARD")]
+
+            valve_data = filtered_df.groupby(["General Material Description"]).agg({
+                "Quantity": "sum",
+                "Weight": "sum"
+            }).reset_index()
+
+            valve_data_sbm = extract_df_sbm.groupby(["General Material Description"]).agg({
+                "Quantity": "sum",
+                "Weight": "sum"
+            }).reset_index()
+
+            valve_data_yard = extract_df_yard.groupby(["General Material Description"]).agg({
+                "Quantity": "sum",
+                "Weight": "sum"
+            }).reset_index()
+
+            # Calculate the sum of the total valve weight for all three categories
+            total_valve_weight = valve_data['Weight'].sum()
+            total_sbm_valve_weight = valve_data_sbm['Weight'].sum()
+            total_yard_valve_weight = valve_data_yard['Weight'].sum()
+
+            return valve_data, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight
+        else:
+            raise ValueError(f"No data found for project number '{project_number}'.")
 
 
 #BOLT MTO DATA
 def get_bolt_mto_data(project_number):
     material_type = "Bolt"
 
-    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+    excel_files = [f for f in os.listdir(folder_path_unity) if f.endswith(".xlsx") or f.endswith(".xls")]
 
     matching_files = [f for f in excel_files if material_type in f]
 
@@ -178,8 +293,8 @@ def get_bolt_mto_data(project_number):
         raise FileNotFoundError(
             f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
 
-    most_recent_file = get_most_recent_file(folder_path, matching_files)
-    file_path = os.path.join(folder_path, most_recent_file)
+    most_recent_file = get_most_recent_file(folder_path_unity, matching_files)
+    file_path = os.path.join(folder_path_unity, most_recent_file)
     df = pd.read_excel(file_path)
 
     columns_to_extract = ["Project Number", "Pipe Base Material", "SBM scope", "Total QTY to commit", "Quantity UOM"]
@@ -273,7 +388,7 @@ def get_structure_mto_data(project_number):
 def get_specialpip_mto_data(project_number):
     material_type = "Special PIP"
 
-    excel_files = [f for f in os.listdir(folder_path) if f.endswith(".xlsx") or f.endswith(".xls")]
+    excel_files = [f for f in os.listdir(folder_path_unity) if f.endswith(".xlsx") or f.endswith(".xls")]
 
     matching_files = [f for f in excel_files if material_type in f]
 
@@ -281,8 +396,8 @@ def get_specialpip_mto_data(project_number):
         raise FileNotFoundError(
             f"No files containing the project number '{project_number}' and material type '{material_type}' were found.")
 
-    most_recent_file = get_most_recent_file(folder_path, matching_files)
-    file_path = os.path.join(folder_path, most_recent_file)
+    most_recent_file = get_most_recent_file(folder_path_unity, matching_files)
+    file_path = os.path.join(folder_path_unity, most_recent_file)
     df = pd.read_excel(file_path)
 
     # Set the columns to extract
