@@ -1440,7 +1440,7 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
                                           total_piping_yard_net_weight, total_qty_commit_pieces_sbm,
                                           total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard,
                                           valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight,
-                                          total_yard_valve_weight, bolt_data, bolt_sbm_data, bolt_data_yard,
+                                          total_yard_valve_weight,
                                           bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit,
                                           bolt_yard_data_total_qty_commit, structure_totals_m2, structure_totals_m,
                                           structure_totals_pcs,
