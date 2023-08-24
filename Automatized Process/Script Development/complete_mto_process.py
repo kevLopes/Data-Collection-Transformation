@@ -38,12 +38,14 @@ def complete_mto_data_analyze(project_number):
                                                                total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv, total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt, structure_total_gross_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_qty_m2, structure_total_qty_m, total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc, project_total_cost_and_hours, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter)
     elif project_number == "17043":
         print("Prosperity Complete MTO analyze on going!")
-        #piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard = get_piping_mto_data(project_number)
-        #total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight = get_valve_mto_data(project_number)
-        #bolt_data_total_net_weight, bolt_data_total_qty_to_complete, bolt_data_total_to_complete_weight, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_sbm_total_net_weight, bolt_sbm_total_qty_to_complete, bolt_sbm_total_to_complete_weight, bolt_yard_data_total_qty_commit, bolt_yard_total_net_weight, bolt_yard_total_qty_to_complete, bolt_yard_total_to_complete_weight = get_bolt_mto_data(project_number)
-        #structure_totals_m2, structure_totals_m, structure_totals_pcs, structure_total_gross_weight, structure_total_net_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_req_pcs, structure_total_qty_m2, structure_total_req_m2, structure_total_qty_m, structure_total_req_m = get_structure_mto_data(project_number)
-
+        piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard = get_piping_mto_data(project_number)
+        total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight = get_valve_mto_data(project_number)
+        bolt_data_total_net_weight, bolt_data_total_qty_to_complete, bolt_data_total_to_complete_weight, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_sbm_total_net_weight, bolt_sbm_total_qty_to_complete, bolt_sbm_total_to_complete_weight, bolt_yard_data_total_qty_commit, bolt_yard_total_net_weight, bolt_yard_total_qty_to_complete, bolt_yard_total_to_complete_weight = get_bolt_mto_data(project_number)
+        structure_totals_m2, structure_totals_m, structure_totals_pcs, structure_total_gross_weight, structure_total_net_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_req_pcs, structure_total_qty_m2, structure_total_req_m2, structure_total_qty_m, structure_total_req_m = get_structure_mto_data(project_number)
         total_spcpip_data_qty, total_spcpip_data_weight, total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight = get_specialpip_mto_data(project_number)
+
+        # Get PO Header overall amount
+        project_total_cost_and_hours = get_project_total_cost_hours(project_number)
 
 
 def get_most_recent_file(folder_path, matching_files):
@@ -584,12 +586,12 @@ def get_specialpip_mto_data(project_number):
         filtered_df = df.loc[:, extract_columns].copy()
 
         # Convert Qty and Weight columns to numeric type
-        #filtered_df.loc[:, "Qty"] = pd.to_numeric(filtered_df["Qty"], errors="coerce")
-        #filtered_df.loc[:, "Weight"] = pd.to_numeric(filtered_df["Weight"], errors="coerce")
+        filtered_df.loc[:, "Size"] = pd.to_numeric(filtered_df["Size"], errors="coerce")
+        filtered_df.loc[:, "Dry Weight [kg]"] = pd.to_numeric(filtered_df["Dry Weight [kg]"], errors="coerce")
 
         # Filter based on SBM scope and notnull values
         extract_df_sbm = filtered_df[(filtered_df['Scope Of Supply'] == "SBM") & (filtered_df['Type'] == "SpecialPipingItem")]
-        extract_df_yard = filtered_df[(filtered_df['Scope Of Supply'] == "YARD")]
+        extract_df_yard = filtered_df[(filtered_df['Scope Of Supply'] == "YARD") & (filtered_df['Type'] == "SpecialPipingItem")]
 
         # Calculate the total quantities and total weights for each category
         total_spcpip_data_qty = filtered_df["Size"].sum()
@@ -599,7 +601,7 @@ def get_specialpip_mto_data(project_number):
         total_spcpip_yard_data_qty = extract_df_yard["Size"].sum()
         total_spcpip_yard_data_weight = extract_df_yard["Dry Weight [kg]"].sum()
 
-        return total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight
+        return total_spcpip_data_qty, total_spcpip_data_weight, total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight
 
 
 #function to read more information from Piping
@@ -1022,7 +1024,6 @@ def get_project_total_cost_hours(project_number):
     folder_path_po = "../Data Pool/Ecosys API Data/PO Headers"
 
     excel_files = [f for f in os.listdir(folder_path_po) if f.endswith(".xlsx") or f.endswith(".xls")]
-
     matching_files = [f for f in excel_files if str(project_number) in f]
 
     if not matching_files:
@@ -1046,10 +1047,24 @@ def get_project_total_cost_hours(project_number):
     second_file_path = os.path.join(etreg_file_folder, second_most_recent_file)
     etreg_df = pd.read_excel(second_file_path)
 
+    sun_file_folder = "../Data Pool/Ecosys API Data/SUN Transactions"
+    sun_excel_files = [f for f in os.listdir(sun_file_folder) if f.endswith(".xlsx") or f.endswith(".xls")]
+    matching_third_files = [f for f in sun_excel_files if str(project_number) in f]
+
+    if not matching_third_files:
+        raise FileNotFoundError(
+            f"No files containing the project number '{project_number}' were found in the folder."
+        )
+
+    third_most_recent_file = get_most_recent_file(sun_file_folder, matching_third_files)
+    third_file_path = os.path.join(sun_file_folder, third_most_recent_file)
+    sun_df = pd.read_excel(third_file_path)
+
     total_project_cost = po_df["PO Cost"].sum()
     total_hours = etreg_df["Quantity"].sum()
+    total_sun_amount = sun_df["ProjectAmount"].sum()
 
-    return total_project_cost, total_hours
+    return total_project_cost, total_hours, total_sun_amount
 
 
 

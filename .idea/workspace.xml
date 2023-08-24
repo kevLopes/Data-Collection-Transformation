@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work">
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall SPC Piping MTO bck.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Structural MTO bck.xls" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Structure MTO.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Vlv MTO bck.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Overall Running Structural MTO.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Special PIP MTO.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Special PIP MTO.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Valve MTO.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Valve MTO.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -224,13 +215,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679215832537</updated>
-    </task>
-    <task id="LOCAL-00052" summary="All Script Dev done at work">
-      <created>1683300789018</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1683300789019</updated>
     </task>
     <task id="LOCAL-00053" summary="All Script Dev done at work">
       <created>1683646652653</created>
@@ -568,7 +552,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692370349187</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="All Script Dev done at work">
+      <created>1692805989217</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1692805989217</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -610,26 +601,6 @@
           <url>file://$PROJECT_DIR$/Automatized Process/Script Development/ExportPDFreports.py</url>
           <line>1801</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>574</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>583</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>594</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>599</line>
-          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
