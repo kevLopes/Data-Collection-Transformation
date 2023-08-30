@@ -97,7 +97,7 @@ def action_for_material_analyze(project_number, material_type):
         # UNITY
         if project_number == "17033":
             # Execute functions for each material type in sequence
-            try:
+            '''try:
                 DataCollector.data_collector_piping(project_number, "Piping")
                 CostAnalyzeProcessByMaterial.extract_distinct_product_codes_piping(folder_path_piping, project_number, "Piping")
                 CostAnalyzeByTagNumber.extract_distinct_tag_numbers_piping(folder_path_piping, project_number, "Piping")
@@ -137,7 +137,7 @@ def action_for_material_analyze(project_number, material_type):
             except Exception as e:
                 print(f"Error occurred during Special Piping analysis: {str(e)}")
 
-            action_for_material_analyze_by_yard(project_number, material_type)
+            action_for_material_analyze_by_yard(project_number, material_type)'''
 
             try:
                 # Run Complete MTO Process

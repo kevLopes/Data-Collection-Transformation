@@ -22,6 +22,7 @@ def complete_mto_data_analyze(project_number):
 
         #Piping Extra Data details
         total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter = get_piping_extra_details(project_number, "Piping")
+        unmatch_pip_total_weight, unmatch_pip_total_qty, unmatch_pip_avg_unit_weight = not_match_tag_numbers_piping_details(project_number)
         #Valve Extra Data details
         total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv = get_valve_extra_details(project_number, "Valve")
         #Bolt Extra Data details
@@ -35,7 +36,7 @@ def complete_mto_data_analyze(project_number):
         # Pass the data frame to export functions
         ExportPDFreports.generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_yard_data_total_qty_commit, structure_totals_m2, structure_totals_m, structure_totals_pcs,
                                                                total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip, total_spcpip_data_weight, total_spcpip_data_qty, total_spcpip_sbm_data_weight, total_spcpip_sbm_data_qty, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight,
-                                                               total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv, total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt, structure_total_gross_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_qty_m2, structure_total_qty_m, total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc, project_total_cost_and_hours, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter)
+                                                               total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv, total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt, structure_total_gross_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_qty_m2, structure_total_qty_m, total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc, project_total_cost_and_hours, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter, unmatch_pip_total_weight, unmatch_pip_total_qty, unmatch_pip_avg_unit_weight)
     elif project_number == "17043":
         print("Prosperity Complete MTO analyze on going!")
         piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard = get_piping_mto_data(project_number)
@@ -1065,6 +1066,78 @@ def get_project_total_cost_hours(project_number):
     total_sun_amount = sun_df["ProjectAmount"].sum()
 
     return total_project_cost, total_hours, total_sun_amount
+
+
+def not_match_tag_numbers_piping_details(project_number):
+    keyword = "_NotMatch"
+    material_type = "Piping"
+    unmatch_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/Piping"
+
+    # Initialize results
+    total_weight = 0
+    total_qty = 0
+    avrg_weight = 0
+
+    #GET unmatched tag numbers
+    excel_files = [
+        f for f in os.listdir(unmatch_folder_path) if f.endswith(".xlsx") or f.endswith(".xls")
+    ]
+
+    matching_files = [
+        f for f in excel_files if keyword in f
+    ]
+
+    if not matching_files:
+        raise FileNotFoundError(
+            f"No files containing the were found."
+        )
+
+    most_recent_file = get_most_recent_file(unmatch_folder_path, matching_files)
+    file_path = os.path.join(unmatch_folder_path, most_recent_file)
+    un_df = pd.read_excel(file_path)
+
+    un_required_columns = ["Project Number", "Base Material", "Tag Number"]
+
+    #Get MTO information
+    mto_excel_files = [
+        f for f in os.listdir(folder_path_unity) if f.endswith(".xlsx") or f.endswith(".xls")
+    ]
+
+    mto_matching_files = [
+        f for f in mto_excel_files if material_type in f
+    ]
+
+    if not mto_matching_files:
+        raise FileNotFoundError(
+            f"No files containing the were found."
+        )
+
+    mto_most_recent_file = get_most_recent_file(folder_path_unity, mto_matching_files)
+    mto_file_path = os.path.join(folder_path_unity, mto_most_recent_file)
+    mto_df = pd.read_excel(mto_file_path)
+
+    mto_required_columns = ["Project Number", "Pipe Base Material", "Tag Number", "Total QTY to commit", "Unit Weight", "Total NET weight", "Quantity UOM"]
+
+    if all(col in un_df.columns for col in un_required_columns) and all(
+            col in mto_df.columns for col in mto_required_columns):
+        unique_tags = un_df["Tag Number"].unique()
+
+        filtered_mto_df = mto_df[mto_df["Tag Number"].isin(unique_tags)]
+        filtered_mto_df = filtered_mto_df[
+            ["Pipe Base Material", "Tag Number", "Total QTY to commit", "Unit Weight", "Total NET weight"]]
+
+        total_weight = filtered_mto_df["Total NET weight"].sum()
+        total_qty = filtered_mto_df["Total QTY to commit"].sum()
+        avrg_weight = filtered_mto_df["Unit Weight"].mean()
+
+        if total_qty > 0:
+            avg_unit_weight = total_weight / total_qty
+        else:
+            avg_unit_weight = 0
+
+        return total_weight, total_qty, avg_unit_weight, filtered_mto_df
+    else:
+        print("Was not possible to find the necessary fields in the file to do the calculation!")
 
 
 

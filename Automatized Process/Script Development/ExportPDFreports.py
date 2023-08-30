@@ -1458,7 +1458,7 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
                                           structure_total_qty_m, total_matched_tags_spc, total_unmatched_tags_spc,
                                           total_quantity_by_uom_spc, total_cost_spc, po_list_spc,
                                           project_total_cost_and_hours, total_surplus_plus_tags,
-                                          total_po_quantity_piece, total_po_quantity_meter):
+                                          total_po_quantity_piece, total_po_quantity_meter, unmatch_pip_total_weight, unmatch_pip_total_qty, unmatch_pip_avg_unit_weight):
 
     # Title and sub title functions
     def add_section_title(title):
@@ -1668,9 +1668,9 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
     add_section_sub_title("Material Types Breakdown")
     pdf.ln(3)
     pdf.multi_cell(0, 10, "The weight distribution across various material types reveals key insights into the project's construction."
-                          f"Piping emerges as the dominant equipment, accounting for a notable {total_dct_piping_weight:.3f} tons. Following closely are the valves, which contribute {total_dct_valve_weight:.3f} tons, making them the second most weighty category in the project."
-                          f"Structural elements, pivotal to the project, register a total weight of {total_dct_structure_weight:.1f} tons. Not to be overlooked, special piping materials, a distinct category in our inventory, weigh {total_dct_scp_piping_weight:.3f} tons."
-                          f"Such a breakdown accentuates the emphasis of particular material types, echoing the project's functional requirements and design choices.", align="J")
+                          f" Piping emerges as the dominant equipment, accounting for a notable {total_dct_piping_weight:.3f} tons. Following closely are the valves, which contribute {total_dct_valve_weight:.3f} tons, making them the second most weighty category in the project."
+                          f" Structural elements, pivotal to the project, register a total weight of {total_dct_structure_weight:.1f} tons. Not to be overlooked, special piping materials, a distinct category in our inventory, weigh {total_dct_scp_piping_weight:.3f} tons."
+                          f" Such a breakdown accentuates the emphasis of particular material types, echoing the project's functional requirements and design choices.", align="J")
 
     pdf.add_page()
 
@@ -1679,7 +1679,7 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
     add_section_sub_title("Understanding Surplus and Wastage")
     pdf.ln(3)
     pdf.multi_cell(0, 10, f"In the evaluation of the project's material management, we identify two essential components: surplus and wastage. The surplus primarily manifests in piping, where an additional {total_dct_piping_surplus} pieces are noted. These surplus materials represent an associated cost of ${total_dct_piping_surplus_cost} thousands of dollars, highlighting the need for efficient utilization."
-                          f"Concurrently, we have identified wastage within structural equipments. Approximately {total_structure_wastage:.1f} tons of structural wastage have been observed. This insight emphasizes the significance of meticulous material planning and allocation to minimize waste and align with budgetary constraints.", align="J")
+                          f"Concurrently, we have identified wastage within structural equipments. Approximately {total_structure_wastage:.1f} structural equipment wastage have been observed. This insight emphasizes the significance of meticulous material planning and allocation to minimize waste and align with budgetary constraints.", align="J")
 
     pdf.ln(7)
 
@@ -1694,7 +1694,7 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
     add_section_title("SBM SCOPE - Breakdown")
     pdf.ln(2)
     add_section_sub_title("Piping Specification - SBM Scope")
-    pdf.cell(0, 6, f"The cumulative weight of the piping stands at {convert_to_tons(total_piping_sbm_net_weight):.2f} TONs, associated with a financial outlay of {convert_to_thousands(overall_cost_pip):.2f} Thousand USD.", ln=True)
+    pdf.cell(0, 6, f"The cumulative weight of the piping stands at {convert_to_tons(total_piping_sbm_net_weight):.2f} Tons, associated with a financial outlay of {convert_to_thousands(overall_cost_pip):.2f} thousand USD.", ln=True)
     pdf.cell(0, 6, f"The total number of piping pieces amounts to {total_qty_commit_pieces_sbm:.0f}, covering a material length of {total_qty_commit_m_sbm:.2f} meters.", ln=True)
 
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_PipingTotal_Net_Weight_Per_Material_", "1 - Total Piping Weight per different Materials.", x=30, w=150)
@@ -1710,13 +1710,13 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
 
     add_section_sub_title("Bolt Specification - SBM Scope")
     pdf.cell(0, 7, f"The total count of bolts is approximately {bolt_sbm_data_total_qty_commit:.0f} pieces.", ln=True)
-    pdf.cell(0, 7, f"The associated financial expenditure for bolts approximates to {convert_to_thousands(overall_cost_blt):.2f} Thousand USD.", ln=True)
+    pdf.cell(0, 7, f"The associated financial expenditure for bolts approximates to {convert_to_thousands(overall_cost_blt):.2f} thousand USD.", ln=True)
 
     pdf.ln(5)
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Bolt", "MP17033_BoltQuantity_Graphic_", "1 - Bolt quantity in design versus quantity committed.", x=30, w=150)
 
     add_section_sub_title("Valve Specifications - SBM Scope")
-    pdf.cell(0, 7, f"The cumulative weight of valves stands at approximately {convert_to_tons(total_sbm_valve_weight):.2f} TONs.", ln=True)
+    pdf.cell(0, 7, f"The cumulative weight of valves stands at approximately {convert_to_tons(total_sbm_valve_weight):.2f} Tons.", ln=True)
     pdf.cell(0, 7, f"In terms of quantity, there are approximately {total_quantity_vlv:.0f} valve units.", ln=True)
 
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveWeight_Graphic_", "1 - Valve Weight distribution by the material type.", x=30, w=145)
@@ -1724,7 +1724,7 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Valve", "MP17033_ValveTotal_Cost_Graphic_", "3 - Valve overall cost per each material types.", x=30, w=145)
 
     add_section_sub_title("Special Piping Specifications - SBM Scope")
-    pdf.cell(0, 7, f"The Special Piping segment boasts a cumulative weight of approximately {convert_to_tons(total_spcpip_sbm_data_weight):.2f} TONs.", ln=True)
+    pdf.cell(0, 7, f"The Special Piping segment boasts a cumulative weight of approximately {convert_to_tons(total_spcpip_sbm_data_weight):.2f} tons.", ln=True)
     pdf.cell(0, 7, f"The quantity of Special Piping units amounts to {total_spcpip_sbm_data_qty:.0f}, with an estimated expenditure of {convert_to_thousands(total_cost_spc):.2f} thousands of dollars.", ln=True)
 
     pdf.ln(5)
@@ -1737,19 +1737,19 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
     add_section_title("YARD SCOPE - Breakdown")
     pdf.ln(2)
     add_section_sub_title("Piping Specification - YARD Scope")
-    pdf.multi_cell(0, 7, f"The piping under the YARD SCOPE accounts for a total weight of {total_piping_yard_net_weight:.2f} tons, "
+    pdf.multi_cell(0, 7, f"The piping under the YARD SCOPE accounts for a total weight of {convert_to_tons(total_piping_yard_net_weight):.2f} tons, "
                          f"comprising {total_qty_commit_pieces_yard:.1f} individual pieces and spanning {total_qty_commit_m_yard:.0f} meters in materials.", align="J")
 
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARDPiping_Material_weight_", "1 - YARD Piping total weight by different material types.", x=30, w=140)
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARDPiping_Material_average_", "2 - YARD Piping average weight per material types.", x=30, w=140)
 
     add_section_sub_title("Special Piping Specifications - YARD Scope")
-    pdf.multi_cell(0, 7, f"Within the YARD scope, special piping has a total weight of {total_spcpip_yard_data_weight:.2f} tons and consists of {total_spcpip_yard_data_qty:.0f} individual pieces.", align="J")
+    pdf.multi_cell(0, 7, f"Within the YARD scope, special piping has a total weight of {convert_to_tons(total_spcpip_yard_data_weight):.2f} tons and consists of {total_spcpip_yard_data_qty:.0f} individual pieces.", align="J")
 
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Yard", "MP17033_YARD_SPCPIP_Analyze_", "1 - YARD Special Piping total Pieces and Weight.", x=40, w=121)
 
     add_section_sub_title("Valve Details - YARD Scope")
-    pdf.cell(0, 7, f"For this scope we counted a total Valve Weight of approximately {total_yard_valve_weight:.2f} TON's.", ln=True)
+    pdf.cell(0, 7, f"For this scope we counted a total Valve Weight of approximately {convert_to_tons(total_yard_valve_weight):.2f} Tons.", ln=True)
 
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/PDF Reports/Content", "material_description_breakdown_valve_yard", "1 - YARD Valve weight distribution per material types.", x=45, w=123)
 
@@ -1759,7 +1759,7 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/PDF Reports/Content", "base_material_breakdown_bolt_yard", "1 - YARD Bolt pieces quantity by material type.", x=50, w=105)
 
     add_section_sub_title("Structure Specifications - YARD Scope")
-    pdf.multi_cell(0, 7, f"The Structural components in the YARD scope amass a total weight of approximately {structure_total_gross_weight:.2f} TONs."
+    pdf.multi_cell(0, 7, f"The Structural components in the YARD scope amass a total weight of approximately {structure_total_gross_weight:.2f} Tons."
                          f"This equates to about {structure_total_qty_pcs:.0f} individual pieces, spanning an area of {structure_total_qty_m:.2f} meters and covering a surface area of {structure_total_qty_m2:.2f} square meters.", align="J")
     pdf.ln(1)
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Structure", "MP17033_Structure_Total Gross Weight_Graphic_", "1 - YARD Structural Gross Weight graphic representation.", x=30, w=145)
@@ -1786,15 +1786,14 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
         """)
 
     #Longer version of the conclusion
-    text = (f"""The Unity Project FPSO stands as a monumental endeavor for our organization, resonating with profound operational and fiscal connotations. After a meticulous review, we discerned that the project encapsulated an impressive weight of approximately {total_dct_weight:.3f} metric tons, which sprawls across myriad equipment ranging from the nuances of small fittings to the grandeur of major structural components.
-    Financially, the equipment costs as revealed by the MTO equate to roughly ${total_dct_mto_cost:.3f} thousand USD. However, in its entirety, the Unity Project FPSO attracts a colossal financial commitment of about ${total_project_cost:.2f} thousand USD. This mirrors not just the tangible assets but also our dedication in terms of manpower--reflected by an investment of around {total_project_hours:.2f} hours.
-    The granularity of the project's composition is further illustrated by the sheer number of individual pieces required--{total_dct_pieces:.0f} to be precise, which underscores its intricate nature. The span of materials expands to about {total_dct_meters:.3f} meters, with a significant chunk, approximately {total_dct_meters_yard:.1f} meters, being procured from the YARD.
+    text = (f"""The Unity Project FPSO stands as a monumental endeavor for our organization, resonating with profound operational and fiscal connotations. After a comprehensive data analyze, we discerned that the project encapsulated an impressive weight of approximately {total_dct_weight:.3f} metric tons, which sprawls across different equipment ranging from the nuances of small fittings to the grandeur of major structural components.
+    Financially, the equipment costs as revealed by the MTO equate to roughly ${total_dct_mto_cost:.3f} thousand USD. However, in its entirety, the Unity Project FPSO attracts a colossal financial commitment of about ${total_project_cost:.2f} thousand USD. This mirrors not just the tangible assets but also our dedication in terms of manpower--reflected by an investment of around {total_project_hours:.2f} hours. The granularity of the project's composition is further illustrated by the sheer number of individual pieces required--{total_dct_pieces:.0f} to be precise, which underscores its intricate nature. The span of materials expands to about {total_dct_meters:.3f} meters, with a significant chunk, approximately {total_dct_meters_yard:.1f} meters, being procured from the YARD.
     
-    Diving deeper, a comparative lens between the SBM and YARD scopes showcases disparities in piece count and weight, but both remain paramount to the project's success. Under the SBM scope, there are a total of {total_dct_sbm_pieces:.0f} pieces and {total_dct_sbm_weight:.3f} tons, as opposed to the YARD scope with {total_dct_yard_pieces:.0f} pieces and {total_dct_yard_weight:.3f} tons.
+    Diving deeper, a comparative lens between the SBM and YARD scopes showcases disparities in piece count and weight, but both remain important on the project analyze. Under the SBM scope, there are a total of {total_dct_sbm_pieces:.0f} pieces and {total_dct_sbm_weight:.3f} tons, as opposed to the YARD scope with {total_dct_yard_pieces:.0f} pieces and {total_dct_yard_weight:.3f} tons.
     The weight distribution across different material classes elucidates the project's architectural philosophy. With piping taking precedence in weight at {total_dct_piping_weight:.3f} tons, followed by valves at {total_dct_valve_weight:.3f} tons and structural elements at {total_dct_structure_weight:.1f} tons, it's evident where our primary engineering focus lies. The specialized category of piping materials, though niche, plays a pivotal role with its contribution of {total_dct_scp_piping_weight:.3f} tons.
     
     Yet, no endeavor is without its challenges. The presence of a surplus in piping, equivalent to {total_dct_piping_surplus} additional pieces, and the associated cost of ${total_dct_piping_surplus_cost} thousand dollars stresses the essence of refined material management. Moreover, the noted wastage, especially in structural equipment, which amounts to {total_structure_wastage:.1f} tons, calls attention to the imperativeness of optimizing planning processes to curb wastage and uphold fiscal discipline.
-    Lastly, a snapshot of the purchase orders placed in NADIA underscores the breadth of our procurement efforts with {total_dct_po_quantity_piece:.0f} pieces of piping, special piping, and bolt equipment and an expanse of {total_dct_po_quantity_meter:.0f} meters from piping.
+    Lastly, a snapshot of the purchase orders placed in NADIA underscores the breadth of our quantity count efforts with {total_dct_po_quantity_piece:.0f} pieces of piping, special piping, and bolt equipment and an expanse of {total_dct_po_quantity_meter:.0f} meters from piping.
     
     In summation, the Unity Project FPSO is not just an engineering marvel but a testament to our capabilities, challenges, and commitment to excellence. As we reflect on its journey, we're reminded of the importance of data-driven insights, strategic material management, and the balance between design intricacy and practical implementation. The learnings derived will indubitably guide our future endeavors.
         """)
