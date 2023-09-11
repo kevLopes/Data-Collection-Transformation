@@ -1689,13 +1689,14 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
     pdf.multi_cell(0, 10, f"The overall total pieces of piping, special piping and bolt equipments analyzed from the PO's placed in NADIA are {total_dct_po_quantity_piece:.0f}, and the total meters mainly from piping are {total_dct_po_quantity_meter:.0f}.", align="")
 
     pdf.add_page()
-    pdf.ln(5)
+    pdf.ln(4)
     #Equipment Details
     add_section_title("SBM SCOPE - Breakdown")
-    pdf.ln(2)
+    pdf.ln(1)
     add_section_sub_title("Piping Specification - SBM Scope")
     pdf.cell(0, 6, f"The cumulative weight of the piping stands at {convert_to_tons(total_piping_sbm_net_weight):.2f} Tons, associated with a financial outlay of {convert_to_thousands(overall_cost_pip):.2f} thousand USD.", ln=True)
     pdf.cell(0, 6, f"The total number of piping pieces amounts to {total_qty_commit_pieces_sbm:.0f}, covering a material length of {total_qty_commit_m_sbm:.2f} meters.", ln=True)
+    pdf.cell(0, 6, f"We have as well a total of {total_unmatched_tags_pip: 0f} Piping without a cost associated, weighting {convert_to_tons(unmatch_pip_total_weight): 0f} tons from a total of {unmatch_pip_total_qty} pieces.", ln=True)
 
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_PipingTotal_Net_Weight_Per_Material_", "1 - Total Piping Weight per different Materials.", x=30, w=150)
     add_image_with_legend(pdf, "../Data Pool/DCT Process Results/Graphics/Piping", "MP17033_Piping_Cost_Weight_Graphic_", "2 - Piping overall Cost and Weight relation.", x=30, w=150)

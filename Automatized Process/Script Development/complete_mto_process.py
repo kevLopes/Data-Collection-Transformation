@@ -22,7 +22,7 @@ def complete_mto_data_analyze(project_number):
 
         #Piping Extra Data details
         total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter = get_piping_extra_details(project_number, "Piping")
-        unmatch_pip_total_weight, unmatch_pip_total_qty, unmatch_pip_avg_unit_weight = not_match_tag_numbers_piping_details(project_number)
+        unmatch_pip_total_weight, unmatch_pip_total_qty, unmatch_pip_avg_unit_weight, filtered_mto_df = not_match_tag_numbers_piping_details()
         #Valve Extra Data details
         total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv = get_valve_extra_details(project_number, "Valve")
         #Bolt Extra Data details
@@ -135,13 +135,13 @@ def get_piping_mto_data(project_number):
         df = pd.read_excel(file_path)
 
         columns_to_extract = ["Project Number", "Pipe Base Material", "SBM scope", "Total QTY to commit",
-                              "Quantity UOM", "Unit Weight", "Total NET weight"]
+                              "Quantity UOM", "Unit Weight", "Total NET weight", "To Be Purchased By"]
 
         if df["Project Number"].astype(str).str.contains(str(project_number)).any():
             extract_columns = [column for column in df.columns if any(col in str(column) for col in columns_to_extract)]
             filtered_df = df[extract_columns]
-            extract_df_sbm = filtered_df[(filtered_df['SBM scope'] == "1") & (filtered_df['SBM scope'].notnull())]
-            extract_df_yard = filtered_df[(filtered_df['SBM scope'] == "0") & (filtered_df['SBM scope'].notnull())]
+            extract_df_sbm = filtered_df[(filtered_df['To Be Purchased By'].notnull()) & (filtered_df['To Be Purchased By'] == "SBM")]
+            extract_df_yard = filtered_df[(filtered_df['To Be Purchased By'].notnull()) & (filtered_df['To Be Purchased By'] == "YARD")]
 
             piping_data = filtered_df.groupby(["Pipe Base Material", "Quantity UOM"]).agg({
                 "Total QTY to commit": "sum",
@@ -354,8 +354,8 @@ def get_bolt_mto_data(project_number):
         if df["Project Number"].astype(str).str.contains(str(project_number)).any():
             extract_columns = [column for column in df.columns if any(col in str(column) for col in columns_to_extract)]
             filtered_df = df[extract_columns]
-            extract_df_sbm = filtered_df[(filtered_df['SBM scope'] == True) & (filtered_df['SBM scope'].notnull())]
-            extract_df_yard = filtered_df[(filtered_df['SBM scope'] == False) & (filtered_df['SBM scope'].notnull())]
+            extract_df_sbm = filtered_df[(filtered_df['Pipe Base Material'] == "NICKEL ALLOY") & (filtered_df['Pipe Base Material'].notnull())]
+            extract_df_yard = filtered_df[(filtered_df['Pipe Base Material'] != "NICKEL ALLOY") & (filtered_df['Pipe Base Material'].notnull())]
 
             bolt_data = filtered_df.groupby(["Pipe Base Material"]).agg({
                 "Total QTY to commit": "sum",
@@ -467,6 +467,9 @@ def get_structure_mto_data(project_number):
         most_recent_file = get_most_recent_file(folder_path_prosperity, matching_files)
         file_path = os.path.join(folder_path_prosperity, most_recent_file)
         df = pd.read_excel(file_path)
+
+        # Exclude rows with product code starting with "BLK.STR.TER"
+        df = df[~df['Product Code'].str.startswith("BLK.STR.TER")]
 
         structure_qty_pce = df[(df['Quantity UOM'] == "PCS")]
         structure_qty_m = df[(df['Quantity UOM'] == "m")]
@@ -591,8 +594,8 @@ def get_specialpip_mto_data(project_number):
         filtered_df.loc[:, "Dry Weight [kg]"] = pd.to_numeric(filtered_df["Dry Weight [kg]"], errors="coerce")
 
         # Filter based on SBM scope and notnull values
-        extract_df_sbm = filtered_df[(filtered_df['Scope Of Supply'] == "SBM") & (filtered_df['Type'] == "SpecialPipingItem")]
-        extract_df_yard = filtered_df[(filtered_df['Scope Of Supply'] == "YARD") & (filtered_df['Type'] == "SpecialPipingItem")]
+        extract_df_sbm = filtered_df[(filtered_df['Scope Of Supply'] == "SBM")]
+        extract_df_yard = filtered_df[(filtered_df['Scope Of Supply'] == "YARD")]
 
         # Calculate the total quantities and total weights for each category
         total_spcpip_data_qty = filtered_df["Size"].sum()
@@ -1068,7 +1071,7 @@ def get_project_total_cost_hours(project_number):
     return total_project_cost, total_hours, total_sun_amount
 
 
-def not_match_tag_numbers_piping_details(project_number):
+def not_match_tag_numbers_piping_details():
     keyword = "_NotMatch"
     material_type = "Piping"
     unmatch_folder_path = "../Data Pool/DCT Process Results/Exported Result Files/Piping"
