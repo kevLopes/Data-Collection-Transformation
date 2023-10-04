@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 import ExportPDFreports
+import ExportReportsGraphics
 
 
 folder_path_unity = "../Data Pool/Data Hub Materials/MP17033 UNITY"
@@ -32,6 +33,9 @@ def complete_mto_data_analyze(project_number):
 
         #Get PO Header overall amount
         project_total_cost_and_hours = get_project_total_cost_hours(project_number)
+
+        #Create plot with cost and weight for each material type
+        get_cost_per_weight_by_material(project_number)
 
         # Pass the data frame to export functions
         ExportPDFreports.generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard, valve_data_sbm, valve_data_yard, total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_yard_data_total_qty_commit, structure_totals_m2, structure_totals_m, structure_totals_pcs,
@@ -250,44 +254,40 @@ def get_valve_mto_data(project_number):
         columns_to_extract = ["Tag Status", "Project Number", "General Material Description", "Quantity", "Dry Weight [kg]",
                               "Remarks", "Valve Size", "Scope Of Supply"]
 
-        # Check if the project number matches the specified one
-        if df["Scope Of Supply"].astype(str).str.contains("SBM").any():
-            # Find the specified columns
-            extract_columns = []
-            for column in df.columns:
-                if any(col in str(column) for col in columns_to_extract):
-                    extract_columns.append(column)
+        # Find the specified columns
+        extract_columns = []
+        for column in df.columns:
+            if any(col in str(column) for col in columns_to_extract):
+                extract_columns.append(column)
 
-            # Filter the DataFrame and extract the desired data
-            filtered_df = df[extract_columns]
+        # Filter the DataFrame and extract the desired data
+        filtered_df = df[extract_columns]
 
-            # Filter based on SBM scope and notnull values
-            extract_df_sbm = filtered_df[(filtered_df['Tag Status'] == "New") | (filtered_df['Scope Of Supply'] == "SBM")]
-            extract_df_yard = filtered_df[(filtered_df['Tag Status'] == "New") | (filtered_df['Scope Of Supply'] == "YARD")]
+        # Filter based on SBM scope and notnull values
+        extract_df_sbm = filtered_df[(filtered_df['Tag Status'] == "New") | (filtered_df['Scope Of Supply'] == "SBM")]
+        extract_df_yard = filtered_df[(filtered_df['Tag Status'] == "New") | (filtered_df['Scope Of Supply'] == "YARD")]
 
-            '''valve_data = filtered_df.groupby(["General Material Description"]).agg({
-                 "Valve Size": "mean",
-                 "Dry Weight [kg]": "sum"
-             }).reset_index()
+        '''valve_data = filtered_df.groupby(["General Material Description"]).agg({
+             "Valve Size": "mean",
+             "Dry Weight [kg]": "sum"
+         }).reset_index()
 
-             valve_data_sbm = extract_df_sbm.groupby(["General Material Description"]).agg({
-                 "Valve Size": "mean",
-                 "Dry Weight [kg]": "sum"
-             }).reset_index()
+         valve_data_sbm = extract_df_sbm.groupby(["General Material Description"]).agg({
+             "Valve Size": "mean",
+             "Dry Weight [kg]": "sum"
+         }).reset_index()
 
-             valve_data_yard = extract_df_yard.groupby(["General Material Description"]).agg({
-                 "Valve Size": "mean",
-                 "Dry Weight [kg]": "sum"
-             }).reset_index() '''
+         valve_data_yard = extract_df_yard.groupby(["General Material Description"]).agg({
+             "Valve Size": "mean",
+             "Dry Weight [kg]": "sum"
+         }).reset_index() '''
 
-            #Calculate the sum of the total valve weight for all three categories
-            total_valve_weight = filtered_df['Dry Weight [kg]'].sum()
-            total_sbm_valve_weight = extract_df_sbm['Dry Weight [kg]'].sum()
-            total_yard_valve_weight = extract_df_yard['Dry Weight [kg]'].sum()
+        #Calculate the sum of the total valve weight for all three categories
+        total_valve_weight = filtered_df['Dry Weight [kg]'].sum()
+        total_sbm_valve_weight = extract_df_sbm['Dry Weight [kg]'].sum()
+        total_yard_valve_weight = extract_df_yard['Dry Weight [kg]'].sum()
 
-            return total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight
-        else:
-            raise ValueError(f"No data found for project number '{project_number}'.")
+        return total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight
 
 
 #BOLT MTO DATA
@@ -1143,10 +1143,43 @@ def not_match_tag_numbers_piping_details():
         print("Was not possible to find the necessary fields in the file to do the calculation!")
 
 
+#GET Cost per KG by Material type
+def get_cost_per_weight_by_material(project_number):
+    keyword = "MP17033_Piping_TagCurrency_Cost_Analyze_"
+    folder_for_unity = "../Data Pool/DCT Process Results/Exported Result Files/Piping/"
+    folder_for_prosperity = ""
 
-def export_complete_mto_excel():
-    # TODO: Implement this function
-    pass
+    # Unity
+    if project_number == "17033":
+        excel_files = [f for f in os.listdir(folder_for_unity) if f.endswith(".xlsx") or f.endswith(".xls")]
+        matching_files = [f for f in excel_files if keyword in f]
+
+        if not matching_files:
+            raise FileNotFoundError(
+                f"No files containing the project number '{project_number}' were found.")
+
+        most_recent_file = get_most_recent_file(folder_for_unity, matching_files)
+        file_path = os.path.join(folder_for_unity, most_recent_file)
+
+        # Read the Excel file into a DataFrame
+        df = pd.read_excel(file_path)
+
+        # Call your plotting function
+        ExportReportsGraphics.plot_cost_per_weight_by_material(df, project_number)
+
+    elif project_number == "17043":
+        excel_files = [f for f in os.listdir(folder_for_prosperity) if f.endswith(".xlsx") or f.endswith(".xls")]
+        matching_files = [f for f in excel_files if keyword in f]
+
+        if not matching_files:
+            raise FileNotFoundError(
+                f"No files containing the project number '{project_number}'  were found.")
+
+        most_recent_file = get_most_recent_file(folder_for_prosperity, matching_files)
+        file_path = os.path.join(folder_for_prosperity, most_recent_file)
+        df = pd.read_excel(file_path)
+
+        ExportReportsGraphics.plot_cost_per_weight_by_material(df, project_number)
 
 
 def export_complete_mto_graphics():

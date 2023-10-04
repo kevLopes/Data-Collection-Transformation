@@ -148,6 +148,11 @@ def action_for_material_analyze(project_number, material_type):
         # PROSPERITY
         elif project_number == "17043":
             try:
+                #DataCollector.data_collector_piping(project_number, "Piping")
+                DataCollector.data_collector_valve(project_number, "Valve")
+            except Exception as e:
+                print(f"Error occurred during Piping analysis: {str(e)}")
+            try:
                 # Run Complete MTO Process
                 Complete_MTO_Process.complete_mto_data_analyze(project_number)
                 print("Cost Analyze done based on all distinct Material types")

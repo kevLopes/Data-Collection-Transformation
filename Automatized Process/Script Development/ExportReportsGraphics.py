@@ -201,7 +201,7 @@ def plot_piping_material_cost(cost_df_mt, project_number):
     # Create a dictionary mapping full names to codes
     name_to_code = {
         'CARBON STEEL': 'CST',
-        'CHROME-MOLLY': 'CRM',
+        'CHROME-MOLY': 'CRM',
         'COPPER-NICKEL': 'CUN',
         'DUPLEX STAINLESS STEEL': 'DSS',
         'GALVANIZED CARBON STEEL': 'GST',
@@ -210,7 +210,6 @@ def plot_piping_material_cost(cost_df_mt, project_number):
         'LOW TEMPERATURE CARBON STEEL': 'LST',
         'METALLIC GASKETS': 'MET',
         'NICKEL ALLOY': 'ICO',
-        'NON- METALLIC GASKETS': 'NMT',
         'STAINLESS STEEL': 'SST',
         'SUPER DUPLEX STAINLESS STEEL': 'SDS'
     }
@@ -1099,3 +1098,81 @@ def plot_structure_material_data_analyse(analyzed_df, project_number):
         fig_path = os.path.join(graphics_dir, fig_name)
         plt.savefig(fig_path, bbox_inches='tight')
         print(f'Figure saved at {fig_path}')
+
+# ---------------------------------------------------------------------------------------------------------------------------------
+
+
+#Graphic representation of Cost per kilo for each Material type
+def plot_cost_per_weight_by_material(df, project_number):
+    # Create a dictionary mapping full names to codes
+    name_to_code = {
+        'CARBON STEEL': 'CST',
+        'CHROME-MOLY': 'CRM',
+        'COPPER-NICKEL': 'CUN',
+        'DUPLEX STAINLESS STEEL': 'DSS',
+        'GALVANIZED CARBON STEEL': 'GST',
+        'GRE PIPING': 'GRE',
+        'HIGH YIELD CARBON STEEL': 'HST',
+        'LOW TEMPERATURE CARBON STEEL': 'LST',
+        'METALLIC GASKETS': 'MET',
+        'NICKEL ALLOY': 'ICO',
+        'STAINLESS STEEL': 'SST',
+        'SUPER DUPLEX STAINLESS STEEL': 'SDS'
+    }
+
+    # Apply the mapping to create a new column 'Material Code'
+    df['Material Code'] = df['Base Material'].map(name_to_code)
+
+    # Calculate cost per KG for each row with error handling
+    df['Cost per KG'] = df.apply(
+        lambda row: row['Project Currency Cost'] / row['Total NET weight'] if row['Total NET weight'] != 0 else float(
+            'nan'), axis=1)
+
+    # Group by Material Code and calculate the mean cost per KG
+    material_costs = df.groupby('Material Code')['Cost per KG'].mean()
+
+    # Sort the material costs based on the material codes
+    material_costs = material_costs.reindex(sorted(name_to_code.values()))
+
+    # Create graphics directory if it doesn't exist
+    graphics_dir = "../Data Pool/DCT Process Results/Graphics/Piping"
+    os.makedirs(graphics_dir, exist_ok=True)
+
+    # Create figure
+    fig, ax = plt.subplots(figsize=(12, 5))
+
+    # Assign different colors to each bar
+    colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'purple', 'orange', 'pink', 'brown', 'olive']
+
+    # Plot total cost per material with colors
+    barplot = plt.bar(material_costs.index, material_costs.values, color=colors)
+
+    ax.set_title('Piping Cost per KG by Material Type')
+    ax.set_xlabel('Material Type Code')
+    ax.set_ylabel('Cost per KG')
+
+    # Add value labels on the bars
+    for i, bar in enumerate(barplot):
+        plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
+                 f'{bar.get_height():.2f}',
+                 ha='center', va='bottom',
+                 fontsize=10, color='black')
+
+    # Move the legend to the right of the image
+    code_to_name = {v: k for k, v in name_to_code.items()}
+    unique_materials = sorted(name_to_code.values())
+    handles = [plt.Rectangle((0, 0), 1, 1, color=color) for color in colors]
+    plt.legend(handles, [code_to_name[code] for code in unique_materials], title='Material Type Legend',
+               loc='center left', bbox_to_anchor=(1, 0.5))
+
+    plt.tight_layout()
+
+    # Save figure
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    fig_name = f"MP{project_number}_PipingCostKG_Material_{timestamp}.png"
+    fig_path = os.path.join(graphics_dir, fig_name)
+    plt.savefig(fig_path, bbox_inches='tight')  # Use bbox_inches to ensure the legend is included in the saved image
+    print(f'Figure saved at {fig_path}')
+
+    # Return the plot filename
+    return fig_path
