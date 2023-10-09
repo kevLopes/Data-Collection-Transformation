@@ -98,7 +98,7 @@ def data_collector_piping(project_number, material_type):
         columns_to_extract = ["Tag Number", "ID", "Project Number", "Product Code", "Commodity Code",
                               "Service Description", "Pipe Base Material", "Material", "LineNumber",
                               "SBM scope", "Total QTY to commit", "Quantity UOM", "Unit Weight",
-                              "Unit Weight UOM", "Total NET weight", "SIZE"]
+                              "Unit Weight UOM", "Total NET weight", "SIZE", "To Be Purchased By"]
 
         # Check if the Data DW Dumber folder exists, and display an error message if it doesn't
         if not os.path.exists(search_dir):
@@ -137,7 +137,7 @@ def data_collector_piping(project_number, material_type):
                         extract_df = df.loc[df[extract_columns].notnull().any(axis=1), extract_columns]
 
                         # Filter rows where 'SBM scope' is equal to True
-                        extract_df = extract_df[(extract_df['SBM scope'] == True) & (extract_df['SBM scope'].notnull())]
+                        extract_df = extract_df[(extract_df['To Be Purchased By'].notnull()) & (extract_df['To Be Purchased By'] == "SBM")]
 
                         # Group the data by project number
                         grouped_df = extract_df.groupby("Project Number")
@@ -256,7 +256,7 @@ def data_collector_piping_yard(project_number, material_type):
         columns_to_extract = ["Tag Number", "ID", "Project Number", "Product Code", "Commodity Code",
                               "Service Description", "Pipe Base Material", "Material", "LineNumber",
                               "SBM scope", "Total QTY to commit", "Quantity UOM", "Unit Weight",
-                              "Unit Weight UOM", "Total NET weight", "SIZE"]
+                              "Unit Weight UOM", "Total NET weight", "SIZE", "To Be Purchased By"]
 
         # Check if the Data DW Dumber folder exists, and display an error message if it doesn't
         if not os.path.exists(search_dir):
@@ -295,8 +295,7 @@ def data_collector_piping_yard(project_number, material_type):
                         extract_df = df.loc[df[extract_columns].notnull().any(axis=1), extract_columns]
 
                         # Filter rows where 'YARD scope' is equal to True
-                        extract_df = extract_df[
-                            (extract_df['SBM scope'] == False) & (extract_df['SBM scope'].notnull())]
+                        extract_df = extract_df[(extract_df['To Be Purchased By'].notnull()) & (extract_df['To Be Purchased By'] == "YARD")]
 
                         # Group the data by project number
                         grouped_df = extract_df.groupby("Project Number")
@@ -589,7 +588,7 @@ def data_collector_valve_yard(project_number, material_type):
             return False
 
         # Check if the Materials Data Organized folder exists, and create it if it doesn't
-        output_dir = "../Data Pool/Material Data Organized/Valve"
+        output_dir = "../Data Pool/Material Data Organized/Valve/Yard"
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
 
@@ -750,7 +749,7 @@ def data_collector_bolt_yard(project_number, material_type):
             return False
 
         # Check if the Materials Data Organized folder exists, and create it if it doesn't
-        output_dir = "../Data Pool/Material Data Organized/Bolt"
+        output_dir = "../Data Pool/Material Data Organized/Bolt/Yard"
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
 
@@ -1075,7 +1074,7 @@ def data_collector_structure(project_number, material_type):
             return False
 
         # Search for Excel files containing the keyword
-        files = [file for file in os.listdir(search_dir) if keyword in file and file.endswith(".xlsx")]
+        files = [file for file in os.listdir(search_dir) if keyword in file and file.endswith(".xlsx") or file.endswith(".xls")]
 
         # Check if any Excel files were found with the specified keyword
         if not files:
@@ -1445,7 +1444,7 @@ def data_collector_specialpip_yard(project_number, material_type):
             return False
 
         # Check if the Materials Data Organized folder exists, and create it if it doesn't
-        output_dir = "../Data Pool/Material Data Organized/Special Piping"
+        output_dir = "../Data Pool/Material Data Organized/Special Piping/Yard"
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
 
