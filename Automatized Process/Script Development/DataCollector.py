@@ -1214,7 +1214,7 @@ def data_collector_bend(project_number, material_type):
 def data_collector_specialpip(project_number, material_type):
     logging.info("Function to capture all Special Piping Data Initialized")
 
-    if project_number == "17043":
+    if project_number == "17033":
 
         # Set the search directory and keyword
         search_dir = "../Data Pool/Data Hub Materials/MP17033 UNITY"

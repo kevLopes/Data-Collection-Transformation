@@ -5,40 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work">
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall STRCT MTO.xls" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Structure MTO.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Headers/MP17043_Ecosys POHeaders_2023-10-09 15-51-28.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17043_Ecosys PO Lines_2023-10-09 15-51-00.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/SUN Transactions/MP17043_Ecosys SUN Transactions_2023-10-09 15-51-34.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/eTREG Lines/MP17043_Ecosys eTREG lines_2023-10-09 15-51-58.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Bolt/SO17043 - Bolt Organized_2023-10-09 15-11-28.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Bolt/SO17043 - Bolt Organized_2023-10-09 15-22-00.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Bolt/Yard/SO17043 - Bolt Organized_2023-10-09 15-12-31.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Bolt/Yard/SO17043 - Bolt Organized_2023-10-09 15-24-00.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Piping/SO17043 - Piping Organized_2023-10-09 15-10-33.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Piping/SO17043 - Piping Organized_2023-10-09 15-21-23.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Piping/Yard/SO17043 - Yard Piping Organized_2023-10-09 15-22-53.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Special Piping/SO17043 - SPC Piping Organized_2023-10-09 15-11-30.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Special Piping/SO17043 - SPC Piping Organized_2023-10-09 15-22-02.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Special Piping/Yard/SO17043 - SPC Piping Organized_2023-10-09 15-12-42.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Special Piping/Yard/SO17043 - SPC Piping Organized_2023-10-09 15-24-14.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Valve/SO17043 - Valve Organized_2023-10-09 15-11-13.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Valve/SO17043 - Valve Organized_2023-10-09 15-21-40.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Valve/Yard/SO17043 - Valve Organized_2023-10-09 15-12-16.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Valve/Yard/SO17043 - Valve Organized_2023-10-09 15-23-40.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Error Logs/Error_Logs_2023-10-09 15-44-16.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Error Logs/Error_Logs_2023-10-09 15-47-35.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Error Logs/Error_Logs_2023-10-09 15-47-36.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/DCT Piping - PowerBI Dashboard with Cost.pbix" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Special Piping/SO17043 - SPC Piping Organized_2023-10-10 14-37-30.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Piping bulk MTO.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Piping bulk MTO.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Structural MTO.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Valve MTO.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17043 PROSPERITY/MP17043 Running Overall Valve MTO.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Piping/SO17043 - Piping Organized_2023-10-04 15-01-37.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Valve/17043 - Valve Organized_2023-10-04 15-48-05.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Valve/17043 - Valve Organized_2023-10-04 15-53-05.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Special Piping/SO17043 - SPC Piping Organized_2023-10-09 15-11-30.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Special Piping/SO17043 - SPC Piping Organized_2023-10-10 14-36-23.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Special Piping/SO17043 - SPC Piping Organized_2023-10-09 15-22-02.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/DataCollector.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/DataCollector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/ScreenMenu.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/ScreenMenu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -252,13 +224,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679215832537</updated>
-    </task>
-    <task id="LOCAL-00058" summary="All Script Dev done at work">
-      <created>1683909643914</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1683909643914</updated>
     </task>
     <task id="LOCAL-00059" summary="All Script Dev done at work">
       <created>1684161446655</created>
@@ -596,7 +561,14 @@
       <option name="project" value="LOCAL" />
       <updated>1696692758844</updated>
     </task>
-    <option name="localTasksCounter" value="107" />
+    <task id="LOCAL-00107" summary="All Script Dev done at work">
+      <created>1696859988545</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1696859988546</updated>
+    </task>
+    <option name="localTasksCounter" value="108" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -646,8 +618,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>50</line>
-          <option name="timeStamp" value="20" />
+          <line>48</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>972</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>992</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>997</line>
+          <option name="timeStamp" value="40" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
