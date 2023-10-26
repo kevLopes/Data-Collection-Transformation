@@ -50,7 +50,7 @@ def action_for_material_analyze(project_number, material_type):
     # Material Type Valve
     elif material_type == "Valve":
         # Organize Data from Data Hub
-        DataCollector.data_collector_valve(project_number, material_type)
+        #DataCollector.data_collector_valve(project_number, material_type)
         # Do something with the input and type
         CostAnalyzeProcessByMaterial.extract_distinct_product_codes_valve(folder_path_valve, project_number, material_type)
         AnalyzeProcessByMTO.sbm_scope_valve_report(folder_path_valve, project_number, material_type)

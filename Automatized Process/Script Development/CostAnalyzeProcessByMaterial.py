@@ -269,7 +269,7 @@ def extract_distinct_product_codes_valve(folder_path, project_number, material_t
                 "Average Size (inch)": average_size
             }
 
-        material_cost_analyze_valve(project_number, material_codes, material_info)
+        #material_cost_analyze_valve(project_number, material_codes, material_info)
         material_currency_cost_analyze_valve(project_number, material_codes, material_info)
     else:
         print("Was not possible to find the necessary fields on the file to do the calculation!")
@@ -411,6 +411,7 @@ def material_currency_cost_analyze_valve(project_number, material_codes, materia
                 else:
                     currency_groups = cost_rows.groupby("Transaction Currency")
                     for currency, group in currency_groups:
+
                         material_cost_by_currency[currency] = material_cost_by_currency.get(currency, 0) + group["Cost Transaction Currency"].sum()
                         material_quantity_by_currency[currency] = material_quantity_by_currency.get(currency, 0) + group["Quantity"].sum()
 
@@ -598,7 +599,8 @@ def material_currency_cost_analyze_bolt(project_number, material_codes, material
     cost_data = []
     unmatched_data = []
 
-    required_columns = ["Product Code", "Quantity", "Cost Transaction Currency", "Transaction Currency"]
+    required_columns = ["Product Code", "Quantity", "Cost Transaction Currency", "Transaction Currency",
+                        "Cost Project Currency"]
     if all(column in df.columns for column in required_columns):
         for material, codes in material_codes.items():
             material_cost_by_currency = {}
@@ -616,19 +618,25 @@ def material_currency_cost_analyze_bolt(project_number, material_codes, material
                 else:
                     currency_groups = cost_rows.groupby("Transaction Currency")
                     for currency, group in currency_groups:
-                        material_cost_by_currency[currency] = material_cost_by_currency.get(currency, 0) + group["Cost Transaction Currency"].sum()
-                        material_quantity_by_currency[currency] = material_quantity_by_currency.get(currency, 0) + group["Quantity"].sum()
 
-            for currency, cost in material_cost_by_currency.items():
-                cost_data.append({
-                    "Project Number": project_number,
-                    "Base Material": material,
-                    "Product Code": ", ".join(codes),
-                    "Transaction Currency": currency,
-                    "Cost": cost,
-                    "Total QTY to commit": material_info[material]["Total QTY to commit"],
-                    "Qty confirmed in design": material_info[material]["Qty confirmed in design"],
-                })
+                        # Read "Cost Project Currency" for each currency
+                        project_currency = group["Cost Project Currency"].sum()
+
+                        material_cost_by_currency[currency] = material_cost_by_currency.get(currency, 0) + group[
+                            "Cost Transaction Currency"].sum()
+                        material_quantity_by_currency[currency] = material_quantity_by_currency.get(currency, 0) + \
+                                                                  group["Quantity"].sum()
+
+                        cost_data.append({
+                            "Project Number": project_number,
+                            "Base Material": material,
+                            "Product Code": ", ".join(codes),
+                            "Transaction Currency": currency,
+                            "Cost": group["Cost Transaction Currency"].sum(),
+                            "Total QTY to commit": material_info[material]["Total QTY to commit"],
+                            "Qty confirmed in design": material_info[material]["Qty confirmed in design"],
+                            "Project Currency Cost": project_currency
+                        })
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 

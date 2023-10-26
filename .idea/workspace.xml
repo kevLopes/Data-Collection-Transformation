@@ -5,7 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work">
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Bolt/Bolt_NotMatched_ProductCode_2023-10-20 11-08-37.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Bolt/MP17033_Bolt_MatCurrency_CostAnalyze_2023-10-20 11-27-35.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Bolt/MP17033_BoltQuantity_Graphic_2023-10-20 10-56-14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Bolt/MP17033_BoltQuantity_Graphic_2023-10-20 11-07-34.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Bolt/MP17033_BoltTotal_Cost_Graphic_2023-10-20 10-56-36.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Bolt/MP17033_BoltTotal_Cost_Graphic_2023-10-20 11-08-38.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Valve/MP17033_Valve_Cost_Graphic_2023-10-23 15-47-15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Graphics/Valve/MP17033_Valve_Quantity_Graphic_2023-10-23 15-47-15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Comnplete DCT Dashboard Report V2.pbix" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Comnplete DCT Dashboard Report.pbix" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Bolt/SO17033 - Bolt Organized_2023-10-20 10-55-53.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Bolt/SO17033 - Bolt Organized_2023-10-20 11-06-38.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Bolt/SO17033 - Bolt Organized_2023-10-20 11-13-29.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Bolt/SO17033 - Bolt Organized_2023-10-20 11-14-49.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Bolt/Bolt_NotMatched_ProductCode_2023-08-18 15-17-38.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Exported Result Files/Bolt/MP17033_Bolt_MatCurrency_CostAnalyze_2023-08-18 15-17-43.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Bolt/SO17033_MTOBoltReport_SBMscope.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Bolt/SO17033_MTOBoltReport_SBMscope.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Valve/SO17033_MTOValveReport_SBMscope.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Valve/SO17033_MTOValveReport_SBMscope.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/DCT Piping - PowerBI Dashboard with Cost.pbix" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/DCT Piping - PowerBI Dashboard with Cost.pbix" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/DCT Piping - PowerBI Dashboard.pbix" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/DCT Piping - PowerBI Dashboard.pbix" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17033 UNITY/MP17033 Running Overall Special PIP MTO.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Data Hub Materials/MP17033 UNITY/MP17033 Running Overall Special PIP MTO.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/CostAnalyzeProcessByMaterial.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/CostAnalyzeProcessByMaterial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,10 +218,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.main" />
       <item itemvalue="Python.AnalyzeByPOnumber" />
       <item itemvalue="Python.Mouse" />
       <item itemvalue="Python.main (1)" />
+      <item itemvalue="Python.main" />
       <item itemvalue="Python.todo" />
     </list>
     <recent_temporary>
@@ -218,13 +241,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679215832537</updated>
-    </task>
-    <task id="LOCAL-00060" summary="All Script Dev done at work">
-      <created>1684317335988</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1684317335988</updated>
     </task>
     <task id="LOCAL-00061" summary="All Script Dev done at work">
       <created>1684330658209</created>
@@ -562,7 +578,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697468307508</updated>
     </task>
-    <option name="localTasksCounter" value="109" />
+    <task id="LOCAL-00109" summary="All Script Dev done at work">
+      <created>1697622647322</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1697622647325</updated>
+    </task>
+    <option name="localTasksCounter" value="110" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
