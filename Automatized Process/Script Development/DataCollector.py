@@ -417,7 +417,7 @@ def data_collector_valve(project_number, material_type):
         keyword = material_type
 
         # Set the columns to extract
-        columns_to_extract = ["Tag Number", "Tag Status", "Project Number", "Specification", "Description", "Commodity Code", "Dry Weight [kg]",
+        columns_to_extract = ["Tag Number", "Tag Status", "Bulk Identifier","Project Number", "Specification", "Description", "Commodity Code", "Dry Weight [kg]",
                               "Remarks", "Valve Size", "Scope Of Supply", "Dry Weight Source", "Operating Temperature [degC]", "Min Design Temperature [degC]", "Max Design Temperature [degC]"]
 
         # Check if the Data Pool folder exists, and display an error message if it doesn't
@@ -568,7 +568,7 @@ def data_collector_valve_yard(project_number, material_type):
         keyword = material_type
 
         # Set the columns to extract
-        columns_to_extract = ["Tag Number", "Tag Status", "Project Number", "Specification", "Description",
+        columns_to_extract = ["Tag Number", "Tag Status", "Bulk Identifier", "Project Number", "Specification", "Description",
                               "Commodity Code", "Dry Weight [kg]",
                               "Remarks", "Valve Size", "Scope Of Supply", "Dry Weight Source",
                               "Operating Temperature [degC]", "Min Design Temperature [degC]",

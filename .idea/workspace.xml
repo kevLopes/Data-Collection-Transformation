@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work" />
+    <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work">
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Valve/SO17043 - Valve Organized_2023-10-30 16-36-06.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Material Data Organized/Valve/SO17043 - Valve Organized_2023-10-30 16-39-00.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Comnplete DCT Dashboard Report V2.pbix" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Comnplete DCT Dashboard Report V2.pbix" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Comnplete DCT Dashboard Report V3.pbix" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Comnplete DCT Dashboard Report V3.pbix" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/DataCollector.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/DataCollector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -216,13 +224,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679215832537</updated>
-    </task>
-    <task id="LOCAL-00062" summary="All Script Dev done at work">
-      <created>1684513682060</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1684513682060</updated>
     </task>
     <task id="LOCAL-00063" summary="All Script Dev done at work">
       <created>1684764552514</created>
@@ -560,7 +561,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698362687250</updated>
     </task>
-    <option name="localTasksCounter" value="111" />
+    <task id="LOCAL-00111" summary="All Script Dev done at work">
+      <created>1698652765988</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1698652765988</updated>
+    </task>
+    <option name="localTasksCounter" value="112" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -604,29 +612,39 @@
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py</url>
-          <line>161</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>48</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>1143</line>
+          <line>1140</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>1154</line>
+          <line>1151</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>1192</line>
+          <line>1189</line>
           <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>46</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py</url>
+          <line>161</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>953</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
+          <line>1025</line>
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
