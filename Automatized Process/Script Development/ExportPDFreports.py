@@ -1431,8 +1431,7 @@ def generate_pdf_structure_sbm_scope(dataframe, project_number):
     pdf.output(pdf_path)
 
 
-# ----------------------- MTO Analyze ------------------------------
-
+# ----------------------- MTO Analyze UNITY ------------------------------
 
 # Complete MTO PDF file analyze
 def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces,
@@ -1811,3 +1810,247 @@ def generate_unity_complete_analyze_process_pdf(piping_data, piping_sbm_data, pi
     pdf.output(pdf_path)
 
     return
+
+
+# ----------------------- MTO Analyze PROSPERITY ------------------------------
+
+
+# Complete MTO PDF file analyze
+def generate_prosperity_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces,
+                        total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight,
+                        total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard,
+                        total_qty_commit_m_sbm, total_qty_commit_m_yard, total_valve_weight, total_sbm_valve_weight,
+                        total_yard_valve_weight, total_valve_quantity, bolt_data_total_qty_commit,
+                        bolt_sbm_data_total_qty_commit, bolt_yard_data_total_qty_commit, structure_totals_m2,
+                        structure_totals_m, structure_totals_pcs, structure_total_gross_weight,
+                        structure_total_net_weight, structure_total_wastage, total_spcpip_data_qty,
+                        total_spcpip_data_weight, total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight,
+                        total_spcpip_yard_data_qty, total_spcpip_yard_data_weight, project_total_cost_and_hours, bolt_data_total_net_weight):
+
+    # Title and sub title functions
+    def add_section_title(title):
+        pdf.set_font("Arial", "B", 14)
+        pdf.cell(0, 10, title, ln=True)
+        pdf.set_font("Arial", "", 10)
+
+    def add_section_sub_title(subtitle):
+        pdf.set_font("Arial", "B", 12)
+        pdf.cell(0, 10, subtitle, ln=True)
+        pdf.set_font("Arial", "", 10)
+
+    def add_table(header, data):
+        pdf.set_font("Arial", "B", 10)
+        for item in header:
+            pdf.cell(40, 10, item, border=1, align="C")
+        pdf.ln()
+        pdf.set_font("Arial", "", 10)
+        for row in data:
+            for item in row:
+                pdf.cell(40, 10, str(item), border=1, align="C")
+            pdf.ln()
+
+    # Function to add an image with a title below it
+    def add_image_with_legend(pdf, folder_path, image_name_start, legend, x=20, y=None, w=0, h=0):
+        # Searching for image in the folder
+        matching_images = [img for img in os.listdir(folder_path) if img.startswith(image_name_start)]
+        if not matching_images:
+            print(f"No images found that start with '{image_name_start}' in '{folder_path}'")
+            return
+        image_path = os.path.join(folder_path, matching_images[0])
+
+        # If y is not provided, set it to the current Y position of the pdf
+        if y is None:
+            y = pdf.get_y()
+
+        # Add the image first
+        pdf.image(image_path, x=x, y=y, w=w, h=h)
+
+        # If h is not provided, calculate the height of the image based on its aspect ratio
+        if not h:
+            # Get image dimensions (in pixels)
+            from PIL import Image
+            with Image.open(image_path) as img:
+                width_px, height_px = img.size
+
+            # Calculate the aspect ratio of the image
+            aspect_ratio = height_px / width_px
+
+            # Calculate the height in the PDF based on the provided width w and the image's aspect ratio
+            h = w * aspect_ratio
+            gap = h
+        else:
+            gap = h
+
+        # Set position for the legend, centered below the image
+        # Adjust the position for the legend, slightly to the left of center
+        offset = w * 0.2  # 20% offset to the left from the center
+        pdf.set_xy(x + w / 2 - pdf.get_string_width(legend) / 2 - offset, y + gap + 1)
+
+        # Set font for the legend and print it
+        pdf.set_font('Arial', '', 8)
+        pdf.cell(0, 10, legend, ln=True, align="C")
+
+    # Function to convert weight to tons
+    def convert_to_tons(weight_kg):
+        return weight_kg / 1000
+
+    # Function to convert cost to thousands
+    def convert_to_thousands(cost):
+        return cost / 1000
+
+    # Initialize PDF object
+    pdf = FPDF()
+
+    # Set up the PDF
+    pdf.set_title("MP17043 - PROSPERITY MTO Material and Cost Analyze")
+    pdf.add_page()
+
+    # Set font and font size for the title
+    pdf.set_font("Arial", "B", 17)
+
+    # Add logo
+    logo_path = "../Data Pool/DCT Process Results/PDF Reports/Content/SBM.png"
+    pdf.image(logo_path, x=10, y=10, w=30)
+
+    # Add title
+    pdf.ln(19)
+    pdf.cell(0, 10, "MP17043 Prosperity - Data Collection and Transformation Report", ln=True, align="C")
+
+    # Add date of analysis
+    pdf.ln(1)
+    pdf.set_font("Arial", "I", 6)
+    pdf.cell(0, 10, f"Date of Analysis: {date.today().strftime('%d-%b-%Y')}", ln=True, align="R")
+
+    pdf.ln(1)
+
+    image_path = "../Data Pool/DCT Process Results/PDF Reports/Content/LizaUnity1.jpg"
+    # Get the original image dimensions
+    img_w = 1178
+    img_h = 400
+
+    # Determine the desired width for the image in the PDF
+    desired_width = 175
+
+    # Calculate the proportional height based on the desired width
+    proportional_height = img_h * desired_width / img_w
+
+    # Add the image with the desired dimensions
+    pdf.image(image_path, x=18, y=55, w=desired_width, h=proportional_height)
+
+    pdf.ln(66)
+
+    # Introduction
+    add_section_title("Introduction")
+    pdf.multi_cell(0, 10, "This analysis delves into the extensive data spanning piping, valves, bolts, "
+                          "and structural elements across the SBM and YARD scopes of our project. It highlights "
+                          "the quantitative and qualitative aspects of material usage, focusing on specific metrics "
+                          "like weight, quantity, and type.")
+
+    pdf.ln(3)
+
+    # Overview of Scopes and Materials
+    add_section_title("Overview of Scopes and Materials")
+    pdf.cell(0, 9, "This analysis of the Unity Project consists of two different scopes, including:", ln=True)
+    # SBM Scope
+    pdf.cell(8)
+    pdf.cell(0, 10, "a. SBM Scope", ln=True)
+    pdf.cell(18)
+    pdf.cell(0, 7, "- Piping", ln=True)
+    pdf.cell(18)
+    pdf.cell(0, 7, "- Special Piping", ln=True)
+    pdf.cell(18)
+    pdf.cell(0, 7, "- Valve", ln=True)
+    pdf.cell(18)
+    pdf.cell(0, 7, "- Bolt", ln=True)
+
+    # YARD Scope
+    pdf.cell(8)
+    pdf.cell(0, 10, "b. YARD Scope", ln=True)
+    pdf.cell(18)
+    pdf.cell(0, 7, "- Piping", ln=True)
+    pdf.cell(18)
+    pdf.cell(0, 7, "- Special Piping", ln=True)
+    pdf.cell(18)
+    pdf.cell(0, 7, "- Structure", ln=True)
+    pdf.cell(18)
+    pdf.cell(0, 7, "- Valve", ln=True)
+    pdf.cell(18)
+    pdf.cell(0, 7, "- Bolt", ln=True)
+
+    pdf.add_page()
+
+    # Calculations:
+
+    # Piping Analysis
+    pdf.set_font('Arial', 'B', 14)
+    pdf.cell(0, 10, 'Piping Analysis', ln=True)
+    pdf.set_font('Arial', '', 12)
+    pdf.multi_cell(0, 10, f"General Piping Data: The project utilized a total of {total_qty_commit_pieces} pieces "
+                          f"of piping, covering {total_qty_commit_m:.2f} meters, with a total net weight of "
+                          f"{total_piping_net_weight:.2f} kg.")
+
+    # SBM Scope Piping
+    pdf.multi_cell(0, 10, f"SBM Scope Piping: In the SBM scope, there were {total_qty_commit_pieces_sbm} pieces "
+                          f"of piping, totaling {total_qty_commit_m_sbm:.2f} meters and weighing "
+                          f"{total_piping_sbm_net_weight:.2f} kg.")
+
+    # YARD Scope Piping
+    pdf.multi_cell(0, 10, f"YARD Scope Piping: The YARD scope accounted for {total_qty_commit_pieces_yard} pieces "
+                          f"of piping, extending {total_qty_commit_m_yard:.2f} meters, with a net weight of "
+                          f"{total_piping_yard_net_weight:.2f} kg.")
+
+    # Valve Analysis
+    pdf.set_font('Arial', 'B', 14)
+    pdf.cell(0, 10, 'Valve Analysis', ln=True)
+    pdf.set_font('Arial', '', 12)
+    pdf.multi_cell(0, 10, f"Valve Data: The total weight of valves used was {total_valve_weight:.2f} kg, "
+                          f"with {total_valve_quantity} valves utilized across both SBM and YARD scopes.")
+
+    # Bolt Analysis
+    pdf.set_font('Arial', 'B', 14)
+    pdf.cell(0, 10, 'Bolt Analysis', ln=True)
+    pdf.set_font('Arial', '', 12)
+    pdf.multi_cell(0, 10, f"Bolt Data: The project required a total of {bolt_data_total_qty_commit} bolts, "
+                          f"with a net weight of {bolt_data_total_net_weight:.2f} kg.")
+
+    # Structure Analysis
+    pdf.set_font('Arial', 'B', 14)
+    pdf.cell(0, 10, 'Structure Analysis', ln=True)
+    pdf.set_font('Arial', '', 12)
+    pdf.multi_cell(0, 10, f"Structure Data: The structural components totaled {structure_totals_pcs} pieces, "
+                          f"covering {structure_totals_m2} square meters and {structure_totals_m} meters, "
+                          f"with a gross weight of {structure_total_gross_weight:.2f} kg.")
+
+    # Special Piping Components
+    pdf.set_font('Arial', 'B', 14)
+    pdf.cell(0, 10, 'Special Piping Components', ln=True)
+    pdf.set_font('Arial', '', 12)
+    pdf.multi_cell(0, 10, f"Special Piping Data: The project used {total_spcpip_data_qty} meters of special piping, "
+                          f"weighing {total_spcpip_data_weight:.2f} kg.")
+
+    # Cost and Quantity Overview
+    pdf.set_font('Arial', 'B', 14)
+    pdf.cell(0, 10, 'Cost and Quantity Overview', ln=True)
+    pdf.set_font('Arial', '', 12)
+    pdf.multi_cell(0, 10, f"Project Expenditure and Manpower: The total project cost was approximately "
+                          f"${project_total_cost_and_hours[0]:.2f}, with around {project_total_cost_and_hours[1]:.2f} "
+                          f"man-hours spent.")
+
+    # Conclusion
+    pdf.set_font('Arial', 'B', 14)
+    pdf.cell(0, 10, 'Conclusion', ln=True)
+    pdf.set_font('Arial', '', 12)
+    pdf.multi_cell(0, 10, "The detailed analysis of material usage and cost in the project provides valuable insights "
+                          "into the scale, complexity, and resource allocation. The significant quantities and weights "
+                          "of materials used in different scopes underline the project's vastness and the meticulous "
+                          "planning required for its successful execution.")
+
+    # Create the directory if it doesn't exist
+    directory_path = "../Data Pool/DCT Process Results/PDF Reports/Complete MTO Analyze"
+    os.makedirs(directory_path, exist_ok=True)
+
+    # Save the PDF report
+    pdf_path = os.path.join(directory_path, f"MP17043 DCT Report file.pdf")
+    pdf.output(pdf_path)
+
+

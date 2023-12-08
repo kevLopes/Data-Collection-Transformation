@@ -43,12 +43,9 @@ def complete_mto_data_analyze(project_number):
                                                                total_quantity_vlv, overall_cost_vlv, cost_by_general_description_vlv, total_po_quantity_blt, overall_cost_blt, cost_by_pipe_base_material_blt, missing_product_codes_blt, structure_total_gross_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_qty_m2, structure_total_qty_m, total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc, project_total_cost_and_hours, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter, unmatch_pip_total_weight, unmatch_pip_total_qty, unmatch_pip_avg_unit_weight)
     elif project_number == "17043":
         print("Prosperity Complete MTO analyze on going!")
-        # Valve Extra Data details - NO DATA IS FOUND
-        total_valve_unmatch_tag_numbers, total_matched_tag_numbers, overall_valve_cost, total_cost_by_currency, total_valve_quantity_from_po, total_cost_by_po = get_valve_extra_details(project_number, "Valve")
-
 
         piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces, total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight, total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard, total_qty_commit_m_sbm, total_qty_commit_m_yard = get_piping_mto_data(project_number)
-        total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight, total_valve_average_size, total_vlv_quantity = get_valve_mto_data(project_number)
+        total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight, total_vlv_quantity = get_valve_mto_data(project_number)
         bolt_data_total_net_weight, bolt_data_total_qty_to_complete, bolt_data_total_to_complete_weight, bolt_data_total_qty_commit, bolt_sbm_data_total_qty_commit, bolt_sbm_total_net_weight, bolt_sbm_total_qty_to_complete, bolt_sbm_total_to_complete_weight, bolt_yard_data_total_qty_commit, bolt_yard_total_net_weight, bolt_yard_total_qty_to_complete, bolt_yard_total_to_complete_weight = get_bolt_mto_data(project_number)
         structure_totals_m2, structure_totals_m, structure_totals_pcs, structure_total_gross_weight, structure_total_net_weight, structure_total_wastage, structure_total_qty_pcs, structure_total_req_pcs, structure_total_qty_m2, structure_total_req_m2, structure_total_qty_m, structure_total_req_m = get_structure_mto_data(project_number)
         total_spcpip_data_qty, total_spcpip_data_weight, total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight, total_spcpip_yard_data_qty, total_spcpip_yard_data_weight = get_specialpip_mto_data(project_number)
@@ -60,13 +57,21 @@ def complete_mto_data_analyze(project_number):
         total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, unique_cost_object_ids_pip, total_surplus_cost_pip, unique_surplus_cost_object_ids_pip, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter = get_piping_extra_details(project_number, "Piping")
         # Special Piping Extra details
         total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc = get_spc_piping_extra_details(project_number, "Piping")
-
-
+        # Valve Extra Data details
+        total_valve_unmatch_tag_numbers, total_matched_tag_numbers, overall_valve_cost, total_cost_by_currency, total_valve_quantity_from_po, total_cost_by_po = get_valve_extra_details(project_number, "Valve")
         # Bolt Extra Data details- NO DATA IS FOUND
         total_bolt_unmatch_tag_numbers, total_matched_tag_numbers, overall_bolt_cost, total_bolt_cost_by_currency, total_bolt_quantity_from_po, total_bolt_pieces_po, total_bolt_cost_by_po = get_bolt_extra_details(project_number, "Bolt")
 
-        # Create plot with cost and weight for each material type
-        get_cost_per_weight_by_material(project_number)
+        ExportPDFreports.generate_prosperity_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces,
+                        total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight,
+                        total_piping_yard_net_weight, total_qty_commit_pieces_sbm, total_qty_commit_pieces_yard,
+                        total_qty_commit_m_sbm, total_qty_commit_m_yard, total_valve_weight, total_sbm_valve_weight,
+                        total_yard_valve_weight, total_valve_quantity_from_po, bolt_data_total_qty_commit,
+                        bolt_sbm_data_total_qty_commit, bolt_yard_data_total_qty_commit, structure_totals_m2,
+                        structure_totals_m, structure_totals_pcs, structure_total_gross_weight,
+                        structure_total_net_weight, structure_total_wastage, total_spcpip_data_qty,
+                        total_spcpip_data_weight, total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight,
+                        total_spcpip_yard_data_qty, total_spcpip_yard_data_weight, project_total_cost_and_hours, bolt_data_total_net_weight)
 
 
 #Function to open the most recent set of data
@@ -287,15 +292,15 @@ def get_valve_mto_data(project_number):
         extract_df_yard = filtered_df[(filtered_df['Tag Status'] == "New") | (filtered_df['Scope Of Supply'] == "YARD")]
 
         #Calculate the sum of the total valve weight for all three categories
-        total_valve_weight = filtered_df['Dry Weight [kg]'].sum()
-        total_sbm_valve_weight = extract_df_sbm['Dry Weight [kg]'].sum()
-        total_yard_valve_weight = extract_df_yard['Dry Weight [kg]'].sum()
-        total_valve_average_size = filtered_df['Valve Size'].mean()
+        total_valve_weight = filtered_df['Dry Weight [kg]'].astype(float).sum()
+        total_sbm_valve_weight = extract_df_sbm['Dry Weight [kg]'].astype(float).sum()
+        total_yard_valve_weight = extract_df_yard['Dry Weight [kg]'].astype(float).sum()
+        #total_valve_average_size = filtered_df['Valve Size'].astype(float).mean()
 
         # Calculate the total_vlv_quantity
         total_vlv_quantity = len(filtered_df)
 
-        return total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight, total_valve_average_size, total_vlv_quantity
+        return total_valve_weight, total_sbm_valve_weight, total_yard_valve_weight, total_vlv_quantity
 
 
 #BOLT MTO DATA
@@ -987,6 +992,13 @@ def get_valve_extra_details(project_number, material_type):
 
                 # Retrieve relevant data from the second file based on the matching tag number (partial match)
                 matching_rows = second_df_filtered[second_df_filtered["Tag Number"].str.contains(tag_number, regex=True)]
+
+                # Validate data types before performing operations
+                if matching_rows["Cost Project Currency"].dtype != float and matching_rows["Cost Project Currency"].dtype != "int64" and matching_rows["Cost Project Currency"].dtype != int:
+                    raise ValueError("Cost Project Currency column contains non-numeric values.")
+                if matching_rows["Cost Transaction Currency"].dtype != float and matching_rows["Cost Transaction Currency"].dtype != "int64" and matching_rows["Cost Transaction Currency"].dtype != int:
+                    raise ValueError("Cost Transaction Currency column contains non-numeric values.")
+
                 cost_project_currency = matching_rows["Cost Project Currency"].astype(float).sum()  # Convert to float
                 cost_transaction_currency = matching_rows["Cost Transaction Currency"].astype(float).sum()  # Convert to float
                 transaction_currency = matching_rows["Transaction Currency"].iloc[0]

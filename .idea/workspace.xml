@@ -5,11 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work">
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Export/Comnplete DCT Dashboard Report V3.pbit" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Export/DCT Complete Dashboard.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Script Development/PDF File Extraction App.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Complete MTO Analyze/MP17043 DCT Report file.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Headers/MP17043_Ecosys POHeaders_2023-11-29 16-15-02.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17043_Ecosys PO Lines_2023-11-29 16-14-37.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/SUN Transactions/MP17043_Ecosys SUN Transactions_2023-11-29 16-15-09.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/eTREG Lines/MP17043_Ecosys eTREG lines_2023-11-29 16-15-23.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Comnplete DCT Dashboard Report V3.pbix" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Comnplete DCT Dashboard Report V3.pbix" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17043_Ecosys PO Lines_2023-10-09 15-51-00.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17043_Ecosys PO Lines_2023-10-09 15-51-00.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/ExportPDFreports.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/ExportPDFreports.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/PDF File Extraction App.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/PDF File Extraction App.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +98,7 @@
       <recent name="C:\Users\keven.deoliveiralope\Documents\Data Analyze Automatization\Scripts\Data-Collection-Transformation-kevLopes-DCT\Automatized Process\Data Pool\Ecosys API Data\PO Lines" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.PDF File Extraction App">
+  <component name="RunManager" selected="Python.main">
     <configuration name="AnalyzeByPOnumber" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Data-Collection-Transformation-kevLopes-DCT" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -245,13 +251,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679215832537</updated>
-    </task>
-    <task id="LOCAL-00064" summary="All Script Dev done at work">
-      <created>1684938737094</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1684938737094</updated>
     </task>
     <task id="LOCAL-00065" summary="All Script Dev done at work">
       <created>1685539014439</created>
@@ -589,7 +588,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698681068696</updated>
     </task>
-    <option name="localTasksCounter" value="113" />
+    <task id="LOCAL-00113" summary="All Script Dev done at work">
+      <created>1700010813569</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1700010813569</updated>
+    </task>
+    <option name="localTasksCounter" value="114" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -634,28 +640,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>1181</line>
+          <line>1193</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Submit_button_actions.py</url>
           <line>161</line>
           <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>953</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>1018</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>46</line>
-          <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
