@@ -58,9 +58,9 @@ def complete_mto_data_analyze(project_number):
         # Special Piping Extra details
         total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, po_list_spc = get_spc_piping_extra_details(project_number, "Piping")
         # Valve Extra Data details
-        total_valve_unmatch_tag_numbers, total_matched_tag_numbers, overall_valve_cost, total_cost_by_currency, total_valve_quantity_from_po, total_cost_by_po = get_valve_extra_details(project_number, "Valve")
+        total_valve_unmatch_tag_numbers, total_matched_tag_numbers, overall_valve_cost, total_valve_cost_by_currency, total_valve_quantity_from_po, total_cost_by_po = get_valve_extra_details(project_number, "Valve")
         # Bolt Extra Data details- NO DATA IS FOUND
-        total_bolt_unmatch_tag_numbers, total_matched_tag_numbers, overall_bolt_cost, total_bolt_cost_by_currency, total_bolt_quantity_from_po, total_bolt_pieces_po, total_bolt_cost_by_po = get_bolt_extra_details(project_number, "Bolt")
+        total_bolt_unmatch_tag_numbers, total_bolt_matched_tag_numbers, overall_bolt_cost, total_bolt_cost_by_currency, total_bolt_quantity_from_po, total_bolt_pieces_po, total_bolt_cost_by_po = get_bolt_extra_details(project_number, "Bolt")
 
         ExportPDFreports.generate_prosperity_complete_analyze_process_pdf(piping_data, piping_sbm_data, piping_data_yard, total_qty_commit_pieces,
                         total_qty_commit_m, total_piping_net_weight, total_piping_sbm_net_weight,
@@ -71,7 +71,12 @@ def complete_mto_data_analyze(project_number):
                         structure_totals_m, structure_totals_pcs, structure_total_gross_weight,
                         structure_total_net_weight, structure_total_wastage, total_spcpip_data_qty,
                         total_spcpip_data_weight, total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight,
-                        total_spcpip_yard_data_qty, total_spcpip_yard_data_weight, project_total_cost_and_hours, bolt_data_total_net_weight)
+                        total_spcpip_yard_data_qty, total_spcpip_yard_data_weight, project_total_cost_and_hours, bolt_data_total_net_weight,
+
+                        total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip, total_cost_by_material_pip, total_surplus_cost_pip, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter,
+                        total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, total_bolt_unmatch_tag_numbers, overall_bolt_cost, total_bolt_cost_by_currency, total_bolt_quantity_from_po, total_bolt_pieces_po,
+                        total_valve_unmatch_tag_numbers, total_matched_tag_numbers, overall_valve_cost, total_valve_cost_by_currency)
+
 
 
 #Function to open the most recent set of data

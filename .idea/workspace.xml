@@ -5,16 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b7da07-1af4-42e5-bfe3-7b91c5b69cc9" name="Changes" comment="All Script Dev done at work">
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Complete MTO Analyze/MP17043 DCT Report file.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Headers/MP17043_Ecosys POHeaders_2023-11-29 16-15-02.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17043_Ecosys PO Lines_2023-11-29 16-14-37.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/SUN Transactions/MP17043_Ecosys SUN Transactions_2023-11-29 16-15-09.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/eTREG Lines/MP17043_Ecosys eTREG lines_2023-11-29 16-15-23.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Content/Prosperity.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Comnplete DCT Dashboard Report V3.pbix" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/Power BI/Comnplete DCT Dashboard Report V3.pbix" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17043_Ecosys PO Lines_2023-10-09 15-51-00.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/Ecosys API Data/PO Lines/MP17043_Ecosys PO Lines_2023-10-09 15-51-00.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Complete MTO Analyze/MP17043 DCT Report file.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Data Pool/DCT Process Results/PDF Reports/Complete MTO Analyze/MP17043 DCT Report file.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/ExportPDFreports.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/ExportPDFreports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/PDF File Extraction App.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/PDF File Extraction App.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/Automatized Process/Script Development/complete_mto_process.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,7 +92,7 @@
       <recent name="C:\Users\keven.deoliveiralope\Documents\Data Analyze Automatization\Scripts\Data-Collection-Transformation-kevLopes-DCT\Automatized Process\Data Pool\Ecosys API Data\PO Lines" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.PDF File Extraction App Fata Files">
     <configuration name="AnalyzeByPOnumber" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Data-Collection-Transformation-kevLopes-DCT" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -133,6 +127,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/OLD Testing Scripts/Script 1/Mouse.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PDF File Extraction App Fata Files" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Data-Collection-Transformation-kevLopes-DCT" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../File Extraction App/Fata" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../../File Extraction App/Fata/PDF File Extraction App Fata Files.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -204,42 +219,21 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="todo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Data-Collection-Transformation-kevLopes-DCT" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/OLD Testing Scripts/Script 1" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/OLD Testing Scripts/Script 1/todo.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Python.main" />
       <item itemvalue="Python.AnalyzeByPOnumber" />
       <item itemvalue="Python.Mouse" />
+      <item itemvalue="Python.PDF File Extraction App Fata Files" />
       <item itemvalue="Python.PDF File Extraction App" />
       <item itemvalue="Python.main (1)" />
-      <item itemvalue="Python.todo" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.PDF File Extraction App Fata Files" />
         <item itemvalue="Python.PDF File Extraction App" />
         <item itemvalue="Python.AnalyzeByPOnumber" />
         <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.Mouse" />
-        <item itemvalue="Python.todo" />
       </list>
     </recent_temporary>
   </component>
@@ -251,13 +245,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679215832537</updated>
-    </task>
-    <task id="LOCAL-00065" summary="All Script Dev done at work">
-      <created>1685539014439</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1685539014440</updated>
     </task>
     <task id="LOCAL-00066" summary="All Script Dev done at work">
       <created>1685612865904</created>
@@ -595,7 +582,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700010813569</updated>
     </task>
-    <option name="localTasksCounter" value="114" />
+    <task id="LOCAL-00114" summary="All Script Dev done at work">
+      <created>1702052065904</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1702052065904</updated>
+    </task>
+    <option name="localTasksCounter" value="115" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -640,7 +634,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Automatized Process/Script Development/Complete_MTO_Process.py</url>
-          <line>1193</line>
+          <line>1198</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

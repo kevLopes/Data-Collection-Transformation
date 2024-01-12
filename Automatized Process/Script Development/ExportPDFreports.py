@@ -1825,7 +1825,11 @@ def generate_prosperity_complete_analyze_process_pdf(piping_data, piping_sbm_dat
                         structure_totals_m, structure_totals_pcs, structure_total_gross_weight,
                         structure_total_net_weight, structure_total_wastage, total_spcpip_data_qty,
                         total_spcpip_data_weight, total_spcpip_sbm_data_qty, total_spcpip_sbm_data_weight,
-                        total_spcpip_yard_data_qty, total_spcpip_yard_data_weight, project_total_cost_and_hours, bolt_data_total_net_weight):
+                        total_spcpip_yard_data_qty, total_spcpip_yard_data_weight, project_total_cost_and_hours, bolt_data_total_net_weight,
+                         total_matched_tags_pip, total_unmatched_tags_pip, total_surplus_tags_pip, total_weight_pip, total_quantity_by_uom_pip, overall_cost_pip,
+                         total_cost_by_material_pip, total_surplus_cost_pip, total_surplus_plus_tags, total_po_quantity_piece, total_po_quantity_meter,
+                         total_matched_tags_spc, total_unmatched_tags_spc, total_quantity_by_uom_spc, total_cost_spc, total_bolt_unmatch_tag_numbers,
+                         overall_bolt_cost, total_bolt_cost_by_currency, total_bolt_quantity_from_po, total_bolt_pieces_po, total_valve_unmatch_tag_numbers, total_matched_tag_numbers, overall_valve_cost, total_valve_cost_by_currency):
 
     # Title and sub title functions
     def add_section_title(title):
@@ -1913,17 +1917,17 @@ def generate_prosperity_complete_analyze_process_pdf(piping_data, piping_sbm_dat
     pdf.image(logo_path, x=10, y=10, w=30)
 
     # Add title
-    pdf.ln(19)
+    pdf.ln(22)
     pdf.cell(0, 10, "MP17043 Prosperity - Data Collection and Transformation Report", ln=True, align="C")
 
     # Add date of analysis
-    pdf.ln(1)
+    pdf.ln(2)
     pdf.set_font("Arial", "I", 6)
     pdf.cell(0, 10, f"Date of Analysis: {date.today().strftime('%d-%b-%Y')}", ln=True, align="R")
 
     pdf.ln(1)
 
-    image_path = "../Data Pool/DCT Process Results/PDF Reports/Content/LizaUnity1.jpg"
+    image_path = "../Data Pool/DCT Process Results/PDF Reports/Content/Prosperity.jpg"
     # Get the original image dimensions
     img_w = 1178
     img_h = 400
@@ -1941,10 +1945,9 @@ def generate_prosperity_complete_analyze_process_pdf(piping_data, piping_sbm_dat
 
     # Introduction
     add_section_title("Introduction")
-    pdf.multi_cell(0, 10, "This analysis delves into the extensive data spanning piping, valves, bolts, "
-                          "and structural elements across the SBM and YARD scopes of our project. It highlights "
-                          "the quantitative and qualitative aspects of material usage, focusing on specific metrics "
-                          "like weight, quantity, and type.")
+    pdf.multi_cell(0, 10, "The Prosperity project represents a significant undertaking in terms of scale and complexity. "
+                          "This report delves into a meticulous analysis of Material Take Off (MTO) files, focusing on key materials including Piping, Valves, Special Piping, Bolts, and Structural Equipment. "
+                          "The objective is to aggregate and assess the weight and quantity of each material utilized, providing a comprehensive overview of the material aspects of the project.")
 
     pdf.ln(3)
 
@@ -1980,6 +1983,88 @@ def generate_prosperity_complete_analyze_process_pdf(piping_data, piping_sbm_dat
     pdf.add_page()
 
     # Calculations:
+
+    total_dct_weight = convert_to_tons((total_weight_pip + total_valve_weight + structure_total_gross_weight + total_spcpip_data_weight))
+    total_dct_mto_cost = convert_to_thousands(total_cost_spc + overall_cost_pip + overall_valve_cost + overall_bolt_cost)
+    total_project_cost = convert_to_thousands(project_total_cost_and_hours[0])
+    total_project_hours = project_total_cost_and_hours[1]
+    total_dct_pieces = bolt_data_total_qty_commit + total_qty_commit_pieces + total_spcpip_data_qty + total_valve_quantity + structure_totals_pcs.iloc[:, 1].sum()
+    total_dct_meters_yard = structure_totals_m2.iloc[:, 1].sum() + structure_totals_m.iloc[:, 1].sum()
+    total_dct_sbm_pieces = total_spcpip_sbm_data_qty + bolt_sbm_data_total_qty_commit + total_qty_commit_pieces_sbm + total_valve_quantity
+    total_dct_yard_pieces = total_qty_commit_pieces_yard + total_spcpip_yard_data_qty + bolt_yard_data_total_qty_commit + structure_totals_pcs.iloc[:, 1].sum()
+    total_dct_sbm_weight = convert_to_tons(
+    total_piping_sbm_net_weight + total_sbm_valve_weight + total_spcpip_sbm_data_weight)
+    total_dct_yard_weight = convert_to_tons(
+    total_yard_valve_weight + total_piping_yard_net_weight + structure_total_gross_weight + total_spcpip_yard_data_weight)
+    total_dct_meters = structure_totals_m2.iloc[:, 1].sum() + structure_totals_m.iloc[:, 1].sum() + total_qty_commit_m
+    total_dct_piping_surplus = total_surplus_tags_pip
+
+    pdf.ln(5)
+    add_section_title("Data Collection and Transformation: Enhanced Project Analysis Report")
+    pdf.ln(5)
+    add_section_sub_title("Overall Summary")
+    pdf.ln(3)
+    pdf.multi_cell(0, 8,
+                   f" The Prosperity project encapsulates a vast array of materials, each playing a pivotal role in the overall construction."
+                   f" An in-depth analysis of MTO files reveals substantial data on quantities and weights, reflecting the project's magnitude. Upon examining, the total material weight for the project is approximately {total_dct_weight:.3f} metric tons."
+                   f" This includes various components from small fittings to major structural parts. The Material Take Off (MTO) shows an equipment cost of ${total_dct_mto_cost:.3f} thousands USD."
+                   f" Including all aspects of the FPSO Project, the total financial implication is about ${total_project_cost:.2f} thousands UDS (a sum of all purchased order)."
+                   f" Manpower and time are crucial. We obtained approximately a total of {total_project_hours:.2f} hours for this project."
+                   f" Additionally, the inclusion of valves, bolts, and special piping materials adds layers of complexity and significance to the material inventory. The project demands {total_dct_pieces:.0f} individual material pieces, highlighting its intricacy."
+                   f" About {total_dct_meters:.3f} meters of material is needed, with {total_dct_meters_yard:.1f} meters sourced from the YARD."
+                   f" This summary underscores the critical role of efficient material management and cost analysis in large-scale projects like Prosperity.", align="J")
+
+    pdf.ln(7)
+
+    # Scopes Breakdown
+    add_section_sub_title("Detailed Scope Analysis")
+    pdf.ln(3)
+    pdf.multi_cell(0, 8,
+                   f"The Prosperity project's scope is expansive, with a detailed analysis of materials across SBM and YARD Scopes."
+                   f" Under the SBM scope, there's a total of {total_dct_sbm_pieces:.0f} pieces, markedly higher when compared to the YARD scope, which totals {total_dct_yard_pieces:.0f} pieces."
+                   f" When considering weight, materials in the SBM scope amass to {total_dct_sbm_weight:.3f} tons. On the other hand, YARD scope materials have a cumulative weight of {total_dct_yard_weight:.3f} tons."
+                   f" This delineation between scopes highlights the project's diverse material requirements.", align="J")
+
+    pdf.ln(7)
+
+    # Material Types Breakdown
+    add_section_sub_title("Material Types Breakdown")
+    pdf.ln(3)
+    pdf.multi_cell(0, 8, "The weight distribution across various material types reveals key insights into the project's construction."
+                          f" Piping materials range from Carbon Steel, with a net weight of 780,915 kg in meters and 419,127 kg in pieces, to more specialized materials like Super Duplex Stainless Steel, weighing 63,832 kg in meters and 43,396 kg in pieces."
+                          f" Following we have valves, which contribute {convert_to_tons(total_valve_weight):.3f} tons, making them the second most weighty category in the project."
+                          f" Structural elements, pivotal to the project, register a total weight of {structure_total_gross_weight:.1f} tons. Not to be overlooked, special piping materials, a distinct category in our inventory, weigh {convert_to_tons(total_spcpip_data_weight):.3f} tons."
+                          f" This variety underpins the project's engineering complexities and design necessities, necessitating careful planning and execution.", align="J")
+
+    pdf.add_page()
+
+    # Surplus and Wastage
+    pdf.ln(5)
+    add_section_sub_title("Understanding Surplus and Wastage")
+    pdf.ln(3)
+    pdf.multi_cell(0, 10,
+                   f"In the evaluation of the project's material management, we identify two essential components: surplus and wastage. The surplus primarily manifests in piping, where an additional {total_dct_piping_surplus} pieces are noted. These surplus materials represent an associated cost of ${total_surplus_cost_pip} thousands of dollars, highlighting the need for efficient utilization."
+                   f"Concurrently, we have identified wastage within structural equipments. Approximately {structure_total_wastage:.1f} structural equipment wastage have been observed. This insight emphasizes the significance of meticulous material planning and allocation to minimize waste and align with budgetary constraints.",
+                   align="J")
+
+    pdf.ln(7)
+
+    # Purchase Order (PO) Metrics
+    add_section_sub_title("Purchase Order Metrics")
+    pdf.ln(3)
+    pdf.multi_cell(0, 10,
+                   f".",
+                   align="")
+
+    pdf.add_page()
+
+
+
+
+
+
+
+
 
     # Piping Analysis
     pdf.set_font('Arial', 'B', 14)
@@ -2036,14 +2121,22 @@ def generate_prosperity_complete_analyze_process_pdf(piping_data, piping_sbm_dat
                           f"${project_total_cost_and_hours[0]:.2f}, with around {project_total_cost_and_hours[1]:.2f} "
                           f"man-hours spent.")
 
+    pdf.add_page()
+
     # Conclusion
     pdf.set_font('Arial', 'B', 14)
     pdf.cell(0, 10, 'Conclusion', ln=True)
     pdf.set_font('Arial', '', 12)
-    pdf.multi_cell(0, 10, "The detailed analysis of material usage and cost in the project provides valuable insights "
+    '''pdf.multi_cell(0, 10, "The detailed analysis of material usage and cost in the project provides valuable insights "
                           "into the scale, complexity, and resource allocation. The significant quantities and weights "
                           "of materials used in different scopes underline the project's vastness and the meticulous "
-                          "planning required for its successful execution.")
+                          "planning required for its successful execution.")'''
+
+
+    pdf.multi_cell(0, 8, f"The Prosperity project, with its impressive array of materials, marks a milestone in offshore engineering. The use of over 4 million kg of piping, including key materials like Duplex Stainless Steel (803,459 kg) and High Yield Carbon Steel (1,022,999 kg), illustrates the project's scale and complexity. Valves, weighing around 1,079,318 kg, and bolts totaling 136,522 kg, further emphasize the enormity of the undertaking. The structural components, contributing a massive weight of 2,337 tons, highlight the project's focus on robustness and safety."
+                        f"In the realm of special piping, 11,509 kg is used, reflecting the project's attention to specialized requirements. The data reveals a meticulous balance between functionality and durability, with a keen focus on optimizing material usage. The project's success in handling such a vast array of materials, from the 2,104,980 kg surplus in piping to the 2,327 tons of structural wastage, offers critical insights for future projects."
+                        f"This in-depth analysis of the Prosperity project underscores the importance of strategic material selection and efficient resource management in large-scale engineering projects. The lessons learned here, particularly in balancing diverse material types and quantities, set a new benchmark for future offshore constructions, ensuring enhanced efficiency, sustainability, and economic viability.", align="J")
+
 
     # Create the directory if it doesn't exist
     directory_path = "../Data Pool/DCT Process Results/PDF Reports/Complete MTO Analyze"
